@@ -1,0 +1,28 @@
+{
+	"name": "hnuti-brontosaurus/bis-api-client",
+	"type": "library",
+	"version": "0.1.0",
+	"authors": [
+		{
+			"name": "GRIFART, spol. s r.o.",
+			"email": "grifart@grifart.cz"
+		}
+	],
+	"minimum-stability": "stable",
+	"require": {
+		"php": ">=5.6",
+		"guzzlehttp/guzzle": "^6.3"
+	},
+	"require-dev": {
+		"tracy/tracy": "^2.5"
+	},
+	"autoload": {
+		"psr-4": {
+			"HnutiBrontosaurus\\BisApiClient\\": "src/"
+		},
+		"classmap": ["src/exceptions.php"]
+	},
+	"config": {
+		"sort-packages": true
+	}
+}
