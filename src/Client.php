@@ -52,6 +52,29 @@ final class Client
 
 
 	/**
+	 * @param int $id
+	 * @param EventParameters $params
+	 * @return Event
+	 * @throws BisClientException
+	 * @throws GuzzleException
+	 * @throws ResourceNotFoundException
+	 */
+	public function getEvent($id, EventParameters $params = NULL)
+	{
+		$params = ($params !== NULL ? $params : new EventParameters());
+		$params->setId($id);
+		$response = $this->processRequest($params);
+
+		$data = $response->getData();
+
+		if (\count($data) === 0) {
+			throw new BisClientException('No result for event with id `' . $id . '`.');
+		}
+
+		return Event::fromResponseData(\reset($data));
+	}
+
+	/**
 	 * @param EventParameters $params
 	 * @return Event[]
 	 * @throws BisClientException
