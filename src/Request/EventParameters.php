@@ -99,11 +99,14 @@ final class EventParameters extends Parameters
 	public function setType($type)
 	{
 		if (!\in_array($type, [
-			self::FOR_ADULTS,
-			self::FOR_CHILDREN,
-			self::FOR_FAMILIES,
+			self::TYPE_WORK,
+			self::TYPE_EXPERIENCE,
+			self::TYPE_SPORT,
+			self::TYPE_EDUCATIONAL,
+			self::TYPE_COURSE,
+			self::TYPE_PUBLIC,
 		])) {
-			throw new InvalidArgumentException('Value `' . $type . '` is not of valid types for `for` parameter.');
+			throw new InvalidArgumentException('Value `' . $type . '` is not of valid types for `type` parameter.');
 		}
 
 		$this->params['typ'] = $type;
