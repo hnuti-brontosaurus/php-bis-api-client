@@ -163,7 +163,8 @@ final class Client
 	 */
 	private function buildUrl(Parameters $params)
 	{
-		return $this->url . '?' . $params->getQueryString();
+		$queryString = $params->getQueryString();
+		return $this->url . ($queryString !== '' ? '?' . $queryString : '');
 	}
 
 }
