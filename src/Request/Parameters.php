@@ -24,7 +24,7 @@ abstract class Parameters
 	 * Currently no limitations to what can be in params.
 	 * @param array $params
 	 */
-	public function __construct(array $params = NULL)
+	public function __construct(array $params = [])
 	{
 		$this->params = $params;
 	}
