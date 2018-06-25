@@ -18,6 +18,9 @@ use HnutiBrontosaurus\BisApiClient\Response\Response;
 final class Client
 {
 
+	/** @var HttpClient */
+	private $httpClient;
+
 	/** @var string */
 	private $url;
 
@@ -32,8 +35,9 @@ final class Client
 	 * @param string $url
 	 * @param string $username
 	 * @param string $password
+	 * @param HttpClient $httpClient
 	 */
-	public function __construct($url, $username, $password)
+	public function __construct($url, $username, $password, HttpClient $httpClient)
 	{
 		if ($url === '') {
 			throw new InvalidArgumentException('You need to pass an URL with BIS API.');
@@ -48,6 +52,7 @@ final class Client
 		$this->url = \rtrim($url, '/');
 		$this->username = $username;
 		$this->password = $password;
+		$this->httpClient = $httpClient;
 	}
 
 
@@ -112,11 +117,10 @@ final class Client
 	{
 		$requestParameters->setCredentials($this->username, $this->password);
 
-		$httpClient = new HttpClient();
 		$httpRequest = new Request('POST', $this->buildUrl($requestParameters));
 
 		try {
-			$response = $httpClient->send($httpRequest);
+			$response = $this->httpClient->send($httpRequest);
 
 		} catch (ClientException $e) {
 			throw new ResourceNotFoundException('Bis client could not find the queried resource.', 0, $e);
