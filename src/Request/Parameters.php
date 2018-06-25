@@ -21,7 +21,7 @@ abstract class Parameters
 
 
 	/**
-	 * Currently no limitations to what can be in params.
+	 * Currently no limitations to what can be in `params`.
 	 * @param array $params
 	 */
 	public function __construct(array $params = [])
@@ -30,17 +30,28 @@ abstract class Parameters
 	}
 
 
+	/**
+	 * @return array
+	 */
 	public function getAll()
 	{
 		return $this->params;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getQueryString()
 	{
 		return \http_build_query($this->params);
 	}
 
 
+	/**
+	 * @param string $username
+	 * @param string $password
+	 * @return self
+	 */
 	public function setCredentials($username, $password)
 	{
 		$this->params[self::PARAM_USERNAME] = $username;
