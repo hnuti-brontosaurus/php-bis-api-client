@@ -36,7 +36,7 @@ final class Program
 			self::PROGRAM_EKOSTAN,
 			self::PROGRAM_PSB,
 			self::PROGRAM_EDUCATION,
-		])) {
+		], TRUE)) {
 			throw new InvalidArgumentException('Value `' . $slug . '` is not of valid types for `slug` parameter.');
 		}
 

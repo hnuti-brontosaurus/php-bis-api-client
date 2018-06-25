@@ -90,7 +90,7 @@ final class OrganizationalUnit
 			self::TYPE_BASE,
 			self::TYPE_REGIONAL,
 			self::TYPE_OFFICE,
-		])) {
+		], TRUE)) {
 			throw new InvalidArgumentException('Type `' . $type . '` is not of valid types.');
 		}
 		$this->type = $type;
