@@ -89,7 +89,13 @@ final class Client
 	public function getEvents(EventParameters $params = NULL)
 	{
 		$response = $this->processRequest($params !== NULL ? $params : new EventParameters());
-		return \array_map(Event::class . '::fromResponseData', $response->getData());
+		$data = $response->getData();
+
+		if ($data === NULL) {
+			return [];
+		}
+
+		return \array_map(Event::class . '::fromResponseData', $data);
 	}
 
 	/**
