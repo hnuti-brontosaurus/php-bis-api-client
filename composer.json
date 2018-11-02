@@ -1,6 +1,7 @@
 {
-	"name": "hnuti-brontosaurus/bis-api-client",
+	"name": "hnuti-brontosaurus/php-bis-api-client",
 	"type": "library",
+	"description": "API client for Hnutí Brontosaurus IS written in PHP.",
 	"authors": [
 		{
 			"name": "GRIFART, spol. s r.o.",
