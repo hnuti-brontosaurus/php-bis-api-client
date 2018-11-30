@@ -61,4 +61,21 @@ final class Program
 		return $this->name;
 	}
 
+
+	/**
+	 * @return bool
+	 */
+	public function isTypeOfNature()
+	{
+		return $this->slug === self::PROGRAM_NATURE;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isTypeOfSights()
+	{
+		return $this->slug === self::PROGRAM_SIGHTS;
+	}
+
 }
