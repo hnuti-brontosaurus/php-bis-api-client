@@ -65,7 +65,7 @@ final class Program
 	/**
 	 * @return bool
 	 */
-	public function isTypeOfNature()
+	public function isOfTypeNature()
 	{
 		return $this->slug === self::PROGRAM_NATURE;
 	}
@@ -73,7 +73,7 @@ final class Program
 	/**
 	 * @return bool
 	 */
-	public function isTypeOfSights()
+	public function isOfTypeSights()
 	{
 		return $this->slug === self::PROGRAM_SIGHTS;
 	}
