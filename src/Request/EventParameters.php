@@ -19,6 +19,8 @@ final class EventParameters extends Parameters
 	const TYPE_EDUCATIONAL = 'vzdelavaci';
 	const TYPE_COURSE = 'prednaska';
 	const TYPE_PUBLIC = 'verejnost';
+	const TYPE_CLUB = 'klub';
+	const TYPE_OHB = 'ohb';
 
 	const PROGRAM_NATURE = 'ap';
 	const PROGRAM_SIGHTS = 'pamatky';
