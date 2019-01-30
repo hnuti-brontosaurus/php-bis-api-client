@@ -107,6 +107,8 @@ final class EventParameters extends Parameters
 			self::TYPE_EDUCATIONAL,
 			self::TYPE_COURSE,
 			self::TYPE_PUBLIC,
+			self::TYPE_CLUB,
+			self::TYPE_OHB,
 		], TRUE)) {
 			throw new InvalidArgumentException('Value `' . $type . '` is not of valid types for `type` parameter.');
 		}
