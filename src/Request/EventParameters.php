@@ -35,11 +35,21 @@ final class EventParameters extends Parameters
 
 	const PARAM_DATE_FORMAT = 'Y-m-d';
 
+	const PARAM_DISPLAY_ALREADY_STARTED_KEY = 'aktualni';
+	const PARAM_DISPLAY_ALREADY_STARTED_NO = 'od';
+	const PARAM_DISPLAY_ALREADY_STARTED_YES = 'do';
+
+	const PARAM_ORDER_BY_KEY = 'razeni';
+	const PARAM_ORDER_BY_START_DATE = 'od';
+	const PARAM_ORDER_BY_END_DATE = 'do';
+
 
 	public function __construct()
 	{
 		parent::__construct([
-			self::PARAM_QUERY => 'akce'
+			self::PARAM_QUERY => 'akce',
+			self::PARAM_DISPLAY_ALREADY_STARTED_KEY => self::PARAM_DISPLAY_ALREADY_STARTED_YES,
+			self::PARAM_ORDER_BY_KEY => self::PARAM_ORDER_BY_END_DATE,
 		]);
 	}
 
@@ -234,6 +244,24 @@ final class EventParameters extends Parameters
 	public function setYear($year)
 	{
 		$this->params['rok'] = (int) $year;
+		return $this;
+	}
+
+	/**
+	 * @return self
+	 */
+	public function hideTheseAlreadyStarted()
+	{
+		$this->params[self::PARAM_DISPLAY_ALREADY_STARTED_KEY] = self::PARAM_DISPLAY_ALREADY_STARTED_NO;
+		return $this;
+	}
+
+	/**
+	 * @return self
+	 */
+	public function orderByStartDate()
+	{
+		$this->params[self::PARAM_ORDER_BY_KEY] = self::PARAM_ORDER_BY_START_DATE;
 		return $this;
 	}
 
