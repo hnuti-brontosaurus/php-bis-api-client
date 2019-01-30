@@ -109,7 +109,20 @@ final class EventParameters extends Parameters
 			throw new InvalidArgumentException('Value `' . $type . '` is not of valid types for `type` parameter.');
 		}
 
-		$this->params['typ'] = $type;
+		$this->params['typ'][] = $type;
+		return $this;
+	}
+
+	/**
+	 * @param string[] $types
+	 * @return self
+	 */
+	public function setTypes(array $types)
+	{
+		foreach ($types as $type) {
+			$this->setType($type);
+		}
+
 		return $this;
 	}
 
@@ -130,7 +143,20 @@ final class EventParameters extends Parameters
 			throw new InvalidArgumentException('Value `' . $program . '` is not of valid types for `program` parameter.');
 		}
 
-		$this->params['program'] = $program;
+		$this->params['program'][] = $program;
+		return $this;
+	}
+
+	/**
+	 * @param string[] $programs
+	 * @return self
+	 */
+	public function setPrograms(array $programs)
+	{
+		foreach ($programs as $program) {
+			$this->setProgram($program);
+		}
+
 		return $this;
 	}
 
