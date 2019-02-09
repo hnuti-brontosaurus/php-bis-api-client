@@ -45,8 +45,8 @@ final class Event
 	private $ageUntil;
 
 	/**
-	 * Single number, interval or null.
-	 * @var int|string|null
+	 * Single number or interval.
+	 * @var int|string
 	 */
 	private $price;
 
@@ -90,7 +90,7 @@ final class Event
 	 * @param string|null $webRegistrationQuestion3
 	 * @param int|null $ageFrom
 	 * @param int|null $ageUntil
-	 * @param int|string|null $price
+	 * @param int|string $price
 	 * @param bool $enableWebRegistration
 	 * @param int|null $organizationalUnitId
 	 * @param string|null $organizationalUnitName
@@ -222,9 +222,13 @@ final class Event
 	}
 
 
+	/**
+	 * @param string[] $data Everything is string as it comes from HTTP response body.
+	 * @return self
+	 */
 	public static function fromResponseData(array $data)
 	{
-		$price = null;
+		$price = 0;
 		if ($data['poplatek'] !== '') {
 			$price = $data['poplatek'];
 
@@ -399,11 +403,16 @@ final class Event
 	}
 
 	/**
-	 * @return int|string|null
+	 * @return int|string
 	 */
 	public function getPrice()
 	{
 		return $this->price;
+	}
+
+	public function isPaid()
+	{
+		return $this->price !== 0;
 	}
 
 	/**
