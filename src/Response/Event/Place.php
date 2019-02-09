@@ -1,30 +1,30 @@
 <?php
 
-namespace HnutiBrontosaurus\BisApiClient\Response;
+namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
 
 final class Place
 {
 
-	/** @var int|NULL */
+	/** @var int|null */
 	private $id;
 
 	/** @var string */
 	private $name;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $mapLink;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $coords;
 
 
 	/**
-	 * @param int|NULL $id
+	 * @param int|null $id
 	 * @param string $name
-	 * @param string|NULL $mapLinkOrCoords Map hypertext link or coordinates depending on what user has filled in BIS.
+	 * @param string|null $mapLinkOrCoords Map hypertext link or coordinates depending on what user has filled in BIS.
 	 */
-	public function __construct($id = NULL, $name, $mapLinkOrCoords = NULL)
+	private function __construct($id = null, $name, $mapLinkOrCoords = null)
 	{
 		$this->id = $id;
 		$this->name = $name;
@@ -37,9 +37,23 @@ final class Place
 		}
 	}
 
+	/**
+	 * @param int|null $id
+	 * @param string $name
+	 * @param string|null $mapLinkOrCoords
+	 * @return self
+	 */
+	public static function from(
+		$id = null,
+		$name,
+		$mapLinkOrCoords = null
+	) {
+		return new self($id, $name, $mapLinkOrCoords);
+	}
+
 
 	/**
-	 * @return int|NULL
+	 * @return int|null
 	 */
 	public function getId()
 	{
@@ -55,7 +69,7 @@ final class Place
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getMapLink()
 	{
@@ -63,7 +77,7 @@ final class Place
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getCoords()
 	{

@@ -1,6 +1,6 @@
 <?php
 
-namespace HnutiBrontosaurus\BisApiClient\Response;
+namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
 
 final class RegistrationQuestion
@@ -13,9 +13,18 @@ final class RegistrationQuestion
 	/**
 	 * @param string $question
 	 */
-	public function __construct($question)
+	private function __construct($question)
 	{
 		$this->question = $question;
+	}
+
+	/**
+	 * @param string $question
+	 * @return self
+	 */
+	public static function from($question)
+	{
+		return new self($question);
 	}
 
 

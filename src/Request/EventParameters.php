@@ -119,7 +119,7 @@ final class EventParameters extends Parameters
 			self::TYPE_PUBLIC,
 			self::TYPE_CLUB,
 			self::TYPE_OHB,
-		], TRUE)) {
+		], true)) {
 			throw new InvalidArgumentException('Value `' . $type . '` is not of valid types for `type` parameter.');
 		}
 
@@ -153,7 +153,7 @@ final class EventParameters extends Parameters
 			self::PROGRAM_EKOSTAN,
 			self::PROGRAM_PSB,
 			self::PROGRAM_EDUCATION,
-		], TRUE)) {
+		], true)) {
 			throw new InvalidArgumentException('Value `' . $program . '` is not of valid types for `program` parameter.');
 		}
 
@@ -184,7 +184,7 @@ final class EventParameters extends Parameters
 			self::FOR_ADULTS,
 			self::FOR_CHILDREN,
 			self::FOR_FAMILIES,
-		], TRUE)) {
+		], true)) {
 			throw new InvalidArgumentException('Value `' . $for . '` is not of valid types for `for` parameter.');
 		}
 

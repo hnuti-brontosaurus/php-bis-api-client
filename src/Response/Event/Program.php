@@ -1,6 +1,6 @@
 <?php
 
-namespace HnutiBrontosaurus\BisApiClient\Response;
+namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
 use HnutiBrontosaurus\BisApiClient\InvalidArgumentException;
 
@@ -27,7 +27,7 @@ final class Program
 	 * @param string $slug
 	 * @param string $name
 	 */
-	public function __construct($slug, $name)
+	private function __construct($slug, $name)
 	{
 		if (!\in_array($slug, [
 			self::PROGRAM_NATURE,
@@ -36,12 +36,22 @@ final class Program
 			self::PROGRAM_EKOSTAN,
 			self::PROGRAM_PSB,
 			self::PROGRAM_EDUCATION,
-		], TRUE)) {
+		], true)) {
 			throw new InvalidArgumentException('Value `' . $slug . '` is not of valid types for `slug` parameter.');
 		}
 
 		$this->slug = $slug;
 		$this->name = $name;
+	}
+
+	/**
+	 * @param string $slug
+	 * @param string $name
+	 * @return self
+	 */
+	public static function from($slug, $name)
+	{
+		return new self($slug, $name);
 	}
 
 
