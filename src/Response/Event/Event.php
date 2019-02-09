@@ -2,6 +2,8 @@
 
 namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
+use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Invitation;
+
 
 final class Event
 {
@@ -11,6 +13,9 @@ final class Event
 
 	/** @var string */
 	private $name;
+
+	/** @var string|null */
+	private $coverPhotoPath;
 
 	/** @var \DateTimeImmutable */
 	private $dateFrom;
@@ -48,11 +53,8 @@ final class Event
 	/** @var Organizer */
 	private $organizer;
 
-	/** @var string|null */
-	private $invitationText;
-
-	/** @var string|null */
-	private $workDescription;
+	/** @var Invitation|null */
+	private $invitation;
 
 	/** @var string|null */
 	private $meetingInformation;
@@ -72,12 +74,8 @@ final class Event
 	/** @var string|null */
 	private $notes;
 
-	/** @var array */
-	private $attachments = [];
-
 
 	/**
-	 * Event constructor.
 	 * @param int $id
 	 * @param string $name
 	 * @param \DateTimeImmutable $dateFrom
@@ -101,8 +99,10 @@ final class Event
 	 * @param string $contactPhone
 	 * @param string $contactEmail
 	 * @param string|null $contactWebsite
-	 * @param string|null $invitationText
-	 * @param string|null $workDescription
+	 * @param string|null $invitationOrganizationalInformation
+	 * @param string|null $invitationIntroduction
+	 * @param string|null $invitationPresentationText
+	 * @param string|null $invitationWorkDescription
 	 * @param string|null $meetingInformation
 	 * @param string|null $responsiblePerson
 	 * @param int|null $workingTime
@@ -111,10 +111,8 @@ final class Event
 	 * @param string|null $food
 	 * @param string|null $notes
 	 * @param string|null $mapLinkOrCoords
-	 * @param string|null $attachment1
-	 * @param string|null $attachment2
 	 */
-	public function __construct(
+	private function __construct(
 		$id,
 		$name,
 		\DateTimeImmutable $dateFrom,
@@ -138,8 +136,11 @@ final class Event
 		$contactPhone,
 		$contactEmail,
 		$contactWebsite = null,
-		$invitationText = null,
-		$workDescription = null,
+		$invitationOrganizationalInformation = null,
+		$invitationIntroduction = null,
+		$invitationPresentationText = null,
+		array $invitationPresentationPhotos = [],
+		$invitationWorkDescription = null,
 		$meetingInformation = null,
 		$responsiblePerson = null,
 		$workingTime = null,
@@ -147,9 +148,7 @@ final class Event
 		$accommodation = null,
 		$food = null,
 		$notes = null,
-		$mapLinkOrCoords = null,
-		$attachment1 = null,
-		$attachment2 = null
+		$mapLinkOrCoords = null
 	) {
 		$this->id = $id;
 		$this->name = $name;
@@ -160,14 +159,19 @@ final class Event
 		$this->ageFrom = $ageFrom;
 		$this->ageUntil = $ageUntil;
 		$this->price = $price;
-		$this->invitationText = $invitationText;
-		$this->workDescription = $workDescription;
 		$this->meetingInformation = $meetingInformation;
 		$this->workingTime = $workingTime;
 		$this->programDescription = $programDescription;
 		$this->accommodation = $accommodation;
 		$this->food = $food;
 		$this->notes = $notes;
+
+
+		// cover photo
+
+		if (\count($invitationPresentationPhotos) > 0) {
+			$this->coverPhotoPath = \reset($invitationPresentationPhotos);
+		}
 
 
 		// program
@@ -206,14 +210,15 @@ final class Event
 		);
 
 
-		// attachments
+		// invitation
 
-		if ($attachment1 !== null) {
-			$this->attachments[] = $attachment1;
-		}
-		if ($attachment2 !== null) {
-			$this->attachments[] = $attachment2;
-		}
+		$this->invitation = Invitation::from(
+			$invitationIntroduction,
+			$invitationOrganizationalInformation,
+			$invitationWorkDescription,
+			$invitationPresentationText,
+			$invitationPresentationPhotos
+		);
 	}
 
 
@@ -226,6 +231,26 @@ final class Event
 			if (\preg_match('|^[0-9]+$|', $price)) {
 				$price = (int) $price;
 			}
+		}
+
+		$invitationPresentationPhotos = [];
+		if ($data['priloha_1'] !== '') {
+			$invitationPresentationPhotos[] = $data['priloha_1'];
+		}
+		if ($data['priloha_2'] !== '') {
+			$invitationPresentationPhotos[] = $data['priloha_2'];
+		}
+		if ($data['priloha_4'] !== '') {
+			$invitationPresentationPhotos[] = $data['priloha_3'];
+		}
+		if ($data['priloha_4'] !== '') {
+			$invitationPresentationPhotos[] = $data['priloha_4'];
+		}
+		if ($data['priloha_5'] !== '') {
+			$invitationPresentationPhotos[] = $data['priloha_5'];
+		}
+		if ($data['priloha_6'] !== '') {
+			$invitationPresentationPhotos[] = $data['priloha_6'];
 		}
 
 		return new self(
@@ -252,8 +277,11 @@ final class Event
 			$data['kontakt_telefon'],
 			$data['kontakt_email'],
 			$data['web'] !== '' ? $data['web'] : null,
-			$data['text'] !== '' ? $data['text'] : null,
-			$data['prace'] !== '' ? $data['prace'] : null,
+			$data['text_info'] !== '' ? $data['text_info'] : null,
+			$data['text_uvod'] !== '' ? $data['text_uvod'] : null,
+			$data['text_mnam'] !== '' ? $data['text_mnam'] : null,
+			$invitationPresentationPhotos,
+			$data['text_prace'] !== '' ? $data['text_prace'] : null,
 			$data['sraz'] !== '' ? $data['sraz'] : null,
 			$data['odpovedna'] !== '' ? $data['odpovedna'] : null,
 			$data['pracovni_doba'] !== '' ? ((int) $data['pracovni_doba']) : null,
@@ -261,9 +289,7 @@ final class Event
 			$data['ubytovani'] !== '' ? $data['ubytovani'] : null,
 			$data['strava'] !== '' ? $data['strava'] : null,
 			$data['jak_se_prihlasit'] !== '' ? $data['jak_se_prihlasit'] : null,
-			$data['lokalita_mapa'] !== '' ? $data['lokalita_mapa'] : null,
-			$data['priloha_1'] !== '' ? $data['priloha_1'] : null,
-			$data['priloha_2'] !== '' ? $data['priloha_2'] : null
+			$data['lokalita_mapa'] !== '' ? $data['lokalita_mapa'] : null
 		);
 	}
 
@@ -274,6 +300,22 @@ final class Event
 	public function getId()
 	{
 		return $this->id;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getCoverPhotoPath()
+	{
+		return $this->coverPhotoPath;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasCoverPhoto()
+	{
+		return $this->coverPhotoPath !== null;
 	}
 
 	/**
@@ -373,19 +415,11 @@ final class Event
 	}
 
 	/**
-	 * @return string|null
+	 * @return Invitation|null
 	 */
-	public function getInvitationText()
+	public function getInvitation()
 	{
-		return $this->invitationText;
-	}
-
-	/**
-	 * @return string|null
-	 */
-	public function getWorkDescription()
-	{
-		return $this->workDescription;
+		return $this->invitation;
 	}
 
 	/**
@@ -434,14 +468,6 @@ final class Event
 	public function getNotes()
 	{
 		return $this->notes;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getAttachments()
-	{
-		return $this->attachments;
 	}
 
 }
