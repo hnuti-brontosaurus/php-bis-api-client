@@ -1,6 +1,6 @@
 <?php
 
-namespace HnutiBrontosaurus\BisApiClient\Response;
+namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
 
 final class Event
@@ -21,22 +21,22 @@ final class Event
 	/** @var string */
 	private $type;
 
-	/** @var Program|NULL */
+	/** @var Program|null */
 	private $program;
 
 	/** @var Place */
 	private $place;
 
 	/** @var bool */
-	private $enableWebRegistration = FALSE;
+	private $enableWebRegistration = false;
 
 	/** @var RegistrationQuestion[]|array */
 	private $webRegistrationQuestions = [];
 
-	/** @var int|NULL */
+	/** @var int|null */
 	private $ageFrom;
 
-	/** @var int|NULL */
+	/** @var int|null */
 	private $ageUntil;
 
 	/**
@@ -48,28 +48,28 @@ final class Event
 	/** @var Organizer */
 	private $organizer;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $invitationText;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $workDescription;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $meetingInformation;
 
-	/** @var int|NULL */
+	/** @var int|null */
 	private $workingTime;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $programDescription;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $accommodation;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $food;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $notes;
 
 	/** @var array */
@@ -83,36 +83,36 @@ final class Event
 	 * @param \DateTimeImmutable $dateFrom
 	 * @param \DateTimeImmutable $dateUntil
 	 * @param string $type
-	 * @param string|NULL $programSlug
-	 * @param string|NULL $programName
-	 * @param int|NULL $placeId
+	 * @param string|null $programSlug
+	 * @param string|null $programName
+	 * @param int|null $placeId
 	 * @param string $placeName
-	 * @param string|NULL $webRegistrationQuestion1
-	 * @param string|NULL $webRegistrationQuestion2
-	 * @param string|NULL $webRegistrationQuestion3
-	 * @param int|NULL $ageFrom
-	 * @param int|NULL $ageUntil
-	 * @param int|string|NULL $price
+	 * @param string|null $webRegistrationQuestion1
+	 * @param string|null $webRegistrationQuestion2
+	 * @param string|null $webRegistrationQuestion3
+	 * @param int|null $ageFrom
+	 * @param int|null $ageUntil
+	 * @param int|string|null $price
 	 * @param bool $enableWebRegistration
-	 * @param int|NULL $organizationalUnitId
-	 * @param string|NULL $organizationalUnitName
-	 * @param string|NULL $organizers
-	 * @param string|NULL $contactPersonName
+	 * @param int|null $organizationalUnitId
+	 * @param string|null $organizationalUnitName
+	 * @param string|null $organizers
+	 * @param string|null $contactPersonName
 	 * @param string $contactPhone
 	 * @param string $contactEmail
-	 * @param string|NULL $contactWebsite
-	 * @param string|NULL $invitationText
-	 * @param string|NULL $workDescription
-	 * @param string|NULL $meetingInformation
-	 * @param string|NULL $responsiblePerson
-	 * @param int|NULL $workingTime
-	 * @param string|NULL $programDescription
-	 * @param string|NULL $accommodation
-	 * @param string|NULL $food
-	 * @param string|NULL $notes
-	 * @param string|NULL $mapLinkOrCoords
-	 * @param string|NULL $attachment1
-	 * @param string|NULL $attachment2
+	 * @param string|null $contactWebsite
+	 * @param string|null $invitationText
+	 * @param string|null $workDescription
+	 * @param string|null $meetingInformation
+	 * @param string|null $responsiblePerson
+	 * @param int|null $workingTime
+	 * @param string|null $programDescription
+	 * @param string|null $accommodation
+	 * @param string|null $food
+	 * @param string|null $notes
+	 * @param string|null $mapLinkOrCoords
+	 * @param string|null $attachment1
+	 * @param string|null $attachment2
 	 */
 	public function __construct(
 		$id,
@@ -120,43 +120,43 @@ final class Event
 		\DateTimeImmutable $dateFrom,
 		\DateTimeImmutable $dateUntil,
 		$type,
-		$programSlug = NULL,
-		$programName = NULL,
-		$placeId = NULL,
+		$programSlug = null,
+		$programName = null,
+		$placeId = null,
 		$placeName,
-		$webRegistrationQuestion1 = NULL,
-		$webRegistrationQuestion2 = NULL,
-		$webRegistrationQuestion3 = NULL,
-		$ageFrom = NULL,
-		$ageUntil = NULL,
-		$price = NULL,
+		$webRegistrationQuestion1 = null,
+		$webRegistrationQuestion2 = null,
+		$webRegistrationQuestion3 = null,
+		$ageFrom = null,
+		$ageUntil = null,
+		$price = null,
 		$enableWebRegistration,
-		$organizationalUnitId = NULL,
-		$organizationalUnitName = NULL,
-		$organizers = NULL,
-		$contactPersonName = NULL,
+		$organizationalUnitId = null,
+		$organizationalUnitName = null,
+		$organizers = null,
+		$contactPersonName = null,
 		$contactPhone,
 		$contactEmail,
-		$contactWebsite = NULL,
-		$invitationText = NULL,
-		$workDescription = NULL,
-		$meetingInformation = NULL,
-		$responsiblePerson = NULL,
-		$workingTime = NULL,
-		$programDescription = NULL,
-		$accommodation = NULL,
-		$food = NULL,
-		$notes = NULL,
-		$mapLinkOrCoords = NULL,
-		$attachment1 = NULL,
-		$attachment2 = NULL
+		$contactWebsite = null,
+		$invitationText = null,
+		$workDescription = null,
+		$meetingInformation = null,
+		$responsiblePerson = null,
+		$workingTime = null,
+		$programDescription = null,
+		$accommodation = null,
+		$food = null,
+		$notes = null,
+		$mapLinkOrCoords = null,
+		$attachment1 = null,
+		$attachment2 = null
 	) {
 		$this->id = $id;
 		$this->name = $name;
 		$this->dateFrom = $dateFrom;
 		$this->dateUntil = $dateUntil;
 		$this->type = $type;
-		$this->place = new Place($placeId, $placeName, $mapLinkOrCoords);
+		$this->place = Place::from($placeId, $placeName, $mapLinkOrCoords);
 		$this->ageFrom = $ageFrom;
 		$this->ageUntil = $ageUntil;
 		$this->price = $price;
@@ -172,8 +172,8 @@ final class Event
 
 		// program
 
-		if ($programSlug !== NULL && $programName !== NULL) {
-			$this->program = new Program($programSlug, $programName);
+		if ($programSlug !== null && $programName !== null) {
+			$this->program = Program::from($programSlug, $programName);
 		}
 
 
@@ -182,20 +182,21 @@ final class Event
 		$this->enableWebRegistration = $enableWebRegistration;
 
 		$this->webRegistrationQuestions = \array_map(function ($webRegistrationQuestion) { // And then turn the rest into objects.
-			return new RegistrationQuestion($webRegistrationQuestion);
+			return RegistrationQuestion::from($webRegistrationQuestion);
 		}, \array_filter([ // First exclude all null items.
 			$webRegistrationQuestion1,
 			$webRegistrationQuestion2,
 			$webRegistrationQuestion3,
 		], function ($v, $k) {
-			return $v !== NULL;
+			return $v !== null;
 		}, ARRAY_FILTER_USE_BOTH));
 
 
 		// organizers
 
-		$this->organizer = new Organizer(
-			($organizationalUnitId !== NULL && $organizationalUnitName !== NULL) ? new OrganizerOrganizationalUnit($organizationalUnitId, $organizationalUnitName) : NULL,
+		$this->organizer = Organizer::from(
+			$organizationalUnitId,
+			$organizationalUnitName,
 			$responsiblePerson,
 			$organizers,
 			$contactPersonName,
@@ -207,10 +208,10 @@ final class Event
 
 		// attachments
 
-		if ($attachment1 !== NULL) {
+		if ($attachment1 !== null) {
 			$this->attachments[] = $attachment1;
 		}
-		if ($attachment2 !== NULL) {
+		if ($attachment2 !== null) {
 			$this->attachments[] = $attachment2;
 		}
 	}
@@ -218,12 +219,12 @@ final class Event
 
 	public static function fromResponseData(array $data)
 	{
-		$price = NULL;
+		$price = null;
 		if ($data['poplatek'] !== '') {
 			$price = $data['poplatek'];
 
 			if (\preg_match('|^[0-9]+$|', $price)) {
-				$price = (int)$price;
+				$price = (int) $price;
 			}
 		}
 
@@ -233,36 +234,36 @@ final class Event
 			\DateTimeImmutable::createFromFormat('Y-m-d', $data['od']),
 			\DateTimeImmutable::createFromFormat('Y-m-d', $data['do']),
 			$data['typ'],
-			$data['program_id'] !== '' ? $data['program_id'] : NULL,
-			$data['program'] !== '' ? $data['program'] : NULL,
-			$data['lokalita_id'] !== '' ? ((int)$data['lokalita_id']) : NULL,
+			$data['program_id'] !== '' ? $data['program_id'] : null,
+			$data['program'] !== '' ? $data['program'] : null,
+			$data['lokalita_id'] !== '' ? ((int) $data['lokalita_id']) : null,
 			$data['lokalita'],
-			$data['add_info_title'] !== '' ? $data['add_info_title'] : NULL,
-			$data['add_info_title_2'] !== '' ? $data['add_info_title_2'] : NULL,
-			$data['add_info_title_3'] !== '' ? $data['add_info_title_3'] : NULL,
-			$data['vek_od'] !== '' ? ((int)$data['vek_od']) : NULL,
-			$data['vek_do'] !== '' ? ((int)$data['vek_do']) : NULL,
+			$data['add_info_title'] !== '' ? $data['add_info_title'] : null,
+			$data['add_info_title_2'] !== '' ? $data['add_info_title_2'] : null,
+			$data['add_info_title_3'] !== '' ? $data['add_info_title_3'] : null,
+			$data['vek_od'] !== '' ? ((int) $data['vek_od']) : null,
+			$data['vek_do'] !== '' ? ((int) $data['vek_do']) : null,
 			$price,
 			$data['prihlaska'] == 1, // intentionally ==
-			$data['porada_id'] !== '' ? ((int)$data['porada_id']) : NULL,
-			$data['porada'] !== '' ? $data['porada'] : NULL,
-			$data['org'] !== '' ? $data['org'] : NULL,
-			$data['kontakt'] !== '' ? $data['kontakt'] : NULL,
+			$data['porada_id'] !== '' ? ((int)$data['porada_id']) : null,
+			$data['porada'] !== '' ? $data['porada'] : null,
+			$data['org'] !== '' ? $data['org'] : null,
+			$data['kontakt'] !== '' ? $data['kontakt'] : null,
 			$data['kontakt_telefon'],
 			$data['kontakt_email'],
-			$data['web'] !== '' ? $data['web'] : NULL,
-			$data['text'] !== '' ? $data['text'] : NULL,
-			$data['prace'] !== '' ? $data['prace'] : NULL,
-			$data['sraz'] !== '' ? $data['sraz'] : NULL,
-			$data['odpovedna'] !== '' ? $data['odpovedna'] : NULL,
-			$data['pracovni_doba'] !== '' ? ((int)$data['pracovni_doba']) : NULL,
-			$data['popis_programu'] !== '' ? $data['popis_programu'] : NULL,
-			$data['ubytovani'] !== '' ? $data['ubytovani'] : NULL,
-			$data['strava'] !== '' ? $data['strava'] : NULL,
-			$data['jak_se_prihlasit'] !== '' ? $data['jak_se_prihlasit'] : NULL,
-			$data['lokalita_mapa'] !== '' ? $data['lokalita_mapa'] : NULL,
-			$data['priloha_1'] !== '' ? $data['priloha_1'] : NULL,
-			$data['priloha_2'] !== '' ? $data['priloha_2'] : NULL
+			$data['web'] !== '' ? $data['web'] : null,
+			$data['text'] !== '' ? $data['text'] : null,
+			$data['prace'] !== '' ? $data['prace'] : null,
+			$data['sraz'] !== '' ? $data['sraz'] : null,
+			$data['odpovedna'] !== '' ? $data['odpovedna'] : null,
+			$data['pracovni_doba'] !== '' ? ((int) $data['pracovni_doba']) : null,
+			$data['popis_programu'] !== '' ? $data['popis_programu'] : null,
+			$data['ubytovani'] !== '' ? $data['ubytovani'] : null,
+			$data['strava'] !== '' ? $data['strava'] : null,
+			$data['jak_se_prihlasit'] !== '' ? $data['jak_se_prihlasit'] : null,
+			$data['lokalita_mapa'] !== '' ? $data['lokalita_mapa'] : null,
+			$data['priloha_1'] !== '' ? $data['priloha_1'] : null,
+			$data['priloha_2'] !== '' ? $data['priloha_2'] : null
 		);
 	}
 
@@ -308,7 +309,7 @@ final class Event
 	}
 
 	/**
-	 * @return Program|NULL
+	 * @return Program|null
 	 */
 	public function getProgram()
 	{
@@ -340,7 +341,7 @@ final class Event
 	}
 
 	/**
-	 * @return int|NULL
+	 * @return int|null
 	 */
 	public function getAgeFrom()
 	{
@@ -348,7 +349,7 @@ final class Event
 	}
 
 	/**
-	 * @return int|NULL
+	 * @return int|null
 	 */
 	public function getAgeUntil()
 	{
@@ -356,7 +357,7 @@ final class Event
 	}
 
 	/**
-	 * @return int|string|NULL
+	 * @return int|string|null
 	 */
 	public function getPrice()
 	{
@@ -372,7 +373,7 @@ final class Event
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getInvitationText()
 	{
@@ -380,7 +381,7 @@ final class Event
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getWorkDescription()
 	{
@@ -388,7 +389,7 @@ final class Event
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getMeetingInformation()
 	{
@@ -396,7 +397,7 @@ final class Event
 	}
 
 	/**
-	 * @return int|NULL
+	 * @return int|null
 	 */
 	public function getWorkingTime()
 	{
@@ -404,7 +405,7 @@ final class Event
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getProgramDescription()
 	{
@@ -412,7 +413,7 @@ final class Event
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getAccommodation()
 	{
@@ -420,7 +421,7 @@ final class Event
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getFood()
 	{
@@ -428,7 +429,7 @@ final class Event
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getNotes()
 	{

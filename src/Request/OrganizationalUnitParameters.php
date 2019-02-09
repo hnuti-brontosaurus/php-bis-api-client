@@ -32,7 +32,7 @@ final class OrganizationalUnitParameters extends Parameters
 			self::TYPE_CLUB,
 			self::TYPE_BASE,
 			self::TYPE_REGIONAL,
-		], TRUE)) {
+		], true)) {
 			throw new InvalidArgumentException('Type `' . $type . '` is not of valid types.');
 		}
 

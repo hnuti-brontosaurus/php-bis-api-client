@@ -10,8 +10,8 @@ use GuzzleHttp\Psr7\Request;
 use HnutiBrontosaurus\BisApiClient\Request\EventParameters;
 use HnutiBrontosaurus\BisApiClient\Request\OrganizationalUnitParameters;
 use HnutiBrontosaurus\BisApiClient\Request\Parameters;
-use HnutiBrontosaurus\BisApiClient\Response\Event;
-use HnutiBrontosaurus\BisApiClient\Response\OrganizationalUnit;
+use HnutiBrontosaurus\BisApiClient\Response\Event\Event;
+use HnutiBrontosaurus\BisApiClient\Response\OrganizationalUnit\OrganizationalUnit;
 use HnutiBrontosaurus\BisApiClient\Response\Response;
 
 
@@ -64,9 +64,9 @@ final class Client
 	 * @throws GuzzleException
 	 * @throws ResourceNotFoundException
 	 */
-	public function getEvent($id, EventParameters $params = NULL)
+	public function getEvent($id, EventParameters $params = null)
 	{
-		$params = ($params !== NULL ? $params : new EventParameters());
+		$params = ($params !== null ? $params : new EventParameters());
 		$params->setId($id);
 		$response = $this->processRequest($params);
 
@@ -86,12 +86,12 @@ final class Client
 	 * @throws GuzzleException
 	 * @throws ResourceNotFoundException
 	 */
-	public function getEvents(EventParameters $params = NULL)
+	public function getEvents(EventParameters $params = null)
 	{
-		$response = $this->processRequest($params !== NULL ? $params : new EventParameters());
+		$response = $this->processRequest($params !== null ? $params : new EventParameters());
 		$data = $response->getData();
 
-		if ($data === NULL) {
+		if ($data === null) {
 			return [];
 		}
 
@@ -105,9 +105,9 @@ final class Client
 	 * @throws GuzzleException
 	 * @throws ResourceNotFoundException
 	 */
-	public function getOrganizationalUnits(OrganizationalUnitParameters $params = NULL)
+	public function getOrganizationalUnits(OrganizationalUnitParameters $params = null)
 	{
-		$response = $this->processRequest($params !== NULL ? $params : new OrganizationalUnitParameters());
+		$response = $this->processRequest($params !== null ? $params : new OrganizationalUnitParameters());
 		return \array_map(OrganizationalUnit::class . '::fromResponseData', $response->getData());
 	}
 
