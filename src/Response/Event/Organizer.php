@@ -109,6 +109,14 @@ final class Organizer
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function areOrganizersListed()
+	{
+		return $this->organizers !== null;
+	}
+
+	/**
 	 * @return string|null
 	 */
 	public function getOrganizers()
