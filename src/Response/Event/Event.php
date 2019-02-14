@@ -2,6 +2,7 @@
 
 namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
+use HnutiBrontosaurus\BisApiClient\BisClientException;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Invitation;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Registration\RegistrationType;
 
@@ -51,6 +52,9 @@ final class Event
 	/** @var Organizer */
 	private $organizer;
 
+	/** @var TargetGroup */
+	private $targetGroup;
+
 	/** @var Invitation|null */
 	private $invitation;
 
@@ -98,6 +102,7 @@ final class Event
 	 * @param string $contactPhone
 	 * @param string $contactEmail
 	 * @param string|null $contactWebsite
+	 * @param int|null $targetGroupId
 	 * @param string|null $invitationOrganizationalInformation
 	 * @param string|null $invitationIntroduction
 	 * @param string|null $invitationPresentationText
@@ -137,6 +142,7 @@ final class Event
 		$contactPhone,
 		$contactEmail,
 		$contactWebsite = null,
+		$targetGroupId = null,
 		$invitationOrganizationalInformation = null,
 		$invitationIntroduction = null,
 		$invitationPresentationText = null,
@@ -208,6 +214,10 @@ final class Event
 		);
 
 
+		// target group
+		$this->targetGroup = $targetGroupId !== null ? TargetGroup::from($targetGroupId) : TargetGroup::unknown();
+
+
 		// invitation
 
 		$this->invitation = Invitation::from(
@@ -223,6 +233,7 @@ final class Event
 	/**
 	 * @param string[] $data Everything is string as it comes from HTTP response body.
 	 * @return self
+	 * @throws BisClientException
 	 */
 	public static function fromResponseData(array $data)
 	{
@@ -280,6 +291,7 @@ final class Event
 			$data['kontakt_telefon'],
 			$data['kontakt_email'],
 			$data['web'] !== '' ? $data['web'] : null,
+			$data['prokoho_id'] !== '' ? ((int) $data['prokoho_id']) : null,
 			$data['text_info'] !== '' ? $data['text_info'] : null,
 			$data['text_uvod'] !== '' ? $data['text_uvod'] : null,
 			$data['text_mnam'] !== '' ? $data['text_mnam'] : null,
@@ -412,6 +424,14 @@ final class Event
 	public function getOrganizer()
 	{
 		return $this->organizer;
+	}
+
+	/**
+	 * @return TargetGroup
+	 */
+	public function getTargetGroup()
+	{
+		return $this->targetGroup;
 	}
 
 	/**
