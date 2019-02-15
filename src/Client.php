@@ -104,6 +104,7 @@ final class Client
 
 	/**
 	 * @param EventAttendee $eventAttendee
+	 * @throws ResponseErrorException
 	 * @throws BisClientException
 	 */
 	public function addAttendeeToEvent(EventAttendee $eventAttendee)
@@ -137,6 +138,7 @@ final class Client
 	/**
 	 * @param Parameters $requestParameters
 	 * @return Response
+	 * @throws ResponseErrorException
 	 * @throws BisClientException
 	 * @throws GuzzleException
 	 * @throws ResourceNotFoundException
@@ -197,7 +199,7 @@ final class Client
 
 	/**
 	 * @param \DOMDocument $domDocument
-	 * @throws BisClientException
+	 * @throws ResponseErrorException
 	 */
 	private function checkForResponseErrors(\DOMDocument $domDocument)
 	{
@@ -207,16 +209,20 @@ final class Client
 				case 'success': // In case of POST request with form data, BIS returns `<result error="success" />` for some reason... Let's pretend that there is no error in such case because... you know... there is no error!
 					break;
 
+				case 'user':
+					throw ResponseErrorException::invalidUserInput($resultNode);
+					break;
+
 				case 'forbidden':
-					throw new BisClientException('You are not authorized to make such request with given credentials. Or you have simply wrong credentials. :-)');
+					throw ResponseErrorException::unauthorizedAccess();
 					break;
 
 				case 'params':
-					throw new BisClientException('Parameters are invalid.');
+					throw ResponseErrorException::invalidParameters();
 					break;
 
 				default:
-					throw new BisClientException('Unknown error. Error type returned from BIS: `' . $resultNode->getAttribute(Response::TAG_RESULT_ATTRIBUTE_ERROR) . '`');
+					throw ResponseErrorException::unknown($resultNode->getAttribute(Response::TAG_RESULT_ATTRIBUTE_ERROR));
 					break;
 			}
 		}
