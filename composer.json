@@ -21,7 +21,10 @@
 		"psr-4": {
 			"HnutiBrontosaurus\\BisApiClient\\": "src/"
 		},
-		"classmap": ["src/exceptions.php"]
+		"classmap": [
+			"src/Response/exceptions.php",
+			"src/exceptions.php"
+		]
 	},
 	"config": {
 		"sort-packages": true
