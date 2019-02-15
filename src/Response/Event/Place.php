@@ -6,59 +6,47 @@ namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 final class Place
 {
 
-	/** @var int|null */
-	private $id;
-
 	/** @var string */
 	private $name;
 
-	/** @var string|null */
-	private $mapLink;
-
-	/** @var string|null */
-	private $coords;
+	/**
+	 * In format `49.132456 16.123456`.
+	 * @var string|null
+	 */
+	private $coordinates;
 
 
 	/**
-	 * @param int|null $id
 	 * @param string $name
-	 * @param string|null $mapLinkOrCoords Map hypertext link or coordinates depending on what user has filled in BIS.
+	 * @param string|null $alternativeName
+	 * @param string|null $coordinates
 	 */
-	private function __construct($id = null, $name, $mapLinkOrCoords = null)
-	{
-		$this->id = $id;
-		$this->name = $name;
+	private function __construct(
+		$name,
+		$alternativeName = null,
+		$coordinates = null
+	) {
+		$this->name = $alternativeName !== null ? $alternativeName : $name; // It looks like alternative names are more concrete.
 
-		if (\strncmp($mapLinkOrCoords, 'http', \strlen('http')) === 0) { // Copied from `Nette\Utils\Strings::startsWith()`.
-			$this->mapLink = $mapLinkOrCoords;
-		}
-		elseif (\preg_match('|[0-9]+(\.[0-9]+)N, [0-9]+(\.[0-9]+)E|', $mapLinkOrCoords)) { // Only `49.132456N, 16.123456E` format is used by users right now.
-			$this->coords = $mapLinkOrCoords;
+		if ($coordinates !== null && \preg_match('|[0-9]+(\.[0-9]+) [0-9]+(\.[0-9]+)|', $coordinates)) { // Only `49.132456 16.123456` format is used by users right now.
+			$this->coordinates = $coordinates;
 		}
 	}
 
 	/**
-	 * @param int|null $id
 	 * @param string $name
-	 * @param string|null $mapLinkOrCoords
+	 * @param string|null $alternativeName
+	 * @param string|null $coordinates
 	 * @return self
 	 */
 	public static function from(
-		$id = null,
 		$name,
-		$mapLinkOrCoords = null
+		$alternativeName = null,
+		$coordinates = null
 	) {
-		return new self($id, $name, $mapLinkOrCoords);
+		return new self($name, $alternativeName, $coordinates);
 	}
 
-
-	/**
-	 * @return int|null
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 
 	/**
 	 * @return string
@@ -69,19 +57,19 @@ final class Place
 	}
 
 	/**
-	 * @return string|null
+	 * @return bool
 	 */
-	public function getMapLink()
+	public function areCoordinatesListed()
 	{
-		return $this->mapLink;
+		return $this->coordinates !== null;
 	}
 
 	/**
 	 * @return string|null
 	 */
-	public function getCoords()
+	public function getCoordinates()
 	{
-		return $this->coords;
+		return $this->coordinates;
 	}
 
 }
