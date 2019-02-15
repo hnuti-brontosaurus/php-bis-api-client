@@ -12,8 +12,13 @@ use HnutiBrontosaurus\BisApiClient\Request\EventParameters;
 use HnutiBrontosaurus\BisApiClient\Request\OrganizationalUnitParameters;
 use HnutiBrontosaurus\BisApiClient\Request\Parameters;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Event;
+use HnutiBrontosaurus\BisApiClient\Response\InvalidParametersException;
+use HnutiBrontosaurus\BisApiClient\Response\InvalidUserInputException;
 use HnutiBrontosaurus\BisApiClient\Response\OrganizationalUnit\OrganizationalUnit;
 use HnutiBrontosaurus\BisApiClient\Response\Response;
+use HnutiBrontosaurus\BisApiClient\Response\ResponseErrorException;
+use HnutiBrontosaurus\BisApiClient\Response\UnauthorizedAccessException;
+use HnutiBrontosaurus\BisApiClient\Response\UnknownErrorException;
 use Psr\Http\Message\ResponseInterface;
 
 
@@ -210,19 +215,19 @@ final class Client
 					break;
 
 				case 'user':
-					throw ResponseErrorException::invalidUserInput($resultNode);
+					throw new InvalidUserInputException($resultNode);
 					break;
 
 				case 'forbidden':
-					throw ResponseErrorException::unauthorizedAccess();
+					throw new UnauthorizedAccessException();
 					break;
 
 				case 'params':
-					throw ResponseErrorException::invalidParameters();
+					throw new InvalidParametersException();
 					break;
 
 				default:
-					throw ResponseErrorException::unknown($resultNode->getAttribute(Response::TAG_RESULT_ATTRIBUTE_ERROR));
+					throw new UnknownErrorException($resultNode->getAttribute(Response::TAG_RESULT_ATTRIBUTE_ERROR));
 					break;
 			}
 		}
