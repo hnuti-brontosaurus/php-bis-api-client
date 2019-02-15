@@ -22,8 +22,9 @@
 			"HnutiBrontosaurus\\BisApiClient\\": "src/"
 		},
 		"classmap": [
+			"src/exceptions.php",
 			"src/Response/exceptions.php",
-			"src/exceptions.php"
+			"src/Response/OrganizationalUnit/exceptions.php"
 		]
 	},
 	"config": {
