@@ -15,6 +15,7 @@ use HnutiBrontosaurus\BisApiClient\Response\Event\Event;
 use HnutiBrontosaurus\BisApiClient\Response\InvalidParametersException;
 use HnutiBrontosaurus\BisApiClient\Response\InvalidUserInputException;
 use HnutiBrontosaurus\BisApiClient\Response\OrganizationalUnit\OrganizationalUnit;
+use HnutiBrontosaurus\BisApiClient\Response\OrganizationalUnit\UnknownOrganizationUnitTypeException;
 use HnutiBrontosaurus\BisApiClient\Response\Response;
 use HnutiBrontosaurus\BisApiClient\Response\ResponseErrorException;
 use HnutiBrontosaurus\BisApiClient\Response\UnauthorizedAccessException;
@@ -136,7 +137,19 @@ final class Client
 	public function getOrganizationalUnits(OrganizationalUnitParameters $params = null)
 	{
 		$response = $this->processRequest($params !== null ? $params : new OrganizationalUnitParameters());
-		return \array_map(OrganizationalUnit::class . '::fromResponseData', $response->getData());
+
+		$organizationalUnits = [];
+		foreach ($response->getData() as $organizationalUnit) {
+			try {
+				$organizationalUnits[] = OrganizationalUnit::fromResponseData($organizationalUnit);
+
+			} catch (UnknownOrganizationUnitTypeException $e) {
+				continue; // In case of unknown type - just ignore it.
+
+			}
+		}
+
+		return $organizationalUnits;
 	}
 
 

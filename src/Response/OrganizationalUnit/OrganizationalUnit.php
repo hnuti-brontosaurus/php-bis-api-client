@@ -91,7 +91,7 @@ final class OrganizationalUnit
 			self::TYPE_REGIONAL,
 			self::TYPE_OFFICE,
 		], true)) {
-			throw new InvalidArgumentException('Type `' . $type . '` is not of valid types.');
+			throw new UnknownOrganizationUnitTypeException('Type `' . $type . '` is not of valid types.');
 		}
 		$this->type = $type;
 	}
