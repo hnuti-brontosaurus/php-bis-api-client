@@ -85,8 +85,9 @@ final class Event
 	 * @param string $type
 	 * @param string|null $programSlug
 	 * @param string|null $programName
-	 * @param int|null $placeId
 	 * @param string $placeName
+	 * @param string|null $placeAlternativeName
+	 * @param string|null $placeCoordinates
 	 * @param int $registrationType
 	 * @param string|null $webRegistrationQuestion1
 	 * @param string|null $webRegistrationQuestion2
@@ -115,7 +116,6 @@ final class Event
 	 * @param string|null $accommodation
 	 * @param string|null $food
 	 * @param string|null $notes
-	 * @param string|null $mapLinkOrCoords
 	 */
 	private function __construct(
 		$id,
@@ -125,8 +125,9 @@ final class Event
 		$type,
 		$programSlug = null,
 		$programName = null,
-		$placeId = null,
 		$placeName,
+		$placeAlternativeName = null,
+		$placeCoordinates = null,
 		$registrationType,
 		$webRegistrationQuestion1 = null,
 		$webRegistrationQuestion2 = null,
@@ -154,15 +155,14 @@ final class Event
 		$programDescription = null,
 		$accommodation = null,
 		$food = null,
-		$notes = null,
-		$mapLinkOrCoords = null
+		$notes = null
 	) {
 		$this->id = $id;
 		$this->name = $name;
 		$this->dateFrom = $dateFrom;
 		$this->dateUntil = $dateUntil;
 		$this->type = $type;
-		$this->place = Place::from($placeId, $placeName, $mapLinkOrCoords);
+		$this->place = Place::from($placeName, $placeAlternativeName, $placeCoordinates);
 		$this->ageFrom = $ageFrom;
 		$this->ageUntil = $ageUntil;
 		$this->price = $price;
@@ -274,8 +274,9 @@ final class Event
 			$data['typ'],
 			$data['program_id'] !== '' ? $data['program_id'] : null,
 			$data['program'] !== '' ? $data['program'] : null,
-			$data['lokalita_id'] !== '' ? ((int) $data['lokalita_id']) : null,
-			$data['lokalita'],
+			$data['lokalita_nazev'],
+			$data['lokalita_misto'] !== '' ? $data['lokalita_misto'] : null,
+			$data['lokalita_gps'] !== '' ? $data['lokalita_gps'] : null,
 			(int) $data['prihlasovani_id'],
 			$data['add_info_title'] !== '' ? $data['add_info_title'] : null,
 			$data['add_info_title_2'] !== '' ? $data['add_info_title_2'] : null,
@@ -303,8 +304,7 @@ final class Event
 			$data['popis_programu'] !== '' ? $data['popis_programu'] : null,
 			$data['ubytovani'] !== '' ? $data['ubytovani'] : null,
 			$data['strava'] !== '' ? $data['strava'] : null,
-			$data['jak_se_prihlasit'] !== '' ? $data['jak_se_prihlasit'] : null,
-			$data['lokalita_mapa'] !== '' ? $data['lokalita_mapa'] : null
+			$data['jak_se_prihlasit'] !== '' ? $data['jak_se_prihlasit'] : null
 		);
 	}
 
