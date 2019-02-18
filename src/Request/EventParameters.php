@@ -32,6 +32,7 @@ final class EventParameters extends Parameters
 	const FOR_ADULTS = 'dospeli';
 	const FOR_CHILDREN = 'deti';
 	const FOR_FAMILIES = 'detirodice';
+	const FOR_FIRST_TIME_ATTENDEES = 'prvouc';
 
 	const PARAM_DATE_FORMAT = 'Y-m-d';
 
@@ -184,6 +185,7 @@ final class EventParameters extends Parameters
 			self::FOR_ADULTS,
 			self::FOR_CHILDREN,
 			self::FOR_FAMILIES,
+			self::FOR_FIRST_TIME_ATTENDEES,
 		], true)) {
 			throw new InvalidArgumentException('Value `' . $for . '` is not of valid types for `for` parameter.');
 		}
