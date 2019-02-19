@@ -21,6 +21,7 @@ final class EventParameters extends Parameters
 	const TYPE_PUBLIC = 'verejnost';
 	const TYPE_CLUB = 'klub';
 	const TYPE_OHB = 'ohb';
+	const TYPE_MEETING = 'schuzka';
 
 	const PROGRAM_NATURE = 'ap';
 	const PROGRAM_SIGHTS = 'pamatky';
@@ -120,6 +121,7 @@ final class EventParameters extends Parameters
 			self::TYPE_PUBLIC,
 			self::TYPE_CLUB,
 			self::TYPE_OHB,
+			self::TYPE_MEETING,
 		], true)) {
 			throw new InvalidArgumentException('Value `' . $type . '` is not of valid types for `type` parameter.');
 		}
