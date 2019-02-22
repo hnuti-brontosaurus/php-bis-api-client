@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Psr7\Request;
+use HnutiBrontosaurus\BisApiClient\Request\Adoption;
 use HnutiBrontosaurus\BisApiClient\Request\EventAttendee;
 use HnutiBrontosaurus\BisApiClient\Request\EventParameters;
 use HnutiBrontosaurus\BisApiClient\Request\OrganizationalUnitParameters;
@@ -121,6 +122,7 @@ final class Client
 		$this->checkForResponseContentType($response);
 
 		$domDocument = $this->generateDOM($response);
+
 		$this->checkForResponseErrors($domDocument);
 	}
 
@@ -150,6 +152,26 @@ final class Client
 		}
 
 		return $organizationalUnits;
+	}
+
+
+	// adoption
+
+	/**
+	 * @param Adoption $adoption
+	 * @throws ResponseErrorException
+	 * @throws BisClientException
+	 */
+	public function saveRequestForAdoption(Adoption $adoption)
+	{
+		$adoption->setCredentials($this->username, $this->password);
+		$response = $this->httpClient->post($this->buildUrl($adoption), $this->convertArrayToFormData($adoption->getData()));
+
+		$this->checkForResponseContentType($response);
+
+		$domDocument = $this->generateDOM($response);
+
+		$this->checkForResponseErrors($domDocument);
 	}
 
 
