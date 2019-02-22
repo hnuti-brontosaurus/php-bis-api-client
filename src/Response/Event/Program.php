@@ -88,4 +88,12 @@ final class Program
 		return $this->slug === self::PROGRAM_SIGHTS;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function isOfTypeHoliday()
+	{
+		return $this->slug === self::PROGRAM_PSB;
+	}
+
 }
