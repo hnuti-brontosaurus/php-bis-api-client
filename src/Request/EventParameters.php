@@ -206,7 +206,20 @@ final class EventParameters extends Parameters
 			throw new InvalidArgumentException('Value `' . $targetGroup . '` is not of valid types for `for` parameter.');
 		}
 
-		$this->params['pro'] = $targetGroup;
+		$this->params['pro'][] = $targetGroup;
+		return $this;
+	}
+
+	/**
+	 * @param string[] $targetGroups
+	 * @return self
+	 */
+	public function setTargetGroups(array $targetGroups)
+	{
+		foreach ($targetGroups as $targetGroup) {
+			$this->setTargetGroup($targetGroup);
+		}
+
 		return $this;
 	}
 
