@@ -138,6 +138,7 @@ final class EventParameters extends Parameters
 
 	// program
 
+	const PROGRAM_NOT_SELECTED = 0;
 	const PROGRAM_NATURE = 'ap';
 	const PROGRAM_SIGHTS = 'pamatky';
 	const PROGRAM_BRDO = 'brdo';
@@ -152,6 +153,7 @@ final class EventParameters extends Parameters
 	public function setProgram($program)
 	{
 		if ( ! \in_array($program, [
+			self::PROGRAM_NOT_SELECTED,
 			self::PROGRAM_NATURE,
 			self::PROGRAM_SIGHTS,
 			self::PROGRAM_BRDO,
@@ -182,6 +184,7 @@ final class EventParameters extends Parameters
 
 	// target group
 
+	const TARGET_GROUP_NOT_SELECTED = 0;
 	const TARGET_GROUP_ADULTS = 'dospeli';
 	const TARGET_GROUP_CHILDREN = 'deti';
 	const TARGET_GROUP_FAMILIES = 'detirodice';
@@ -194,6 +197,7 @@ final class EventParameters extends Parameters
 	public function setTargetGroup($targetGroup)
 	{
 		if ( ! \in_array($targetGroup, [
+			self::TARGET_GROUP_NOT_SELECTED,
 			self::TARGET_GROUP_ADULTS,
 			self::TARGET_GROUP_CHILDREN,
 			self::TARGET_GROUP_FAMILIES,
