@@ -46,9 +46,10 @@ final class EventParameters extends Parameters
 	const FILTER_EKOSTAN = 8;
 
 	/**
-	 * Beside standard constant usage as a paramer, you can pass bitwise operation argument, e.g. `EventParameters::FILTER_WEEKEND|EventParameters::FILTER_CAMP`.
+	 * Beside standard constant usage as a parameter, you can pass bitwise operation argument, e.g. `EventParameters::FILTER_WEEKEND|EventParameters::FILTER_CAMP`.
 	 * @param int $filter
 	 * @return self
+	 * @deprecated This is blackbox parameter as nobody really knows from outside what this parameter really does. It is recommended to use combination of other parameters instead.
 	 */
 	public function setFilter($filter)
 	{
@@ -88,15 +89,24 @@ final class EventParameters extends Parameters
 
 	// type
 
-	const TYPE_WORK = 'pracovni';
-	const TYPE_EXPERIENCE = 'prozitkova';
+	const TYPE_VOLUNTARY = 'pracovni'; // dobrovolnická
+	const TYPE_EXPERIENCE = 'prozitkova'; // zážitková
 	const TYPE_SPORT = 'sportovni';
-	const TYPE_EDUCATIONAL = 'vzdelavaci';
-	const TYPE_COURSE = 'prednaska';
-	const TYPE_PUBLIC = 'verejnost';
-	const TYPE_CLUB = 'klub';
-	const TYPE_OHB = 'ohb';
-	const TYPE_MEETING = 'schuzka';
+
+	const TYPE_EDUCATIONAL_TALK = 'prednaska'; // vzdělávací - přednášky
+	const TYPE_EDUCATIONAL_COURSES = 'vzdelavaci'; // vzdělávací - kurzy, školení
+	const TYPE_EDUCATIONAL_OHB = 'ohb'; // vzdělávací - kurz ohb
+	const TYPE_LEARNING_PROGRAM = 'vyuka'; // výukový program
+	const TYPE_RESIDENTIAL_LEARNING_PROGRAM = 'pobyt'; // pobytový výukový program
+
+	const TYPE_CLUB_MEETUP = 'klub'; // klub - setkání
+	const TYPE_CLUB_TALK = 'klub-vzdel'; // klub - přednáška
+	const TYPE_FOR_PUBLIC = 'verejnost'; // akce pro veřejnost
+	const TYPE_EKOSTAN = 'ekostan';
+	const TYPE_EXHIBITION = 'vystava';
+	const TYPE_ACTION_GROUP = 'akcni'; // akční skupina
+	const TYPE_INTERNAL = 'jina'; // interní akce (VH a jiné)
+	const TYPE_GROUP_MEETING = 'schuzka'; // oddílová, družinová schůzka
 
 	/**
 	 * @param string $type
@@ -105,15 +115,24 @@ final class EventParameters extends Parameters
 	public function setType($type)
 	{
 		if ( ! \in_array($type, [
-			self::TYPE_WORK,
+			self::TYPE_VOLUNTARY,
 			self::TYPE_EXPERIENCE,
 			self::TYPE_SPORT,
-			self::TYPE_EDUCATIONAL,
-			self::TYPE_COURSE,
-			self::TYPE_PUBLIC,
-			self::TYPE_CLUB,
-			self::TYPE_OHB,
-			self::TYPE_MEETING,
+
+			self::TYPE_EDUCATIONAL_TALK,
+			self::TYPE_EDUCATIONAL_COURSES,
+			self::TYPE_EDUCATIONAL_OHB,
+			self::TYPE_LEARNING_PROGRAM,
+			self::TYPE_RESIDENTIAL_LEARNING_PROGRAM,
+
+			self::TYPE_CLUB_MEETUP,
+			self::TYPE_CLUB_TALK,
+			self::TYPE_FOR_PUBLIC,
+			self::TYPE_EKOSTAN,
+			self::TYPE_EXHIBITION,
+			self::TYPE_ACTION_GROUP,
+			self::TYPE_INTERNAL,
+			self::TYPE_GROUP_MEETING,
 		], true)) {
 			throw new InvalidArgumentException('Value `' . $type . '` is not of valid types for `type` parameter.');
 		}
@@ -138,12 +157,14 @@ final class EventParameters extends Parameters
 
 	// program
 
-	const PROGRAM_NOT_SELECTED = 0;
+	const PROGRAM_NOT_SELECTED = 'none';
 	const PROGRAM_NATURE = 'ap';
 	const PROGRAM_SIGHTS = 'pamatky';
 	const PROGRAM_BRDO = 'brdo';
+	/** @deprecated */
 	const PROGRAM_EKOSTAN = 'ekostan';
 	const PROGRAM_PSB = 'psb';
+	/** @deprecated */
 	const PROGRAM_EDUCATION = 'vzdelavani';
 
 	/**
@@ -184,10 +205,12 @@ final class EventParameters extends Parameters
 
 	// target group
 
-	const TARGET_GROUP_NOT_SELECTED = 0;
+	const TARGET_GROUP_NOT_SELECTED = 'none';
 	const TARGET_GROUP_ADULTS = 'dospeli';
 	const TARGET_GROUP_CHILDREN = 'deti';
 	const TARGET_GROUP_FAMILIES = 'detirodice';
+	/** @deprecated */
+	const TARGET_GROUP_EVERYONE = 'vsichni';
 	const TARGET_GROUP_FIRST_TIME_ATTENDEES = 'prvouc';
 
 	/**
@@ -201,6 +224,7 @@ final class EventParameters extends Parameters
 			self::TARGET_GROUP_ADULTS,
 			self::TARGET_GROUP_CHILDREN,
 			self::TARGET_GROUP_FAMILIES,
+			self::TARGET_GROUP_EVERYONE,
 			self::TARGET_GROUP_FIRST_TIME_ATTENDEES,
 		], true)) {
 			throw new InvalidArgumentException('Value `' . $targetGroup . '` is not of valid types for `for` parameter.');
