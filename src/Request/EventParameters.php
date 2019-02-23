@@ -8,35 +8,6 @@ use HnutiBrontosaurus\BisApiClient\InvalidArgumentException;
 final class EventParameters extends Parameters
 {
 
-	const FILTER_CLUB = 1;
-	const FILTER_WEEKEND = 2;
-	const FILTER_CAMP = 4;
-	const FILTER_EKOSTAN = 8;
-
-	const TYPE_WORK = 'pracovni';
-	const TYPE_EXPERIENCE = 'prozitkova';
-	const TYPE_SPORT = 'sportovni';
-	const TYPE_EDUCATIONAL = 'vzdelavaci';
-	const TYPE_COURSE = 'prednaska';
-	const TYPE_PUBLIC = 'verejnost';
-	const TYPE_CLUB = 'klub';
-	const TYPE_OHB = 'ohb';
-	const TYPE_MEETING = 'schuzka';
-
-	const PROGRAM_NATURE = 'ap';
-	const PROGRAM_SIGHTS = 'pamatky';
-	const PROGRAM_BRDO = 'brdo';
-	const PROGRAM_EKOSTAN = 'ekostan';
-	const PROGRAM_PSB = 'psb';
-	const PROGRAM_EDUCATION = 'vzdelavani';
-
-	const FOR_ADULTS = 'dospeli';
-	const FOR_CHILDREN = 'deti';
-	const FOR_FAMILIES = 'detirodice';
-	const FOR_FIRST_TIME_ATTENDEES = 'prvouc';
-
-	const PARAM_DATE_FORMAT = 'Y-m-d';
-
 	const PARAM_DISPLAY_ALREADY_STARTED_KEY = 'aktualni';
 	const PARAM_DISPLAY_ALREADY_STARTED_NO = 'od';
 	const PARAM_DISPLAY_ALREADY_STARTED_YES = 'do';
@@ -65,6 +36,14 @@ final class EventParameters extends Parameters
 		$this->params['id'] = (int) $id;
 		return $this;
 	}
+
+
+	// filter
+
+	const FILTER_CLUB = 1;
+	const FILTER_WEEKEND = 2;
+	const FILTER_CAMP = 4;
+	const FILTER_EKOSTAN = 8;
 
 	/**
 	 * Beside standard constant usage as a paramer, you can pass bitwise operation argument, e.g. `EventParameters::FILTER_WEEKEND|EventParameters::FILTER_CAMP`.
@@ -106,13 +85,26 @@ final class EventParameters extends Parameters
 		return $this;
 	}
 
+
+	// type
+
+	const TYPE_WORK = 'pracovni';
+	const TYPE_EXPERIENCE = 'prozitkova';
+	const TYPE_SPORT = 'sportovni';
+	const TYPE_EDUCATIONAL = 'vzdelavaci';
+	const TYPE_COURSE = 'prednaska';
+	const TYPE_PUBLIC = 'verejnost';
+	const TYPE_CLUB = 'klub';
+	const TYPE_OHB = 'ohb';
+	const TYPE_MEETING = 'schuzka';
+
 	/**
 	 * @param string $type
 	 * @return self
 	 */
 	public function setType($type)
 	{
-		if (!\in_array($type, [
+		if ( ! \in_array($type, [
 			self::TYPE_WORK,
 			self::TYPE_EXPERIENCE,
 			self::TYPE_SPORT,
@@ -143,13 +135,23 @@ final class EventParameters extends Parameters
 		return $this;
 	}
 
+
+	// program
+
+	const PROGRAM_NATURE = 'ap';
+	const PROGRAM_SIGHTS = 'pamatky';
+	const PROGRAM_BRDO = 'brdo';
+	const PROGRAM_EKOSTAN = 'ekostan';
+	const PROGRAM_PSB = 'psb';
+	const PROGRAM_EDUCATION = 'vzdelavani';
+
 	/**
 	 * @param string $program
 	 * @return self
 	 */
 	public function setProgram($program)
 	{
-		if (!\in_array($program, [
+		if ( ! \in_array($program, [
 			self::PROGRAM_NATURE,
 			self::PROGRAM_SIGHTS,
 			self::PROGRAM_BRDO,
@@ -177,49 +179,37 @@ final class EventParameters extends Parameters
 		return $this;
 	}
 
+
+	// target group
+
+	const TARGET_GROUP_ADULTS = 'dospeli';
+	const TARGET_GROUP_CHILDREN = 'deti';
+	const TARGET_GROUP_FAMILIES = 'detirodice';
+	const TARGET_GROUP_FIRST_TIME_ATTENDEES = 'prvouc';
+
 	/**
-	 * @param string $for
+	 * @param string $targetGroup
 	 * @return self
 	 */
-	public function setFor($for)
+	public function setTargetGroup($targetGroup)
 	{
-		if (!\in_array($for, [
-			self::FOR_ADULTS,
-			self::FOR_CHILDREN,
-			self::FOR_FAMILIES,
-			self::FOR_FIRST_TIME_ATTENDEES,
+		if ( ! \in_array($targetGroup, [
+			self::TARGET_GROUP_ADULTS,
+			self::TARGET_GROUP_CHILDREN,
+			self::TARGET_GROUP_FAMILIES,
+			self::TARGET_GROUP_FIRST_TIME_ATTENDEES,
 		], true)) {
-			throw new InvalidArgumentException('Value `' . $for . '` is not of valid types for `for` parameter.');
+			throw new InvalidArgumentException('Value `' . $targetGroup . '` is not of valid types for `for` parameter.');
 		}
 
-		$this->params['pro'] = $for;
+		$this->params['pro'] = $targetGroup;
 		return $this;
 	}
 
-	/**
-	 * @param int|int[] $unitIds
-	 * @return self
-	 */
-	public function setOrganizedBy($unitIds)
-	{
-		$organizedByKey = 'zc';
 
-		// If just single value, wrap it into an array.
-		if (!\is_array($unitIds)) {
-			$unitIds = [$unitIds];
-		}
+	// date constraints
 
-		foreach ($unitIds as $unitId) {
-			// If such value is not present yet, initialize it with an empty array.
-			if (!\is_array($this->params[$organizedByKey])) {
-				$this->params[$organizedByKey] = [];
-			}
-
-			$this->params[$organizedByKey][] = (int) $unitId;
-		}
-
-		return $this;
-	}
+	const PARAM_DATE_FORMAT = 'Y-m-d';
 
 	/**
 	 * @param \DateTimeImmutable $dateFrom
@@ -260,12 +250,40 @@ final class EventParameters extends Parameters
 		return $this;
 	}
 
+
+	// miscellaneous
+
 	/**
 	 * @return self
 	 */
 	public function orderByStartDate()
 	{
 		$this->params[self::PARAM_ORDER_BY_KEY] = self::PARAM_ORDER_BY_START_DATE;
+		return $this;
+	}
+
+	/**
+	 * @param int|int[] $unitIds
+	 * @return self
+	 */
+	public function setOrganizedBy($unitIds)
+	{
+		$organizedByKey = 'zc';
+
+		// If just single value, wrap it into an array.
+		if ( ! \is_array($unitIds)) {
+			$unitIds = [$unitIds];
+		}
+
+		foreach ($unitIds as $unitId) {
+			// If such value is not present yet, initialize it with an empty array.
+			if ( ! \is_array($this->params[$organizedByKey])) {
+				$this->params[$organizedByKey] = [];
+			}
+
+			$this->params[$organizedByKey][] = (int) $unitId;
+		}
+
 		return $this;
 	}
 
