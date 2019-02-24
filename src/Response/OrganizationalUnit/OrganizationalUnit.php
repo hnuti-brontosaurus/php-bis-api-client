@@ -2,8 +2,6 @@
 
 namespace HnutiBrontosaurus\BisApiClient\Response\OrganizationalUnit;
 
-use HnutiBrontosaurus\BisApiClient\InvalidArgumentException;
-
 
 final class OrganizationalUnit
 {

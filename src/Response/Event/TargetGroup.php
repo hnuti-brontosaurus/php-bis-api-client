@@ -2,8 +2,6 @@
 
 namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
-use HnutiBrontosaurus\BisApiClient\BisClientException;
-
 
 final class TargetGroup
 {
