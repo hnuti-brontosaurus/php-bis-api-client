@@ -3,6 +3,7 @@
 namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
 use HnutiBrontosaurus\BisApiClient\BisClientException;
+use HnutiBrontosaurus\BisApiClient\InvalidArgumentException;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Invitation;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Registration\RegistrationType;
 
@@ -184,7 +185,13 @@ final class Event
 		// program
 
 		if ($programSlug !== null && $programName !== null) {
-			$this->program = Program::from($programSlug, $programName);
+			try {
+				$this->program = Program::from($programSlug, $programName);
+
+			} catch (InvalidArgumentException $e) {
+				// if exception, program remains null
+
+			}
 		}
 
 
