@@ -8,6 +8,7 @@ use HnutiBrontosaurus\BisApiClient\InvalidArgumentException;
 final class Program
 {
 
+	const PROGRAM_NONE = 'none';
 	const PROGRAM_NATURE = 'ap';
 	const PROGRAM_SIGHTS = 'pamatky';
 	const PROGRAM_BRDO = 'brdo';
@@ -26,10 +27,12 @@ final class Program
 	/**
 	 * @param string $slug
 	 * @param string $name
+	 * @param InvalidArgumentException
 	 */
 	private function __construct($slug, $name)
 	{
 		if (!\in_array($slug, [
+			self::PROGRAM_NONE,
 			self::PROGRAM_NATURE,
 			self::PROGRAM_SIGHTS,
 			self::PROGRAM_BRDO,
