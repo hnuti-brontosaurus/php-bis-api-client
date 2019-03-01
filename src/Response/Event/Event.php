@@ -81,6 +81,7 @@ final class Event
 	/**
 	 * @param int $id
 	 * @param string $name
+	 * @param string|null $coverPhotoPath
 	 * @param \DateTimeImmutable $dateFrom
 	 * @param \DateTimeImmutable $dateUntil
 	 * @param string $type
@@ -121,6 +122,7 @@ final class Event
 	private function __construct(
 		$id,
 		$name,
+		$coverPhotoPath = null,
 		\DateTimeImmutable $dateFrom,
 		\DateTimeImmutable $dateUntil,
 		$type,
@@ -177,8 +179,8 @@ final class Event
 
 		// cover photo
 
-		if (\count($invitationPresentationPhotos) > 0) {
-			$this->coverPhotoPath = \reset($invitationPresentationPhotos);
+		if ($coverPhotoPath !== null) {
+			$this->coverPhotoPath = $coverPhotoPath;
 		}
 
 
@@ -254,10 +256,7 @@ final class Event
 		}
 
 		$invitationPresentationPhotos = [];
-		if ($data['priloha_1'] !== '') {
-			$invitationPresentationPhotos[] = $data['priloha_1'];
-		}
-		if ($data['priloha_2'] !== '') {
+		if ($data['priloha_2'] !== '') { // intentionally ignoring `priloha_1` as that serves as cover image
 			$invitationPresentationPhotos[] = $data['priloha_2'];
 		}
 		if ($data['priloha_4'] !== '') {
@@ -272,10 +271,14 @@ final class Event
 		if ($data['priloha_6'] !== '') {
 			$invitationPresentationPhotos[] = $data['priloha_6'];
 		}
+		if ($data['priloha_7'] !== '') {
+			$invitationPresentationPhotos[] = $data['priloha_7'];
+		}
 
 		return new self(
 			(int)$data['id'],
 			$data['nazev'],
+			$data['priloha_1'] !== '' ? $data['priloha_1'] : null,
 			\DateTimeImmutable::createFromFormat('Y-m-d', $data['od']),
 			\DateTimeImmutable::createFromFormat('Y-m-d', $data['do']),
 			$data['typ'],
