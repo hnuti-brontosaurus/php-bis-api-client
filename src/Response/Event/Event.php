@@ -256,23 +256,23 @@ final class Event
 		}
 
 		$invitationPresentationPhotos = [];
-		if (isset($data['priloha_2']) && $data['priloha_2'] !== '') { // intentionally ignoring `priloha_1` as that serves as cover image
-			$invitationPresentationPhotos[] = $data['priloha_2'];
+		if (isset($data['ochutnavka_1']) && $data['ochutnavka_1'] !== '') {
+			$invitationPresentationPhotos[] = $data['ochutnavka_1'];
 		}
-		if (isset($data['priloha_4']) && $data['priloha_4'] !== '') {
-			$invitationPresentationPhotos[] = $data['priloha_3'];
+		if (isset($data['ochutnavka_2']) && $data['ochutnavka_2'] !== '') {
+			$invitationPresentationPhotos[] = $data['ochutnavka_2'];
 		}
-		if (isset($data['priloha_4']) && $data['priloha_4'] !== '') {
-			$invitationPresentationPhotos[] = $data['priloha_4'];
+		if (isset($data['ochutnavka_3']) && $data['ochutnavka_3'] !== '') {
+			$invitationPresentationPhotos[] = $data['ochutnavka_3'];
 		}
-		if (isset($data['priloha_5']) && $data['priloha_5'] !== '') {
-			$invitationPresentationPhotos[] = $data['priloha_5'];
+		if (isset($data['ochutnavka_4']) && $data['ochutnavka_4'] !== '') {
+			$invitationPresentationPhotos[] = $data['ochutnavka_4'];
 		}
-		if (isset($data['priloha_6']) && $data['priloha_6'] !== '') {
-			$invitationPresentationPhotos[] = $data['priloha_6'];
+		if (isset($data['ochutnavka_5']) && $data['ochutnavka_5'] !== '') {
+			$invitationPresentationPhotos[] = $data['ochutnavka_5'];
 		}
-		if (isset($data['priloha_7']) && $data['priloha_7'] !== '') {
-			$invitationPresentationPhotos[] = $data['priloha_7'];
+		if (isset($data['ochutnavka_6']) && $data['ochutnavka_6'] !== '') {
+			$invitationPresentationPhotos[] = $data['ochutnavka_6'];
 		}
 
 		return new self(
@@ -284,10 +284,10 @@ final class Event
 			$data['typ'],
 			(isset($data['program_id']) && $data['program_id'] !== '') ? $data['program_id'] : null,
 			(isset($data['program']) && $data['program'] !== '') ? $data['program'] : null,
-			$data['lokalita_nazev'],
+			$data['lokalita'],
 			(isset($data['lokalita_misto']) && $data['lokalita_misto'] !== '') ? $data['lokalita_misto'] : null,
 			(isset($data['lokalita_gps']) && $data['lokalita_gps'] !== '') ? $data['lokalita_gps'] : null,
-			(int) $data['prihlasovani_id'],
+			(int) $data['prihlaska'],
 			(isset($data['add_info_title']) && $data['add_info_title'] !== '') ? $data['add_info_title'] : null,
 			(isset($data['add_info_title_2']) && $data['add_info_title_2'] !== '') ? $data['add_info_title_2'] : null,
 			(isset($data['add_info_title_3']) && $data['add_info_title_3'] !== '') ? $data['add_info_title_3'] : null,
@@ -307,7 +307,7 @@ final class Event
 			(isset($data['text_uvod']) && $data['text_uvod'] !== '') ? $data['text_uvod'] : null,
 			(isset($data['text_mnam']) && $data['text_mnam'] !== '') ? $data['text_mnam'] : null,
 			$invitationPresentationPhotos,
-			(isset($data['text_prace']) && $data['text_prace'] !== '') ? $data['text_prace'] : null,
+			(isset($data['prace']) && $data['prace'] !== '') ? $data['prace'] : null,
 			(isset($data['sraz']) && $data['sraz'] !== '') ? $data['sraz'] : null,
 			(isset($data['odpovedna']) && $data['odpovedna'] !== '') ? $data['odpovedna'] : null,
 			(isset($data['pracovni_doba']) && $data['pracovni_doba'] !== '') ? ((int) $data['pracovni_doba']) : null,
