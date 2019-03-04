@@ -247,7 +247,7 @@ final class Event
 	public static function fromResponseData(array $data)
 	{
 		$price = 0;
-		if ($data['poplatek'] !== '') {
+		if (isset($data['poplatek']) && $data['poplatek'] !== '') {
 			$price = $data['poplatek'];
 
 			if (\preg_match('|^[0-9]+$|', $price)) {
@@ -256,65 +256,65 @@ final class Event
 		}
 
 		$invitationPresentationPhotos = [];
-		if ($data['priloha_2'] !== '') { // intentionally ignoring `priloha_1` as that serves as cover image
+		if (isset($data['priloha_2']) && $data['priloha_2'] !== '') { // intentionally ignoring `priloha_1` as that serves as cover image
 			$invitationPresentationPhotos[] = $data['priloha_2'];
 		}
-		if ($data['priloha_4'] !== '') {
+		if (isset($data['priloha_4']) && $data['priloha_4'] !== '') {
 			$invitationPresentationPhotos[] = $data['priloha_3'];
 		}
-		if ($data['priloha_4'] !== '') {
+		if (isset($data['priloha_4']) && $data['priloha_4'] !== '') {
 			$invitationPresentationPhotos[] = $data['priloha_4'];
 		}
-		if ($data['priloha_5'] !== '') {
+		if (isset($data['priloha_5']) && $data['priloha_5'] !== '') {
 			$invitationPresentationPhotos[] = $data['priloha_5'];
 		}
-		if ($data['priloha_6'] !== '') {
+		if (isset($data['priloha_6']) && $data['priloha_6'] !== '') {
 			$invitationPresentationPhotos[] = $data['priloha_6'];
 		}
-		if ($data['priloha_7'] !== '') {
+		if (isset($data['priloha_7']) && $data['priloha_7'] !== '') {
 			$invitationPresentationPhotos[] = $data['priloha_7'];
 		}
 
 		return new self(
 			(int)$data['id'],
 			$data['nazev'],
-			$data['priloha_1'] !== '' ? $data['priloha_1'] : null,
+			(isset($data['priloha_1']) && $data['priloha_1'] !== '') ? $data['priloha_1'] : null,
 			\DateTimeImmutable::createFromFormat('Y-m-d', $data['od']),
 			\DateTimeImmutable::createFromFormat('Y-m-d', $data['do']),
 			$data['typ'],
-			$data['program_id'] !== '' ? $data['program_id'] : null,
-			$data['program'] !== '' ? $data['program'] : null,
+			(isset($data['program_id']) && $data['program_id'] !== '') ? $data['program_id'] : null,
+			(isset($data['program']) && $data['program'] !== '') ? $data['program'] : null,
 			$data['lokalita_nazev'],
-			$data['lokalita_misto'] !== '' ? $data['lokalita_misto'] : null,
-			$data['lokalita_gps'] !== '' ? $data['lokalita_gps'] : null,
+			(isset($data['lokalita_misto']) && $data['lokalita_misto'] !== '') ? $data['lokalita_misto'] : null,
+			(isset($data['lokalita_gps']) && $data['lokalita_gps'] !== '') ? $data['lokalita_gps'] : null,
 			(int) $data['prihlasovani_id'],
-			$data['add_info_title'] !== '' ? $data['add_info_title'] : null,
-			$data['add_info_title_2'] !== '' ? $data['add_info_title_2'] : null,
-			$data['add_info_title_3'] !== '' ? $data['add_info_title_3'] : null,
-			$data['kontakt_url'] !== '' ? $data['kontakt_url'] : null,
-			$data['vek_od'] !== '' ? ((int) $data['vek_od']) : null,
-			$data['vek_do'] !== '' ? ((int) $data['vek_do']) : null,
+			(isset($data['add_info_title']) && $data['add_info_title'] !== '') ? $data['add_info_title'] : null,
+			(isset($data['add_info_title_2']) && $data['add_info_title_2'] !== '') ? $data['add_info_title_2'] : null,
+			(isset($data['add_info_title_3']) && $data['add_info_title_3'] !== '') ? $data['add_info_title_3'] : null,
+			(isset($data['kontakt_url']) && $data['kontakt_url'] !== '') ? $data['kontakt_url'] : null,
+			(isset($data['vek_od']) && $data['vek_od'] !== '') ? ((int) $data['vek_od']) : null,
+			(isset($data['vek_do']) && $data['vek_do'] !== '') ? ((int) $data['vek_do']) : null,
 			$price,
-			$data['porada_id'] !== '' ? ((int)$data['porada_id']) : null,
-			$data['porada'] !== '' ? $data['porada'] : null,
-			$data['org'] !== '' ? $data['org'] : null,
-			$data['kontakt'] !== '' ? $data['kontakt'] : null,
+			(isset($data['porada_id']) && $data['porada_id'] !== '') ? ((int)$data['porada_id']) : null,
+			(isset($data['porada']) && $data['porada'] !== '') ? $data['porada'] : null,
+			(isset($data['org']) && $data['org'] !== '') ? $data['org'] : null,
+			(isset($data['kontakt']) && $data['kontakt'] !== '') ? $data['kontakt'] : null,
 			$data['kontakt_telefon'],
 			$data['kontakt_email'],
-			$data['web'] !== '' ? $data['web'] : null,
-			$data['prokoho_id'] !== '' ? ((int) $data['prokoho_id']) : null,
-			$data['text_info'] !== '' ? $data['text_info'] : null,
-			$data['text_uvod'] !== '' ? $data['text_uvod'] : null,
-			$data['text_mnam'] !== '' ? $data['text_mnam'] : null,
+			(isset($data['web']) && $data['web'] !== '') ? $data['web'] : null,
+			(isset($data['prokoho_id']) && $data['prokoho_id'] !== '') ? ((int) $data['prokoho_id']) : null,
+			(isset($data['text_info']) && $data['text_info'] !== '') ? $data['text_info'] : null,
+			(isset($data['text_uvod']) && $data['text_uvod'] !== '') ? $data['text_uvod'] : null,
+			(isset($data['text_mnam']) && $data['text_mnam'] !== '') ? $data['text_mnam'] : null,
 			$invitationPresentationPhotos,
-			$data['text_prace'] !== '' ? $data['text_prace'] : null,
-			$data['sraz'] !== '' ? $data['sraz'] : null,
-			$data['odpovedna'] !== '' ? $data['odpovedna'] : null,
-			$data['pracovni_doba'] !== '' ? ((int) $data['pracovni_doba']) : null,
-			$data['popis_programu'] !== '' ? $data['popis_programu'] : null,
-			$data['ubytovani'] !== '' ? $data['ubytovani'] : null,
-			$data['strava'] !== '' ? $data['strava'] : null,
-			$data['jak_se_prihlasit'] !== '' ? $data['jak_se_prihlasit'] : null
+			(isset($data['text_prace']) && $data['text_prace'] !== '') ? $data['text_prace'] : null,
+			(isset($data['sraz']) && $data['sraz'] !== '') ? $data['sraz'] : null,
+			(isset($data['odpovedna']) && $data['odpovedna'] !== '') ? $data['odpovedna'] : null,
+			(isset($data['pracovni_doba']) && $data['pracovni_doba'] !== '') ? ((int) $data['pracovni_doba']) : null,
+			(isset($data['popis_programu']) && $data['popis_programu'] !== '') ? $data['popis_programu'] : null,
+			(isset($data['ubytovani']) && $data['ubytovani'] !== '') ? $data['ubytovani'] : null,
+			(isset($data['strava']) && $data['strava'] !== '') ? $data['strava'] : null,
+			(isset($data['jak_se_prihlasit']) && $data['jak_se_prihlasit'] !== '') ? $data['jak_se_prihlasit'] : null
 		);
 	}
 
