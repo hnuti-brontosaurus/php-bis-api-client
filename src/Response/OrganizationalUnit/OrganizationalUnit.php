@@ -103,12 +103,12 @@ final class OrganizationalUnit
 			$data['ulice'],
 			$data['mesto'],
 			$data['psc'],
-			$data['telefon'] !== '' ? $data['telefon'] : null,
-			$data['email'] !== '' ? $data['email'] : null,
-			$data['www'] !== '' ? $data['www'] : null,
+			(isset($data['telefon']) && $data['telefon'] !== '') ? $data['telefon'] : null,
+			(isset($data['email']) && $data['email'] !== '') ? $data['email'] : null,
+			(isset($data['www']) && $data['www'] !== '') ? $data['www'] : null,
 			(int) $data['uroven'],
-			$data['predseda'] !== '' ? $data['predseda'] : null,
-			$data['hospodar'] !== '' ? $data['hospodar'] : null
+			(isset($data['predseda']) && $data['predseda'] !== '') ? $data['predseda'] : null,
+			(isset($data['hospodar']) && $data['hospodar'] !== '') ? $data['hospodar'] : null
 		);
 	}
 
