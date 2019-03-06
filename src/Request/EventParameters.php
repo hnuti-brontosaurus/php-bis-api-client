@@ -46,10 +46,14 @@ final class EventParameters extends Parameters
 	const FILTER_EKOSTAN = 8;
 
 	/**
+	 * This parameter serves as combinator for multiple conditions, which can not be achieved with concatenating type, program, target group or any other available parameters.
+	 * For example you can not make an union among different parameters. Let's say you want all events which are of type=ohb or of program=brdo. This is not possible with API parameters.
+	 * Thus you can take advantage of preset filters which are documented here: https://bis.brontosaurus.cz/myr.html
+	 *
 	 * Beside standard constant usage as a parameter, you can pass bitwise operation argument, e.g. `EventParameters::FILTER_WEEKEND|EventParameters::FILTER_CAMP`.
+	 *
 	 * @param int $filter
 	 * @return self
-	 * @deprecated This is blackbox parameter as nobody really knows from outside what this parameter really does. It is recommended to use combination of other parameters instead.
 	 */
 	public function setFilter($filter)
 	{
@@ -161,10 +165,8 @@ final class EventParameters extends Parameters
 	const PROGRAM_NATURE = 'ap';
 	const PROGRAM_SIGHTS = 'pamatky';
 	const PROGRAM_BRDO = 'brdo';
-	/** @deprecated */
 	const PROGRAM_EKOSTAN = 'ekostan';
 	const PROGRAM_PSB = 'psb';
-	/** @deprecated */
 	const PROGRAM_EDUCATION = 'vzdelavani';
 
 	/**
@@ -209,9 +211,12 @@ final class EventParameters extends Parameters
 	const TARGET_GROUP_ADULTS = 'dospeli';
 	const TARGET_GROUP_CHILDREN = 'deti';
 	const TARGET_GROUP_FAMILIES = 'detirodice';
-	/** @deprecated */
-	const TARGET_GROUP_EVERYONE = 'vsichni';
 	const TARGET_GROUP_FIRST_TIME_ATTENDEES = 'prvouc';
+
+	/**
+	 * @deprecated Seems like not useful as there is `none` option as well which should have the same semantic meaning.
+	 */
+	const TARGET_GROUP_EVERYONE = 'vsichni';
 
 	/**
 	 * @param string $targetGroup
