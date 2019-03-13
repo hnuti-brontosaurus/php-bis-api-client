@@ -2,10 +2,11 @@
 
 namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
-use HnutiBrontosaurus\BisApiClient\BisClientException;
+use HnutiBrontosaurus\BisApiClient\BadUsageException;
 use HnutiBrontosaurus\BisApiClient\InvalidArgumentException;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Invitation;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Registration\RegistrationType;
+use HnutiBrontosaurus\BisApiClient\Response\RegistrationTypeException;
 
 
 final class Event
@@ -118,6 +119,8 @@ final class Event
 	 * @param string|null $accommodation
 	 * @param string|null $food
 	 * @param string|null $notes
+	 * @throws RegistrationTypeException
+	 * @throws BadUsageException
 	 */
 	private function __construct(
 		$id,
@@ -242,7 +245,8 @@ final class Event
 	/**
 	 * @param string[] $data Everything is string as it comes from HTTP response body.
 	 * @return self
-	 * @throws BisClientException
+	 * @throws RegistrationTypeException
+	 * @throws BadUsageException
 	 */
 	public static function fromResponseData(array $data)
 	{

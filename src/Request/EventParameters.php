@@ -54,6 +54,7 @@ final class EventParameters extends Parameters
 	 *
 	 * @param int $filter
 	 * @return self
+	 * @throws InvalidArgumentException
 	 */
 	public function setFilter($filter)
 	{
@@ -115,6 +116,7 @@ final class EventParameters extends Parameters
 	/**
 	 * @param string $type
 	 * @return self
+	 * @throws InvalidArgumentException
 	 */
 	public function setType($type)
 	{
@@ -172,6 +174,7 @@ final class EventParameters extends Parameters
 	/**
 	 * @param string $program
 	 * @return self
+	 * @throws InvalidArgumentException
 	 */
 	public function setProgram($program)
 	{
@@ -221,6 +224,7 @@ final class EventParameters extends Parameters
 	/**
 	 * @param string $targetGroup
 	 * @return self
+	 * @throws InvalidArgumentException
 	 */
 	public function setTargetGroup($targetGroup)
 	{

@@ -3,21 +3,31 @@
 namespace HnutiBrontosaurus\BisApiClient;
 
 
-class InvalidArgumentException extends \InvalidArgumentException
+// overall exceptions
+
+abstract class BisApiClientLogicException extends \LogicException
 {}
 
-class ResourceNotFoundException extends \RuntimeException
+abstract class BisApiClientRuntimeException extends \RuntimeException
 {}
 
-class BisClientException extends \RuntimeException
+
+// working with API exceptions
+
+final class InvalidArgumentException extends BisApiClientLogicException
 {}
 
-final class RegistrationTypeException extends BisClientException
-{
+final class BadUsageException extends BisApiClientLogicException
+{}
 
-	public static function missingAdditionalData($key, $type)
-	{
-		return new self(\sprintf('Missing additional data `%s` for selected type %d.', $key, $type));
-	}
 
-}
+// communicating with BIS exceptions
+
+abstract class ConnectionException extends BisApiClientRuntimeException
+{}
+
+final class TransferErrorException extends ConnectionException
+{}
+
+final class NotFoundException extends ConnectionException
+{}

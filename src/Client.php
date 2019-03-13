@@ -5,7 +5,6 @@ namespace HnutiBrontosaurus\BisApiClient;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Psr7\Request;
 use HnutiBrontosaurus\BisApiClient\Request\Adoption;
 use HnutiBrontosaurus\BisApiClient\Request\EventAttendee;
@@ -13,8 +12,10 @@ use HnutiBrontosaurus\BisApiClient\Request\EventParameters;
 use HnutiBrontosaurus\BisApiClient\Request\OrganizationalUnitParameters;
 use HnutiBrontosaurus\BisApiClient\Request\Parameters;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Event;
+use HnutiBrontosaurus\BisApiClient\Response\InvalidContentTypeException;
 use HnutiBrontosaurus\BisApiClient\Response\InvalidParametersException;
 use HnutiBrontosaurus\BisApiClient\Response\InvalidUserInputException;
+use HnutiBrontosaurus\BisApiClient\Response\InvalidXMLStructureException;
 use HnutiBrontosaurus\BisApiClient\Response\OrganizationalUnit\OrganizationalUnit;
 use HnutiBrontosaurus\BisApiClient\Response\OrganizationalUnit\UnknownOrganizationUnitTypeException;
 use HnutiBrontosaurus\BisApiClient\Response\Response;
@@ -45,6 +46,7 @@ final class Client
 	 * @param string $username
 	 * @param string $password
 	 * @param HttpClient $httpClient
+	 * @throws InvalidArgumentException
 	 */
 	public function __construct($url, $username, $password, HttpClient $httpClient)
 	{
@@ -71,9 +73,9 @@ final class Client
 	 * @param int $id
 	 * @param EventParameters $params
 	 * @return Event
-	 * @throws BisClientException
-	 * @throws GuzzleException
-	 * @throws ResourceNotFoundException
+	 * @throws NotFoundException
+	 * @throws TransferErrorException
+	 * @throws ResponseErrorException
 	 */
 	public function getEvent($id, EventParameters $params = null)
 	{
@@ -84,7 +86,7 @@ final class Client
 		$data = $response->getData();
 
 		if (\count($data) === 0) {
-			throw new BisClientException('No result for event with id `' . $id . '`.');
+			throw new NotFoundException('No result for event with id `' . $id . '`.');
 		}
 
 		return Event::fromResponseData(\reset($data));
@@ -93,9 +95,9 @@ final class Client
 	/**
 	 * @param EventParameters $params
 	 * @return Event[]
-	 * @throws BisClientException
-	 * @throws GuzzleException
-	 * @throws ResourceNotFoundException
+	 * @throws NotFoundException
+	 * @throws TransferErrorException
+	 * @throws ResponseErrorException
 	 */
 	public function getEvents(EventParameters $params = null)
 	{
@@ -112,7 +114,6 @@ final class Client
 	/**
 	 * @param EventAttendee $eventAttendee
 	 * @throws ResponseErrorException
-	 * @throws BisClientException
 	 */
 	public function addAttendeeToEvent(EventAttendee $eventAttendee)
 	{
@@ -132,9 +133,9 @@ final class Client
 	/**
 	 * @param OrganizationalUnitParameters $params
 	 * @return OrganizationalUnit[]
-	 * @throws BisClientException
-	 * @throws GuzzleException
-	 * @throws ResourceNotFoundException
+	 * @throws NotFoundException
+	 * @throws TransferErrorException
+	 * @throws ResponseErrorException
 	 */
 	public function getOrganizationalUnits(OrganizationalUnitParameters $params = null)
 	{
@@ -160,7 +161,6 @@ final class Client
 	/**
 	 * @param Adoption $adoption
 	 * @throws ResponseErrorException
-	 * @throws BisClientException
 	 */
 	public function saveRequestForAdoption(Adoption $adoption)
 	{
@@ -178,10 +178,9 @@ final class Client
 	/**
 	 * @param Parameters $requestParameters
 	 * @return Response
+	 * @throws NotFoundException
+	 * @throws TransferErrorException
 	 * @throws ResponseErrorException
-	 * @throws BisClientException
-	 * @throws GuzzleException
-	 * @throws ResourceNotFoundException
 	 */
 	private function processRequest(Parameters $requestParameters)
 	{
@@ -193,10 +192,10 @@ final class Client
 			$response = $this->httpClient->send($httpRequest);
 
 		} catch (ClientException $e) {
-			throw new ResourceNotFoundException('Bis client could not find the queried resource.', 0, $e);
+			throw new NotFoundException('Bis client could not find the queried resource.', 0, $e);
 
-		} catch (TransferException $e) {
-			throw new BisClientException('Unable to process request: transfer error.', 0, $e);
+		} catch (GuzzleException $e) {
+			throw new TransferErrorException('Unable to process request: transfer error.', 0, $e);
 		}
 
 		$this->checkForResponseContentType($response);
@@ -210,19 +209,19 @@ final class Client
 
 	/**
 	 * @param ResponseInterface $response
-	 * @throws BisClientException
+	 * @throws InvalidContentTypeException
 	 */
 	private function checkForResponseContentType(ResponseInterface $response)
 	{
 		if (\strncmp($response->getHeaderLine('Content-Type'), 'text/xml', \strlen('text/xml')) !== 0) {
-			throw new BisClientException('Unable to process response: the response Content-Type is invalid or missing.');
+			throw new InvalidContentTypeException('Unable to process response: the response Content-Type is invalid or missing.');
 		}
 	}
 
 	/**
 	 * @param ResponseInterface $response
 	 * @return \DOMDocument
-	 * @throws BisClientException
+	 * @throws InvalidXMLStructureException
 	 */
 	private function generateDOM(ResponseInterface $response)
 	{
@@ -231,7 +230,7 @@ final class Client
 			$domDocument->loadXML($response->getBody());
 
 		} catch (\Exception $e) {
-			throw new BisClientException('Unable to process response: response body contains invalid XML.', 0, $e);
+			throw new InvalidXMLStructureException('Unable to process response: response body contains invalid XML.', 0, $e);
 		}
 
 		return $domDocument;

@@ -27,7 +27,7 @@ final class Program
 	/**
 	 * @param string $slug
 	 * @param string $name
-	 * @param InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	private function __construct($slug, $name)
 	{

@@ -2,8 +2,8 @@
 
 namespace HnutiBrontosaurus\BisApiClient\Response\Event\Registration;
 
-use HnutiBrontosaurus\BisApiClient\BisClientException;
-use HnutiBrontosaurus\BisApiClient\RegistrationTypeException;
+use HnutiBrontosaurus\BisApiClient\BadUsageException;
+use HnutiBrontosaurus\BisApiClient\Response\RegistrationTypeException;
 
 
 final class RegistrationType
@@ -135,6 +135,8 @@ final class RegistrationType
 
 	/**
 	 * @return string|null
+	 * @throws RegistrationTypeException
+	 * @throws BadUsageException
 	 */
 	public function getEmail()
 	{
@@ -143,7 +145,7 @@ final class RegistrationType
 		}
 
 		if ( ! $this->isOfTypeEmail()) {
-			throw new BisClientException('This method can not be called when the registration is not of `via e-mail` type.');
+			throw new BadUsageException('This method can not be called when the registration is not of `via e-mail` type.');
 		}
 
 		return $this->email;
@@ -162,6 +164,8 @@ final class RegistrationType
 
 	/**
 	 * @return string|null
+	 * @throws RegistrationTypeException
+	 * @throws BadUsageException
 	 */
 	public function getUrl()
 	{
@@ -170,7 +174,7 @@ final class RegistrationType
 		}
 
 		if ( ! $this->isOfTypeCustomWebpage()) {
-			throw new BisClientException('This method can not be called when the registration is not of `via custom webpage` type.');
+			throw new BadUsageException('This method can not be called when the registration is not of `via custom webpage` type.');
 		}
 
 		return $this->url;

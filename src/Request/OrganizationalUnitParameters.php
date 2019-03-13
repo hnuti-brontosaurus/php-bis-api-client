@@ -25,6 +25,8 @@ final class OrganizationalUnitParameters extends Parameters
 
 	/**
 	 * @param string $type
+	 * @return self
+	 * @throws InvalidArgumentException
 	 */
 	public function setType($type)
 	{
@@ -37,6 +39,8 @@ final class OrganizationalUnitParameters extends Parameters
 		}
 
 		$this->params[self::PARAM_FILTER] = $type;
+
+		return $this;
 	}
 
 }

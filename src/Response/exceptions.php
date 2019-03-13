@@ -2,11 +2,23 @@
 
 namespace HnutiBrontosaurus\BisApiClient\Response;
 
-use HnutiBrontosaurus\BisApiClient\BisClientException;
+use HnutiBrontosaurus\BisApiClient\BisApiClientRuntimeException;
 
 
-abstract class ResponseErrorException extends BisClientException
+abstract class ResponseErrorException extends BisApiClientRuntimeException
 {}
+
+
+// invalid data structure
+
+final class InvalidContentTypeException extends ResponseErrorException
+{}
+
+final class InvalidXMLStructureException extends ResponseErrorException
+{}
+
+
+// invalid data values
 
 final class InvalidParametersException extends ResponseErrorException
 {}
@@ -43,6 +55,16 @@ final class UnknownErrorException extends ResponseErrorException
 	public function __construct($unknownErrorTypeKey)
 	{
 		parent::__construct('Unknown error. Error type returned from BIS: ' . $unknownErrorTypeKey);
+	}
+
+}
+
+final class RegistrationTypeException extends ResponseErrorException
+{
+
+	public static function missingAdditionalData($key, $type)
+	{
+		return new self(\sprintf('Missing additional data `%s` for selected type %d.', $key, $type));
 	}
 
 }
