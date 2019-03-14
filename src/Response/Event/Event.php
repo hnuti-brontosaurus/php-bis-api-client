@@ -63,9 +63,6 @@ final class Event
 	/** @var string|null */
 	private $meetingInformation;
 
-	/** @var int|null */
-	private $workingTime;
-
 	/** @var string|null */
 	private $programDescription;
 
@@ -110,7 +107,7 @@ final class Event
 	 * @param string|null $invitationWorkDescription
 	 * @param string|null $meetingInformation
 	 * @param string|null $responsiblePerson
-	 * @param int|null $workingTime
+	 * @param int|null $workHoursPerDay
 	 * @param string|null $programDescription
 	 * @param string|null $accommodation
 	 * @param string|null $food
@@ -153,7 +150,7 @@ final class Event
 		$invitationWorkDescription = null,
 		$meetingInformation = null,
 		$responsiblePerson = null,
-		$workingTime = null,
+		$workHoursPerDay = null,
 		$programDescription = null,
 		$accommodation = null,
 		$food = null,
@@ -170,7 +167,6 @@ final class Event
 		$this->ageUntil = $ageUntil;
 		$this->price = $price;
 		$this->meetingInformation = $meetingInformation;
-		$this->workingTime = $workingTime;
 		$this->programDescription = $programDescription;
 		$this->notes = $notes;
 
@@ -232,6 +228,7 @@ final class Event
 			$accommodation,
 			$food,
 			$invitationWorkDescription,
+			$workHoursPerDay,
 			$invitationPresentationText,
 			$invitationPresentationPhotos
 		);
@@ -474,14 +471,6 @@ final class Event
 	public function getMeetingInformation()
 	{
 		return $this->meetingInformation;
-	}
-
-	/**
-	 * @return int|null
-	 */
-	public function getWorkingTime()
-	{
-		return $this->workingTime;
 	}
 
 	/**

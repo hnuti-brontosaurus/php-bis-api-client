@@ -21,6 +21,9 @@ final class Invitation
 	/** @var string */
 	private $workDescription;
 
+	/** @var int|null */
+	private $workHoursPerDay;
+
 	/** @var Presentation|null */
 	private $presentation;
 
@@ -31,6 +34,7 @@ final class Invitation
 	 * @param string|null $accommodation
 	 * @param string|null $food
 	 * @param string $workDescription
+	 * @param int|null $workHoursPerDay
 	 * @param string|null $presentationText
 	 * @param string[] $presentationPhotos
 	 */
@@ -40,6 +44,7 @@ final class Invitation
 		$accommodation = null,
 		$food,
 		$workDescription,
+		$workHoursPerDay = null,
 		$presentationText = null,
 		array $presentationPhotos = []
 	) {
@@ -54,6 +59,10 @@ final class Invitation
 		}
 
 		$this->workDescription = $workDescription;
+
+		if ($workHoursPerDay !== null) {
+			$this->workHoursPerDay = $workHoursPerDay;
+		}
 
 		if ($presentationText !== null) {
 			$this->presentation = Presentation::from($presentationText);
@@ -70,6 +79,7 @@ final class Invitation
 	 * @param string|null $accommodation
 	 * @param string|null $food
 	 * @param string $workDescription
+	 * @param int|null $workHoursPerDay
 	 * @param string|null $presentationText
 	 * @param string[] $presentationPhotos
 	 * @return self
@@ -80,6 +90,7 @@ final class Invitation
 		$accommodation = null,
 		$food = null,
 		$workDescription,
+		$workHoursPerDay = null,
 		$presentationText = null,
 		array $presentationPhotos = []
 	) {
@@ -89,6 +100,7 @@ final class Invitation
 			$accommodation,
 			$food,
 			$workDescription,
+			$workHoursPerDay,
 			$presentationText,
 			$presentationPhotos
 		);
@@ -149,6 +161,22 @@ final class Invitation
 	public function getWorkDescription()
 	{
 		return $this->workDescription;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function areWorkHoursPerDayListed()
+	{
+		return $this->workHoursPerDay !== null;
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getWorkHoursPerDay()
+	{
+		return $this->workHoursPerDay;
 	}
 
 	/**
