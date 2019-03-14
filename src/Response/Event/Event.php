@@ -70,12 +70,6 @@ final class Event
 	private $programDescription;
 
 	/** @var string|null */
-	private $accommodation;
-
-	/** @var string|null */
-	private $food;
-
-	/** @var string|null */
 	private $notes;
 
 
@@ -175,8 +169,6 @@ final class Event
 		$this->meetingInformation = $meetingInformation;
 		$this->workingTime = $workingTime;
 		$this->programDescription = $programDescription;
-		$this->accommodation = $accommodation;
-		$this->food = $food;
 		$this->notes = $notes;
 
 
@@ -235,6 +227,8 @@ final class Event
 		$this->invitation = Invitation::from(
 			$invitationIntroduction,
 			$invitationOrganizationalInformation,
+			$accommodation,
+			$food,
 			$invitationWorkDescription,
 			$invitationPresentationText,
 			$invitationPresentationPhotos
@@ -478,22 +472,6 @@ final class Event
 	public function getProgramDescription()
 	{
 		return $this->programDescription;
-	}
-
-	/**
-	 * @return string|null
-	 */
-	public function getAccommodation()
-	{
-		return $this->accommodation;
-	}
-
-	/**
-	 * @return string|null
-	 */
-	public function getFood()
-	{
-		return $this->food;
 	}
 
 	/**

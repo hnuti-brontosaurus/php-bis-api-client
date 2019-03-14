@@ -12,11 +12,14 @@ final class Invitation
 	/** @var string */
 	private $organizationalInformation;
 
+	/** @var string|null */
+	private $accommodation;
+
+	/** @var string|null */
+	private $food;
+
 	/** @var string */
 	private $workDescription;
-
-	/** @var bool */
-	private $hasPresentation = false;
 
 	/** @var Presentation|null */
 	private $presentation;
@@ -25,23 +28,34 @@ final class Invitation
 	/**
 	 * @param string $introduction
 	 * @param string $organizationalInformation
+	 * @param string|null $accommodation
+	 * @param string|null $food
 	 * @param string $workDescription
 	 * @param string|null $presentationText
 	 * @param string[] $presentationPhotos
 	 */
 	private function __construct(
 		$introduction,
-		$organizationalInformation,
+		$organizationalInformation = null,
+		$accommodation = null,
+		$food,
 		$workDescription,
 		$presentationText = null,
 		array $presentationPhotos = []
 	) {
 		$this->introduction = $introduction;
 		$this->organizationalInformation = $organizationalInformation;
+
+		if ($accommodation !== null) {
+			$this->accommodation = $accommodation;
+		}
+		if ($food !== null) {
+			$this->food = $food;
+		}
+
 		$this->workDescription = $workDescription;
 
 		if ($presentationText !== null) {
-			$this->hasPresentation = true;
 			$this->presentation = Presentation::from($presentationText);
 
 			if (\count($presentationPhotos) > 0) {
@@ -53,6 +67,8 @@ final class Invitation
 	/**
 	 * @param string $introduction
 	 * @param string $organizationalInformation
+	 * @param string|null $accommodation
+	 * @param string|null $food
 	 * @param string $workDescription
 	 * @param string|null $presentationText
 	 * @param string[] $presentationPhotos
@@ -61,6 +77,8 @@ final class Invitation
 	public static function from(
 		$introduction,
 		$organizationalInformation,
+		$accommodation = null,
+		$food = null,
 		$workDescription,
 		$presentationText = null,
 		array $presentationPhotos = []
@@ -68,6 +86,8 @@ final class Invitation
 		return new self(
 			$introduction,
 			$organizationalInformation,
+			$accommodation,
+			$food,
 			$workDescription,
 			$presentationText,
 			$presentationPhotos
@@ -92,11 +112,51 @@ final class Invitation
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isAccommodationListed()
+	{
+		return $this->accommodation !== null;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getAccommodation()
+	{
+		return $this->accommodation;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isFoodListed()
+	{
+		return $this->food !== null;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getFood()
+	{
+		return $this->food;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getWorkDescription()
 	{
 		return $this->workDescription;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasPresentation()
+	{
+		return $this->presentation !== null;
 	}
 
 	/**
