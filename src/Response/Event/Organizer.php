@@ -24,9 +24,6 @@ final class Organizer
 	/** @var string */
 	private $contactEmail;
 
-	/** @var string|null */
-	private $contactWebsite;
-
 
 	/**
 	 * @param int|null $organizationalUnitId
@@ -36,7 +33,6 @@ final class Organizer
 	 * @param string|null $contactPersonName
 	 * @param string $contactPhone
 	 * @param string $contactEmail
-	 * @param string|null $contactWebsite
 	 */
 	private function __construct(
 		$organizationalUnitId = null,
@@ -45,8 +41,7 @@ final class Organizer
 		$organizers = null,
 		$contactPersonName = null,
 		$contactPhone,
-		$contactEmail,
-		$contactWebsite = null
+		$contactEmail
 	) {
 		$this->organizationalUnit = ($organizationalUnitId !== null && $organizationalUnitName !== null) ? OrganizerOrganizationalUnit::from($organizationalUnitId, $organizationalUnitName) : null;
 		$this->responsiblePerson = $responsiblePerson;
@@ -54,7 +49,6 @@ final class Organizer
 		$this->contactPersonName = $contactPersonName;
 		$this->contactPhone = $contactPhone;
 		$this->contactEmail = $contactEmail;
-		$this->contactWebsite = $contactWebsite;
 	}
 
 	/**
@@ -65,7 +59,6 @@ final class Organizer
 	 * @param string|null $contactPersonName
 	 * @param string $contactPhone
 	 * @param string $contactEmail
-	 * @param string|null $contactWebsite
 	 *
 	 * @return self
 	 */
@@ -76,8 +69,7 @@ final class Organizer
 		$organizers = null,
 		$contactPersonName = null,
 		$contactPhone,
-		$contactEmail,
-		$contactWebsite = null
+		$contactEmail
 	) {
 		return new self(
 			$organizationalUnitId,
@@ -86,8 +78,7 @@ final class Organizer
 			$organizers,
 			$contactPersonName,
 			$contactPhone,
-			$contactEmail,
-			$contactWebsite
+			$contactEmail
 		);
 	}
 
@@ -146,14 +137,6 @@ final class Organizer
 	public function getContactEmail()
 	{
 		return $this->contactEmail;
-	}
-
-	/**
-	 * @return string|null
-	 */
-	public function getContactWebsite()
-	{
-		return $this->contactWebsite;
 	}
 
 }

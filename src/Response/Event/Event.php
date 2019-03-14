@@ -72,6 +72,9 @@ final class Event
 	/** @var string|null */
 	private $notes;
 
+	/** @var string|null */
+	private $relatedWebsite;
+
 
 	/**
 	 * @param int $id
@@ -99,7 +102,6 @@ final class Event
 	 * @param string|null $contactPersonName
 	 * @param string $contactPhone
 	 * @param string $contactEmail
-	 * @param string|null $contactWebsite
 	 * @param int|null $targetGroupId
 	 * @param string|null $invitationOrganizationalInformation
 	 * @param string|null $invitationIntroduction
@@ -113,6 +115,7 @@ final class Event
 	 * @param string|null $accommodation
 	 * @param string|null $food
 	 * @param string|null $notes
+	 * @param string|null $relatedWebsite
 	 * @throws RegistrationTypeException
 	 * @throws BadUsageException
 	 */
@@ -142,7 +145,6 @@ final class Event
 		$contactPersonName = null,
 		$contactPhone,
 		$contactEmail,
-		$contactWebsite = null,
 		$targetGroupId = null,
 		$invitationOrganizationalInformation = null,
 		$invitationIntroduction = null,
@@ -155,7 +157,8 @@ final class Event
 		$programDescription = null,
 		$accommodation = null,
 		$food = null,
-		$notes = null
+		$notes = null,
+		$relatedWebsite = null
 	) {
 		$this->id = $id;
 		$this->name = $name;
@@ -213,8 +216,7 @@ final class Event
 			$organizers,
 			$contactPersonName,
 			$contactPhone,
-			$contactEmail,
-			$contactWebsite
+			$contactEmail
 		);
 
 
@@ -233,6 +235,17 @@ final class Event
 			$invitationPresentationText,
 			$invitationPresentationPhotos
 		);
+
+
+		// related website
+
+		if ($relatedWebsite !== null) {
+			if ( ! self::startsWith($relatedWebsite, 'http')) { // count with no protocol typed URLs
+				$relatedWebsite = 'http://' . $relatedWebsite;
+			}
+
+			$this->relatedWebsite = $relatedWebsite;
+		}
 	}
 
 
@@ -304,7 +317,6 @@ final class Event
 			(isset($data['kontakt']) && $data['kontakt'] !== '') ? $data['kontakt'] : null,
 			$data['kontakt_telefon'],
 			$data['kontakt_email'],
-			(isset($data['web']) && $data['web'] !== '') ? $data['web'] : null,
 			(isset($data['prokoho_id']) && $data['prokoho_id'] !== '') ? ((int) $data['prokoho_id']) : null,
 			(isset($data['text_info']) && $data['text_info'] !== '') ? $data['text_info'] : null,
 			(isset($data['text_uvod']) && $data['text_uvod'] !== '') ? $data['text_uvod'] : null,
@@ -317,7 +329,8 @@ final class Event
 			(isset($data['popis_programu']) && $data['popis_programu'] !== '') ? $data['popis_programu'] : null,
 			(isset($data['ubytovani']) && $data['ubytovani'] !== '') ? $data['ubytovani'] : null,
 			$food,
-			(isset($data['jak_se_prihlasit']) && $data['jak_se_prihlasit'] !== '') ? $data['jak_se_prihlasit'] : null
+			(isset($data['jak_se_prihlasit']) && $data['jak_se_prihlasit'] !== '') ? $data['jak_se_prihlasit'] : null,
+			(isset($data['web']) && $data['web'] !== '') ? $data['web'] : null
 		);
 	}
 
@@ -485,6 +498,35 @@ final class Event
 	public function getNotes()
 	{
 		return $this->notes;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasRelatedWebsite()
+	{
+		return $this->relatedWebsite !== null;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getRelatedWebsite()
+	{
+		return $this->relatedWebsite;
+	}
+
+
+	/**
+	 * Extracted from \Nette\Utils\Strings (v2.3)
+	 * Starts the $haystack string with the prefix $needle?
+	 * @param  string
+	 * @param  string
+	 * @return bool
+	 */
+	private static function startsWith($haystack, $needle)
+	{
+		return strncmp($haystack, $needle, strlen($needle)) === 0;
 	}
 
 }
