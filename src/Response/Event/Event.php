@@ -253,6 +253,11 @@ final class Event
 			}
 		}
 
+		$food = (isset($data['strava']) && $data['strava'] !== '') ? $data['strava'] : null;
+		if ($food === 'můžete si vybrat') { // BIS API sends this string in case that user sets nothing - we want to get rid of it as it pretends to be a value when it is not
+			$food = null;
+		}
+
 		$invitationPresentationPhotos = [];
 		if (isset($data['ochutnavka_1']) && $data['ochutnavka_1'] !== '') {
 			$invitationPresentationPhotos[] = $data['ochutnavka_1'];
@@ -311,7 +316,7 @@ final class Event
 			(isset($data['pracovni_doba']) && $data['pracovni_doba'] !== '') ? ((int) $data['pracovni_doba']) : null,
 			(isset($data['popis_programu']) && $data['popis_programu'] !== '') ? $data['popis_programu'] : null,
 			(isset($data['ubytovani']) && $data['ubytovani'] !== '') ? $data['ubytovani'] : null,
-			(isset($data['strava']) && $data['strava'] !== '') ? $data['strava'] : null,
+			$food,
 			(isset($data['jak_se_prihlasit']) && $data['jak_se_prihlasit'] !== '') ? $data['jak_se_prihlasit'] : null
 		);
 	}
