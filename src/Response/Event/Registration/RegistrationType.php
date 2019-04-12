@@ -9,10 +9,10 @@ use HnutiBrontosaurus\BisApiClient\Response\RegistrationTypeException;
 final class RegistrationType
 {
 
-	const TYPE_NONE = 0;
 	const TYPE_VIA_BRONTOWEB = 1;
 	const TYPE_VIA_EMAIL = 2;
 	const TYPE_VIA_CUSTOM_WEBPAGE = 3;
+	const TYPE_NONE = 4;
 	const TYPE_DISABLED = 5;
 
 
@@ -41,10 +41,10 @@ final class RegistrationType
 	private function __construct($type, array $questions = null, $email = null, $url = null)
 	{
 		if ( ! \in_array($type, [
-			self::TYPE_NONE,
 			self::TYPE_VIA_BRONTOWEB,
 			self::TYPE_VIA_EMAIL,
 			self::TYPE_VIA_CUSTOM_WEBPAGE,
+			self::TYPE_NONE,
 		], true)) {
 			$type = self::TYPE_DISABLED; // silent fallback
 		}
@@ -84,15 +84,6 @@ final class RegistrationType
 	public static function from($type, array $questions = null, $email = null, $url = null)
 	{
 		return new self($type, $questions, $email, $url);
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeNone()
-	{
-		return $this->type === self::TYPE_NONE;
 	}
 
 
@@ -152,7 +143,7 @@ final class RegistrationType
 	}
 
 
-	// registration custom webpage
+	// registration via custom webpage
 
 	/**
 	 * @return bool
@@ -178,6 +169,17 @@ final class RegistrationType
 		}
 
 		return $this->url;
+	}
+
+
+	// no registration needed
+
+	/**
+	 * @return bool
+	 */
+	public function isOfTypeNone()
+	{
+		return $this->type === self::TYPE_NONE;
 	}
 
 
