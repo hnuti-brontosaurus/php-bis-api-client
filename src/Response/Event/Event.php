@@ -24,6 +24,9 @@ final class Event
 	/** @var \DateTimeImmutable */
 	private $dateFrom;
 
+	/** @var string|null */
+	private $timeFrom;
+
 	/** @var \DateTimeImmutable */
 	private $dateUntil;
 
@@ -59,9 +62,6 @@ final class Event
 
 	/** @var Invitation|null */
 	private $invitation;
-
-	/** @var string|null */
-	private $meetingInformation;
 
 	/** @var string|null */
 	private $programDescription;
@@ -105,7 +105,7 @@ final class Event
 	 * @param string|null $invitationPresentationText
 	 * @param array $invitationPresentationPhotos
 	 * @param string|null $invitationWorkDescription
-	 * @param string|null $meetingInformation
+	 * @param string|null $timeFrom
 	 * @param string|null $responsiblePerson
 	 * @param int|null $workHoursPerDay
 	 * @param string|null $programDescription
@@ -148,7 +148,7 @@ final class Event
 		$invitationPresentationText = null,
 		array $invitationPresentationPhotos = [],
 		$invitationWorkDescription = null,
-		$meetingInformation = null,
+		$timeFrom = null,
 		$responsiblePerson = null,
 		$workHoursPerDay = null,
 		$programDescription = null,
@@ -166,7 +166,7 @@ final class Event
 		$this->ageFrom = $ageFrom;
 		$this->ageUntil = $ageUntil;
 		$this->price = $price;
-		$this->meetingInformation = $meetingInformation;
+		$this->timeFrom = $timeFrom;
 		$this->programDescription = $programDescription;
 		$this->notes = $notes;
 
@@ -466,11 +466,19 @@ final class Event
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function hasTimeFrom()
+	{
+		return $this->timeFrom !== null;
+	}
+
+	/**
 	 * @return string|null
 	 */
-	public function getMeetingInformation()
+	public function getTimeFrom()
 	{
-		return $this->meetingInformation;
+		return $this->timeFrom;
 	}
 
 	/**
