@@ -243,6 +243,8 @@ final class Client
 	private function checkForResponseErrors(\DOMDocument $domDocument)
 	{
 		$resultNode = $domDocument->getElementsByTagName(Response::TAG_RESULT)->item(0);
+		\assert($resultNode instanceof \DOMElement);
+
 		if ($resultNode->hasAttribute(Response::TAG_RESULT_ATTRIBUTE_ERROR)) {
 			switch ($resultNode->getAttribute(Response::TAG_RESULT_ATTRIBUTE_ERROR)) {
 				case 'success': // In case of POST request with form data, BIS returns `<result error="success" />` for some reason... Let's pretend that there is no error in such case because... you know... there is no error!

@@ -2,11 +2,12 @@
 
 namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
+use HnutiBrontosaurus\BisApiClient\InvalidArgumentException;
+
 
 final class TargetGroup
 {
 
-	const UNKNOWN = 0;
 	const EVERYONE = 1;
 	const ADULTS = 2;
 	const CHILDREN = 3;
@@ -24,14 +25,13 @@ final class TargetGroup
 	private function __construct($id)
 	{
 		if ( ! \in_array($id, [
-			self::UNKNOWN,
 			self::EVERYONE,
 			self::ADULTS,
 			self::CHILDREN,
 			self::FAMILIES,
 			self::FIRST_TIME_ATTENDEES,
 		], true)) {
-			$id = self::UNKNOWN; // silent fallback
+			throw new InvalidArgumentException('Value `' . $id . '` is not of valid types for `id` parameter.');
 		}
 
 		$this->id = $id;
@@ -46,22 +46,6 @@ final class TargetGroup
 		return new self($id);
 	}
 
-	/**
-	 * @return self
-	 */
-	public static function unknown()
-	{
-		return new self(self::UNKNOWN);
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function isOfUnknownType()
-	{
-		return $this->id === self::UNKNOWN;
-	}
 
 	/**
 	 * @return bool

@@ -99,7 +99,7 @@ final class Event
 	 * @param string|null $contactPersonName
 	 * @param string $contactPhone
 	 * @param string $contactEmail
-	 * @param int|null $targetGroupId
+	 * @param int $targetGroupId
 	 * @param string|null $invitationOrganizationalInformation
 	 * @param string|null $invitationIntroduction
 	 * @param string|null $invitationPresentationText
@@ -142,7 +142,7 @@ final class Event
 		$contactPersonName = null,
 		$contactPhone,
 		$contactEmail,
-		$targetGroupId = null,
+		$targetGroupId,
 		$invitationOrganizationalInformation = null,
 		$invitationIntroduction = null,
 		$invitationPresentationText = null,
@@ -217,7 +217,7 @@ final class Event
 
 
 		// target group
-		$this->targetGroup = $targetGroupId !== null ? TargetGroup::from($targetGroupId) : TargetGroup::unknown();
+		$this->targetGroup = TargetGroup::from($targetGroupId);
 
 
 		// invitation
@@ -289,9 +289,9 @@ final class Event
 		}
 
 		return new self(
-			(int)$data['id'],
+			(int) $data['id'],
 			$data['nazev'],
-			(isset($data['priloha_1']) && $data['priloha_1'] !== '') ? $data['priloha_1'] : null,
+			(isset($data['foto_hlavni']) && $data['foto_hlavni'] !== '') ? $data['foto_hlavni'] : null,
 			\DateTimeImmutable::createFromFormat('Y-m-d', $data['od']),
 			\DateTimeImmutable::createFromFormat('Y-m-d', $data['do']),
 			$data['typ'],
@@ -314,7 +314,7 @@ final class Event
 			(isset($data['kontakt']) && $data['kontakt'] !== '') ? $data['kontakt'] : null,
 			$data['kontakt_telefon'],
 			$data['kontakt_email'],
-			(isset($data['prokoho_id']) && $data['prokoho_id'] !== '') ? ((int) $data['prokoho_id']) : null,
+			(int) $data['prokoho'],
 			(isset($data['text_info']) && $data['text_info'] !== '') ? $data['text_info'] : null,
 			(isset($data['text_uvod']) && $data['text_uvod'] !== '') ? $data['text_uvod'] : null,
 			(isset($data['text_mnam']) && $data['text_mnam'] !== '') ? $data['text_mnam'] : null,

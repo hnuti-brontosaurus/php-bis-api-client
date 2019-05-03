@@ -210,16 +210,11 @@ final class EventParameters extends Parameters
 
 	// target group
 
-	const TARGET_GROUP_NOT_SELECTED = 'none';
+	const TARGET_GROUP_EVERYONE = 'vsichni';
 	const TARGET_GROUP_ADULTS = 'dospeli';
 	const TARGET_GROUP_CHILDREN = 'deti';
 	const TARGET_GROUP_FAMILIES = 'detirodice';
 	const TARGET_GROUP_FIRST_TIME_ATTENDEES = 'prvouc';
-
-	/**
-	 * @deprecated Seems like not useful as there is `none` option as well which should have the same semantic meaning.
-	 */
-	const TARGET_GROUP_EVERYONE = 'vsichni';
 
 	/**
 	 * @param string $targetGroup
@@ -229,11 +224,10 @@ final class EventParameters extends Parameters
 	public function setTargetGroup($targetGroup)
 	{
 		if ( ! \in_array($targetGroup, [
-			self::TARGET_GROUP_NOT_SELECTED,
+			self::TARGET_GROUP_EVERYONE,
 			self::TARGET_GROUP_ADULTS,
 			self::TARGET_GROUP_CHILDREN,
 			self::TARGET_GROUP_FAMILIES,
-			self::TARGET_GROUP_EVERYONE,
 			self::TARGET_GROUP_FIRST_TIME_ATTENDEES,
 		], true)) {
 			throw new InvalidArgumentException('Value `' . $targetGroup . '` is not of valid types for `for` parameter.');
