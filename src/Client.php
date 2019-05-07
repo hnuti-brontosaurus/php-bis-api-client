@@ -118,7 +118,7 @@ final class Client
 	public function addAttendeeToEvent(EventAttendee $eventAttendee)
 	{
 		$eventAttendee->setCredentials($this->username, $this->password);
-		$response = $this->httpClient->post($this->buildUrl($eventAttendee), $this->convertArrayToFormData($eventAttendee->getData()));
+		$response = $this->httpClient->send($this->createRequest($eventAttendee));
 
 		$this->checkForResponseContentType($response);
 
@@ -165,7 +165,8 @@ final class Client
 	public function saveRequestForAdoption(Adoption $adoption)
 	{
 		$adoption->setCredentials($this->username, $this->password);
-		$response = $this->httpClient->post($this->buildUrl($adoption), $this->convertArrayToFormData($adoption->getData()));
+
+		$response = $this->httpClient->send($this->createRequest($adoption));
 
 		$this->checkForResponseContentType($response);
 
@@ -186,10 +187,8 @@ final class Client
 	{
 		$requestParameters->setCredentials($this->username, $this->password);
 
-		$httpRequest = new Request('POST', $this->buildUrl($requestParameters));
-
 		try {
-			$response = $this->httpClient->send($httpRequest);
+			$response = $this->httpClient->send($this->createRequest($requestParameters));
 
 		} catch (ClientException $e) {
 			throw new NotFoundException('Bis client could not find the queried resource.', 0, $e);
@@ -270,24 +269,18 @@ final class Client
 	}
 
 	/**
-	 * @param Parameters $params
-	 * @return string
+	 * @return Request
 	 */
-	private function buildUrl(Parameters $params)
+	private function createRequest(Parameters $parameters)
 	{
-		$queryString = $params->getQueryString();
-		return $this->url . ($queryString !== '' ? '?' . $queryString : '');
-	}
-
-	/**
-	 * @param array $array
-	 * @return array
-	 */
-	private function convertArrayToFormData(array $array)
-	{
-		return [
-			'form_params' => $array,
-		];
+		return new Request(
+			'POST',
+			$this->url,
+			[
+				'Content-Type' => 'application/x-www-form-urlencoded',
+			],
+			\http_build_query($parameters->getAll())
+		);
 	}
 
 }

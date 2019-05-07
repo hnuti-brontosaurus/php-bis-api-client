@@ -6,9 +6,6 @@ namespace HnutiBrontosaurus\BisApiClient\Request;
 final class Adoption extends Parameters
 {
 
-	private $data = [];
-
-
 	/**
 	 * @param int $amount
 	 * @param string $firstName
@@ -37,12 +34,6 @@ final class Adoption extends Parameters
 	) {
 		parent::__construct([
 			self::PARAM_QUERY => 'adopce',
-		]);
-
-
-		// the rest goes to data array which will be sent in headers, not through URI
-
-		$this->data = [
 			'f_jmeno' => $firstName,
 			'f_prijmeni' => $lastName,
 			'f_ulice' => $streetAddress . ' ' . $streetNumber,
@@ -54,16 +45,7 @@ final class Adoption extends Parameters
 			'f_clanek' => $preferredUnitOfTypeBase,
 			'f_rc' => $preferredUnitOfTypeRegional,
 			'f_castka' => $amount,
-		];
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getData()
-	{
-		return $this->data;
+		]);
 	}
 
 }
