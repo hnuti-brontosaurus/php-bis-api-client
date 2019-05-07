@@ -319,7 +319,7 @@ final class Event
 			(isset($data['text_uvod']) && $data['text_uvod'] !== '') ? $data['text_uvod'] : null,
 			(isset($data['text_mnam']) && $data['text_mnam'] !== '') ? $data['text_mnam'] : null,
 			$invitationPresentationPhotos,
-			(isset($data['prace']) && $data['prace'] !== '') ? $data['prace'] : null,
+			(isset($data['text_dobr']) && $data['text_dobr'] !== '') ? $data['text_dobr'] : null,
 			(isset($data['sraz']) && $data['sraz'] !== '') ? $data['sraz'] : null,
 			(isset($data['odpovedna']) && $data['odpovedna'] !== '') ? $data['odpovedna'] : null,
 			(isset($data['pracovni_doba']) && $data['pracovni_doba'] !== '') ? ((int) $data['pracovni_doba']) : null,
