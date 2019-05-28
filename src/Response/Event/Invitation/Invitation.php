@@ -15,7 +15,7 @@ final class Invitation
 	/** @var string|null */
 	private $accommodation;
 
-	/** @var string|null */
+	/** @var Food */
 	private $food;
 
 	/** @var string */
@@ -32,7 +32,7 @@ final class Invitation
 	 * @param string $introduction
 	 * @param string $organizationalInformation
 	 * @param string|null $accommodation
-	 * @param string|null $food
+	 * @param int|null $food
 	 * @param string $workDescription
 	 * @param int|null $workHoursPerDay
 	 * @param string|null $presentationText
@@ -54,9 +54,8 @@ final class Invitation
 		if ($accommodation !== null) {
 			$this->accommodation = $accommodation;
 		}
-		if ($food !== null) {
-			$this->food = $food;
-		}
+
+		$this->food = Food::from($food);
 
 		$this->workDescription = $workDescription;
 
@@ -77,7 +76,7 @@ final class Invitation
 	 * @param string $introduction
 	 * @param string $organizationalInformation
 	 * @param string|null $accommodation
-	 * @param string|null $food
+	 * @param int|null $food
 	 * @param string $workDescription
 	 * @param int|null $workHoursPerDay
 	 * @param string|null $presentationText
@@ -140,15 +139,7 @@ final class Invitation
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function isFoodListed()
-	{
-		return $this->food !== null;
-	}
-
-	/**
-	 * @return string|null
+	 * @return Food
 	 */
 	public function getFood()
 	{

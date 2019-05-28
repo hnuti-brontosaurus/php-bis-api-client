@@ -263,10 +263,8 @@ final class Event
 			}
 		}
 
-		$food = (isset($data['strava']) && $data['strava'] !== '') ? $data['strava'] : null;
-		if ($food === 'můžete si vybrat') { // BIS API sends this string in case that user sets nothing - we want to get rid of it as it pretends to be a value when it is not
-			$food = null;
-		}
+		// BIS API returns "0", "1", "2" etc. for real options and "" when nothing is set
+		$food = (isset($data['strava']) && $data['strava'] !== '') ? (int) $data['strava'] : null;
 
 		$invitationPresentationPhotos = [];
 		if (isset($data['ochutnavka_1']) && $data['ochutnavka_1'] !== '') {
