@@ -6,7 +6,7 @@ namespace HnutiBrontosaurus\BisApiClient\Response\Event\Invitation;
 final class Presentation
 {
 
-	/** @var string */
+	/** @var string|null */
 	private $text;
 
 	/** @var bool */
@@ -17,28 +17,36 @@ final class Presentation
 
 
 	/**
-	 * @param $text
+	 * @param string|null $text
+	 * @param string[] $photoPaths
 	 */
-	private function __construct($text)
+	private function __construct($text, array $photoPaths)
 	{
-		$this->text = $text;
+		if ($text !== null) {
+			$this->text = $text;
+		}
+
+		if (\count($photoPaths) > 0) {
+			$this->addPhotos($photoPaths);
+		}
 	}
 
 
 	/**
-	 * @param $text
+	 * @param string|null $text
+	 * @param string[] $photoPaths
 	 * @return self
 	 */
-	public static function from($text)
+	public static function from($text = null, array $photoPaths)
 	{
-		return new self($text);
+		return new self($text, $photoPaths);
 	}
 
 	/**
 	 * @param string $photoPath
 	 * @return self
 	 */
-	public function addPhoto($photoPath)
+	private function addPhoto($photoPath)
 	{
 		$this->hasAnyPhotos = true;
 		$this->photos[] = Photo::from($photoPath);
@@ -50,7 +58,7 @@ final class Presentation
 	 * @param string[] $photoPaths
 	 * @return self
 	 */
-	public function addPhotos(array $photoPaths)
+	private function addPhotos(array $photoPaths)
 	{
 		foreach ($photoPaths as $photoPath) {
 			$this->addPhoto($photoPath);
@@ -61,7 +69,15 @@ final class Presentation
 
 
 	/**
-	 * @return string
+	 * @return bool
+	 */
+	public function hasText()
+	{
+		return $this->text !== null;
+	}
+
+	/**
+	 * @return string|null
 	 */
 	public function getText()
 	{

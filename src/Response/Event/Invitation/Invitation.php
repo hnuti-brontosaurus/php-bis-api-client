@@ -63,12 +63,8 @@ final class Invitation
 			$this->workHoursPerDay = $workHoursPerDay;
 		}
 
-		if ($presentationText !== null) {
-			$this->presentation = Presentation::from($presentationText);
-
-			if (\count($presentationPhotos) > 0) {
-				$this->presentation->addPhotos($presentationPhotos);
-			}
+		if ($presentationText !== null || \count($presentationPhotos) > 0) {
+			$this->presentation = Presentation::from($presentationText, $presentationPhotos);
 		}
 	}
 
