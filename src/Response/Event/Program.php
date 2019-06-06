@@ -20,18 +20,22 @@ final class Program
 	/** @var string */
 	private $slug;
 
-	/** @var string */
+	/** @var string|null */
 	private $name;
 
 
 	/**
-	 * @param string $slug
-	 * @param string $name
+	 * @param string|null $slug
+	 * @param string|null $name
 	 * @throws InvalidArgumentException
 	 */
-	private function __construct($slug, $name)
+	private function __construct($slug = null, $name = null)
 	{
-		if (!\in_array($slug, [
+		if ($slug === null) {
+			$slug = self::PROGRAM_NONE;
+		}
+
+		if ( ! \in_array($slug, [
 			self::PROGRAM_NONE,
 			self::PROGRAM_NATURE,
 			self::PROGRAM_SIGHTS,
@@ -40,19 +44,22 @@ final class Program
 			self::PROGRAM_PSB,
 			self::PROGRAM_EDUCATION,
 		], true)) {
-			throw new InvalidArgumentException('Value `' . $slug . '` is not of valid types for `slug` parameter.');
+			$slug = self::PROGRAM_NONE;
 		}
 
 		$this->slug = $slug;
-		$this->name = $name;
+
+		if ($name !== null) {
+			$this->name = $name;
+		}
 	}
 
 	/**
-	 * @param string $slug
-	 * @param string $name
+	 * @param string|null $slug
+	 * @param string|null $name
 	 * @return self
 	 */
-	public static function from($slug, $name)
+	public static function from($slug = null, $name = null)
 	{
 		return new self($slug, $name);
 	}
@@ -78,6 +85,14 @@ final class Program
 	/**
 	 * @return bool
 	 */
+	public function isNotSelected()
+	{
+		return $this->slug === self::PROGRAM_NONE;
+	}
+
+	/**
+	 * @return bool
+	 */
 	public function isOfTypeNature()
 	{
 		return $this->slug === self::PROGRAM_NATURE;
@@ -94,9 +109,33 @@ final class Program
 	/**
 	 * @return bool
 	 */
-	public function isOfTypeHoliday()
+	public function isOfTypeBrdo()
+	{
+		return $this->slug === self::PROGRAM_BRDO;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isOfTypeEkostan()
+	{
+		return $this->slug === self::PROGRAM_EKOSTAN;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isOfTypePsb()
 	{
 		return $this->slug === self::PROGRAM_PSB;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isOfTypeEducation()
+	{
+		return $this->slug === self::PROGRAM_EDUCATION;
 	}
 
 }

@@ -33,7 +33,7 @@ final class Event
 	/** @var string */
 	private $type;
 
-	/** @var Program|null */
+	/** @var Program */
 	private $program;
 
 	/** @var Place */
@@ -180,15 +180,7 @@ final class Event
 
 		// program
 
-		if ($programSlug !== null && $programName !== null) {
-			try {
-				$this->program = Program::from($programSlug, $programName);
-
-			} catch (InvalidArgumentException $e) {
-				// if exception, program remains null
-
-			}
-		}
+		$this->program = Program::from($programSlug, $programName);
 
 
 		// registration
@@ -387,7 +379,7 @@ final class Event
 	}
 
 	/**
-	 * @return Program|null
+	 * @return Program
 	 */
 	public function getProgram()
 	{
