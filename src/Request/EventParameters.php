@@ -8,12 +8,10 @@ use HnutiBrontosaurus\BisApiClient\InvalidArgumentException;
 final class EventParameters extends Parameters
 {
 
-	const PARAM_DISPLAY_ALREADY_STARTED_KEY = 'aktualni';
-	const PARAM_DISPLAY_ALREADY_STARTED_NO = 'od';
-	const PARAM_DISPLAY_ALREADY_STARTED_YES = 'do';
+	const PARAM_DISPLAY_ALREADY_STARTED_KEY = 'probihajici'; // for default just omit this parameter
+	const PARAM_DISPLAY_ALREADY_STARTED_VALUE = ''; // whatever value
 
-	const PARAM_ORDER_BY_KEY = 'razeni';
-	const PARAM_ORDER_BY_START_DATE = 'od';
+	const PARAM_ORDER_BY_KEY = 'sort'; // for default sorting just omit this parameter
 	const PARAM_ORDER_BY_END_DATE = 'do';
 
 
@@ -21,7 +19,7 @@ final class EventParameters extends Parameters
 	{
 		parent::__construct([
 			self::PARAM_QUERY => 'akce',
-			self::PARAM_DISPLAY_ALREADY_STARTED_KEY => self::PARAM_DISPLAY_ALREADY_STARTED_YES,
+			self::PARAM_DISPLAY_ALREADY_STARTED_KEY => self::PARAM_DISPLAY_ALREADY_STARTED_VALUE,
 			self::PARAM_ORDER_BY_KEY => self::PARAM_ORDER_BY_END_DATE,
 		]);
 	}
@@ -105,7 +103,7 @@ final class EventParameters extends Parameters
 	const TYPE_RESIDENTIAL_LEARNING_PROGRAM = 'pobyt'; // pobytový výukový program
 
 	const TYPE_CLUB_MEETUP = 'klub'; // klub - setkání
-	const TYPE_CLUB_TALK = 'klub-vzdel'; // klub - přednáška
+	const TYPE_CLUB_TALK = 'klub-predn'; // klub - přednáška
 	const TYPE_FOR_PUBLIC = 'verejnost'; // akce pro veřejnost
 	const TYPE_EKOSTAN = 'ekostan';
 	const TYPE_EXHIBITION = 'vystava';
@@ -290,7 +288,7 @@ final class EventParameters extends Parameters
 	 */
 	public function hideTheseAlreadyStarted()
 	{
-		$this->params[self::PARAM_DISPLAY_ALREADY_STARTED_KEY] = self::PARAM_DISPLAY_ALREADY_STARTED_NO;
+		unset($this->params[self::PARAM_DISPLAY_ALREADY_STARTED_KEY]);
 		return $this;
 	}
 
@@ -302,7 +300,7 @@ final class EventParameters extends Parameters
 	 */
 	public function orderByStartDate()
 	{
-		$this->params[self::PARAM_ORDER_BY_KEY] = self::PARAM_ORDER_BY_START_DATE;
+		unset($this->params[self::PARAM_ORDER_BY_KEY]);
 		return $this;
 	}
 
