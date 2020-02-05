@@ -46,7 +46,7 @@ final class EventParameters extends Parameters
 	/**
 	 * This parameter serves as combinator for multiple conditions, which can not be achieved with concatenating type, program, target group or any other available parameters.
 	 * For example you can not make an union among different parameters. Let's say you want all events which are of type=ohb or of program=brdo. This is not possible with API parameters.
-	 * Thus you can take advantage of preset filters which are documented here: https://bis.brontosaurus.cz/myr.html
+	 * Thus you can take advantage of preset filters which are documented here: https://bis.brontosaurus.cz/myr.php
 	 *
 	 * Beside standard constant usage as a parameter, you can pass bitwise operation argument, e.g. `EventParameters::FILTER_WEEKEND|EventParameters::FILTER_CAMP`.
 	 *
