@@ -60,17 +60,17 @@ final class OrganizationalUnit
 	 * @param string|null $manager
 	 */
 	private function __construct(
-		$id,
-		$name,
-		$street,
-		$city,
-		$postCode,
-		$phone = null,
-		$email = null,
-		$website = null,
-		$type,
-		$chairman = null,
-		$manager = null
+		int $id,
+		string $name,
+		string $street,
+		string $city,
+		string $postCode,
+		?string $phone,
+		?string $email,
+		?string $website,
+		int $type,
+		?string $chairman,
+		?string $manager,
 	) {
 		$this->id = $id;
 		$this->name = $name;

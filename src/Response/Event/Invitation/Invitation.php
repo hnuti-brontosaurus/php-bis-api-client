@@ -6,47 +6,27 @@ namespace HnutiBrontosaurus\BisApiClient\Response\Event\Invitation;
 final class Invitation
 {
 
-	/** @var string */
-	private $introduction;
-
-	/** @var string */
-	private $organizationalInformation;
-
-	/** @var string|null */
-	private $accommodation;
-
-	/** @var Food */
-	private $food;
-
-	/** @var string */
-	private $workDescription;
-
-	/** @var int|null */
-	private $workHoursPerDay;
-
-	/** @var Presentation|null */
-	private $presentation;
+	private string $introduction;
+	private string $organizationalInformation;
+	private ?string $accommodation;
+	private Food $food;
+	private ?string $workDescription;
+	private ?int $workHoursPerDay;
+	private ?Presentation $presentation;
 
 
 	/**
-	 * @param string $introduction
-	 * @param string $organizationalInformation
-	 * @param string|null $accommodation
-	 * @param int|null $food
-	 * @param string $workDescription
-	 * @param int|null $workHoursPerDay
-	 * @param string|null $presentationText
 	 * @param string[] $presentationPhotos
 	 */
 	private function __construct(
-		$introduction,
-		$organizationalInformation = null,
-		$accommodation = null,
-		$food,
-		$workDescription,
-		$workHoursPerDay = null,
-		$presentationText = null,
-		array $presentationPhotos = []
+		string $introduction,
+		string $organizationalInformation,
+		?string $accommodation,
+		?int $food,
+		?string $workDescription,
+		?int $workHoursPerDay,
+		?string $presentationText,
+		array $presentationPhotos,
 	) {
 		$this->introduction = $introduction;
 		$this->organizationalInformation = $organizationalInformation;
@@ -69,27 +49,20 @@ final class Invitation
 	}
 
 	/**
-	 * @param string $introduction
-	 * @param string $organizationalInformation
-	 * @param string|null $accommodation
-	 * @param int|null $food
-	 * @param string $workDescription
-	 * @param int|null $workHoursPerDay
-	 * @param string|null $presentationText
 	 * @param string[] $presentationPhotos
-	 * @return self
 	 */
 	public static function from(
-		$introduction,
-		$organizationalInformation,
-		$accommodation = null,
-		$food = null,
-		$workDescription,
-		$workHoursPerDay = null,
-		$presentationText = null,
-		array $presentationPhotos = []
-	) {
-		return new self(
+		string $introduction,
+		string $organizationalInformation,
+		?string $accommodation,
+		?int $food,
+		?string $workDescription,
+		?int $workHoursPerDay,
+		?string $presentationText,
+		array $presentationPhotos,
+	): static
+	{
+		return new static(
 			$introduction,
 			$organizationalInformation,
 			$accommodation,
@@ -143,7 +116,7 @@ final class Invitation
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getWorkDescription()
 	{

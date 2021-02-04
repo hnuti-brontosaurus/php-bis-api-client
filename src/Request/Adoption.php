@@ -6,31 +6,18 @@ namespace HnutiBrontosaurus\BisApiClient\Request;
 final class Adoption extends Parameters
 {
 
-	/**
-	 * @param int $amount
-	 * @param string $firstName
-	 * @param string $lastName
-	 * @param string $streetAddress
-	 * @param string $streetNumber
-	 * @param string $postalCode
-	 * @param string $city
-	 * @param string $emailAddress
-	 * @param int|null $preferredUnitOfTypeRegional
-	 * @param int|null $preferredUnitOfTypeBase
-	 * @param bool $excludeFromPublic
-	 */
 	public function __construct(
-		$amount,
-		$firstName,
-		$lastName,
-		$streetAddress,
-		$streetNumber,
-		$postalCode,
-		$city,
-		$emailAddress,
-		$preferredUnitOfTypeRegional = null,
-		$preferredUnitOfTypeBase = null,
-		$excludeFromPublic
+		int $amount,
+		string $firstName,
+		string $lastName,
+		string $streetAddress,
+		string $streetNumber,
+		string $postalCode,
+		string $city,
+		string $emailAddress,
+		?int $preferredUnitOfTypeRegional,
+		?int $preferredUnitOfTypeBase,
+		bool $excludeFromPublic,
 	) {
 		parent::__construct([
 			self::PARAM_QUERY => 'adopce',

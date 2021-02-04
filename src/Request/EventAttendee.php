@@ -7,24 +7,17 @@ final class EventAttendee extends Parameters
 {
 
 	/**
-	 * @param int $eventId
-	 * @param string $firstName
-	 * @param string $lastName
-	 * @param string $birthDate
-	 * @param string $phoneNumber
-	 * @param string $emailAddress
-	 * @param string|null $note
 	 * @param string[]|null $questionAnswers
 	 */
 	public function __construct(
-		$eventId,
-		$firstName,
-		$lastName,
-		$birthDate,
-		$phoneNumber,
-		$emailAddress,
-		$note,
-		array $questionAnswers = null
+		int $eventId,
+		string $firstName,
+		string $lastName,
+		string $birthDate,
+		string $phoneNumber,
+		string $emailAddress,
+		?string $note,
+		?array $questionAnswers,
 	) {
 		parent::__construct([
 			self::PARAM_QUERY => 'prihlaska',

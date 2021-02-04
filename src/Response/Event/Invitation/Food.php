@@ -6,9 +6,9 @@ namespace HnutiBrontosaurus\BisApiClient\Response\Event\Invitation;
 final class Food
 {
 
-	/* private */ const CHOOSEABLE = 0;
-	/* private */ const VEGETARIAN = 1;
-	/* private */ const NON_VEGETARIAN = 2;
+	private const CHOOSEABLE = 0;
+	private const VEGETARIAN = 1;
+	private const NON_VEGETARIAN = 2;
 
 
 	/** @var bool */

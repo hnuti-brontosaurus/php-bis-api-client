@@ -33,11 +33,10 @@ final class Presentation
 
 
 	/**
-	 * @param string|null $text
 	 * @param string[] $photoPaths
 	 * @return self
 	 */
-	public static function from($text = null, array $photoPaths)
+	public static function from(?string $text, array $photoPaths)
 	{
 		return new self($text, $photoPaths);
 	}

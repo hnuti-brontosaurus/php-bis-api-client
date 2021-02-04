@@ -6,42 +6,22 @@ namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 final class Organizer
 {
 
-	/** @var OrganizerOrganizationalUnit|null */
-	private $organizationalUnit;
-
-	/** @var string|null */
-	private $responsiblePerson;
-
-	/** @var string|null */
-	private $organizers;
-
-	/** @var string|null */
-	private $contactPersonName;
-
-	/** @var string */
-	private $contactPhone;
-
-	/** @var string */
-	private $contactEmail;
+	private ?OrganizerOrganizationalUnit $organizationalUnit;
+	private ?string $responsiblePerson;
+	private ?string $organizers;
+	private ?string $contactPersonName;
+	private string $contactPhone;
+	private string $contactEmail;
 
 
-	/**
-	 * @param int|null $organizationalUnitId
-	 * @param string|null $organizationalUnitName
-	 * @param string|null $responsiblePerson
-	 * @param string|null $organizers
-	 * @param string|null $contactPersonName
-	 * @param string $contactPhone
-	 * @param string $contactEmail
-	 */
 	private function __construct(
-		$organizationalUnitId = null,
-		$organizationalUnitName = null,
-		$responsiblePerson = null,
-		$organizers = null,
-		$contactPersonName = null,
-		$contactPhone,
-		$contactEmail
+		?int $organizationalUnitId,
+		?string $organizationalUnitName,
+		?string $responsiblePerson,
+		?string $organizers,
+		?string $contactPersonName,
+		string $contactPhone,
+		string $contactEmail,
 	) {
 		$this->organizationalUnit = ($organizationalUnitId !== null && $organizationalUnitName !== null) ? OrganizerOrganizationalUnit::from($organizationalUnitId, $organizationalUnitName) : null;
 		$this->responsiblePerson = $responsiblePerson;
@@ -63,14 +43,15 @@ final class Organizer
 	 * @return self
 	 */
 	public static function from(
-		$organizationalUnitId = null,
-		$organizationalUnitName = null,
-		$responsiblePerson = null,
-		$organizers = null,
-		$contactPersonName = null,
-		$contactPhone,
-		$contactEmail
-	) {
+		?int $organizationalUnitId,
+		?string $organizationalUnitName,
+		?string $responsiblePerson,
+		?string $organizers,
+		?string $contactPersonName,
+		string $contactPhone,
+		string $contactEmail
+	): self
+	{
 		return new self(
 			$organizationalUnitId,
 			$organizationalUnitName,
