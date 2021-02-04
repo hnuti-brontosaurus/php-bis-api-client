@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace HnutiBrontosaurus\BisApiClient;
 
@@ -28,27 +28,16 @@ use Psr\Http\Message\ResponseInterface;
 final class Client
 {
 
-	/** @var HttpClient */
-	private $httpClient;
-
-	/** @var string */
-	private $url;
-
-	/** @var string */
-	private $username;
-
-	/** @var string */
-	private $password;
+	private HttpClient $httpClient;
+	private string $url;
+	private string $username;
+	private string $password;
 
 
 	/**
-	 * @param string $url
-	 * @param string $username
-	 * @param string $password
-	 * @param HttpClient $httpClient
 	 * @throws InvalidArgumentException
 	 */
-	public function __construct($url, $username, $password, HttpClient $httpClient)
+	public function __construct(string $url, string $username, string $password, HttpClient $httpClient)
 	{
 		if ($url === '') {
 			throw new InvalidArgumentException('You need to pass an URL with BIS API.');
@@ -70,14 +59,11 @@ final class Client
 	// events
 
 	/**
-	 * @param int $id
-	 * @param EventParameters $params
-	 * @return Event
 	 * @throws NotFoundException
 	 * @throws TransferErrorException
 	 * @throws ResponseErrorException
 	 */
-	public function getEvent($id, EventParameters $params = null)
+	public function getEvent(int $id, EventParameters $params = null): Event
 	{
 		$params = ($params !== null ? $params : new EventParameters());
 		$params->setId($id);
@@ -92,14 +78,14 @@ final class Client
 		return Event::fromResponseData(\reset($data));
 	}
 
+
 	/**
-	 * @param EventParameters $params
 	 * @return Event[]
 	 * @throws NotFoundException
 	 * @throws TransferErrorException
 	 * @throws ResponseErrorException
 	 */
-	public function getEvents(EventParameters $params = null)
+	public function getEvents(EventParameters $params = null): array
 	{
 		$response = $this->processRequest($params !== null ? $params : new EventParameters());
 		$data = $response->getData();
@@ -111,11 +97,11 @@ final class Client
 		return \array_map(Event::class . '::fromResponseData', $data);
 	}
 
+
 	/**
-	 * @param EventAttendee $eventAttendee
 	 * @throws ResponseErrorException
 	 */
-	public function addAttendeeToEvent(EventAttendee $eventAttendee)
+	public function addAttendeeToEvent(EventAttendee $eventAttendee): void
 	{
 		$eventAttendee->setCredentials($this->username, $this->password);
 		$response = $this->httpClient->send($this->createRequest($eventAttendee));
@@ -131,13 +117,12 @@ final class Client
 	// organizational units
 
 	/**
-	 * @param OrganizationalUnitParameters $params
 	 * @return OrganizationalUnit[]
 	 * @throws NotFoundException
 	 * @throws TransferErrorException
 	 * @throws ResponseErrorException
 	 */
-	public function getOrganizationalUnits(OrganizationalUnitParameters $params = null)
+	public function getOrganizationalUnits(OrganizationalUnitParameters $params = null): array
 	{
 		$response = $this->processRequest($params !== null ? $params : new OrganizationalUnitParameters());
 
@@ -159,10 +144,9 @@ final class Client
 	// adoption
 
 	/**
-	 * @param Adoption $adoption
 	 * @throws ResponseErrorException
 	 */
-	public function saveRequestForAdoption(Adoption $adoption)
+	public function saveRequestForAdoption(Adoption $adoption): void
 	{
 		$adoption->setCredentials($this->username, $this->password);
 
@@ -177,13 +161,11 @@ final class Client
 
 
 	/**
-	 * @param Parameters $requestParameters
-	 * @return Response
 	 * @throws NotFoundException
 	 * @throws TransferErrorException
 	 * @throws ResponseErrorException
 	 */
-	private function processRequest(Parameters $requestParameters)
+	private function processRequest(Parameters $requestParameters): Response
 	{
 		$requestParameters->setCredentials($this->username, $this->password);
 
@@ -207,26 +189,24 @@ final class Client
 
 
 	/**
-	 * @param ResponseInterface $response
 	 * @throws InvalidContentTypeException
 	 */
-	private function checkForResponseContentType(ResponseInterface $response)
+	private function checkForResponseContentType(ResponseInterface $response): void
 	{
 		if (\strncmp($response->getHeaderLine('Content-Type'), 'text/xml', \strlen('text/xml')) !== 0) {
 			throw new InvalidContentTypeException('Unable to process response: the response Content-Type is invalid or missing.');
 		}
 	}
 
+
 	/**
-	 * @param ResponseInterface $response
-	 * @return \DOMDocument
 	 * @throws InvalidXMLStructureException
 	 */
-	private function generateDOM(ResponseInterface $response)
+	private function generateDOM(ResponseInterface $response): \DOMDocument
 	{
 		try {
 			$domDocument = new \DOMDocument();
-			$domDocument->loadXML($response->getBody());
+			$domDocument->loadXML($response->getBody()->getContents());
 
 		} catch (\Exception $e) {
 			throw new InvalidXMLStructureException('Unable to process response: response body contains invalid XML.', 0, $e);
@@ -235,11 +215,11 @@ final class Client
 		return $domDocument;
 	}
 
+
 	/**
-	 * @param \DOMDocument $domDocument
 	 * @throws ResponseErrorException
 	 */
-	private function checkForResponseErrors(\DOMDocument $domDocument)
+	private function checkForResponseErrors(\DOMDocument $domDocument): void
 	{
 		$resultNode = $domDocument->getElementsByTagName(Response::TAG_RESULT)->item(0);
 		\assert($resultNode instanceof \DOMElement);
@@ -251,27 +231,21 @@ final class Client
 
 				case 'user':
 					throw new InvalidUserInputException($resultNode);
-					break;
 
 				case 'forbidden':
 					throw new UnauthorizedAccessException();
-					break;
 
 				case 'params':
 					throw new InvalidParametersException();
-					break;
 
 				default:
 					throw new UnknownErrorException($resultNode->getAttribute(Response::TAG_RESULT_ATTRIBUTE_ERROR));
-					break;
 			}
 		}
 	}
 
-	/**
-	 * @return Request
-	 */
-	private function createRequest(Parameters $parameters)
+
+	private function createRequest(Parameters $parameters): Request
 	{
 		return new Request(
 			'POST',

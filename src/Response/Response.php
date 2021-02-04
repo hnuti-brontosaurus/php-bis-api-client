@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace HnutiBrontosaurus\BisApiClient\Response;
 
@@ -8,16 +8,12 @@ use Psr\Http\Message\ResponseInterface;
 final class Response
 {
 
-	const TAG_RESULT = 'result';
-	const TAG_RESULT_ATTRIBUTE_ERROR = 'error';
-	const TAG_ATTRIBUTE_ID = 'id';
+	public const TAG_RESULT = 'result';
+	public const TAG_RESULT_ATTRIBUTE_ERROR = 'error';
+	private const TAG_ATTRIBUTE_ID = 'id';
 
-
-	/** @var ResponseInterface */
-	private $httpResponse;
-
-	/** @var array */
-	private $data;
+	private ResponseInterface $httpResponse;
+	private array $data;
 
 
 	public function __construct(ResponseInterface $httpResponse, \DOMDocument $domDocument)
@@ -28,19 +24,15 @@ final class Response
 	}
 
 
-	/**
-	 * @param \DOMDocument $domDocument
-	 * @return void
-	 */
-	private function parseDom(\DOMDocument $domDocument)
+	private function parseDom(\DOMDocument $domDocument): void
 	{
 		$domFinder = new \DOMXPath($domDocument);
 		$rowNodeList = $domFinder->query('*', $domDocument->getElementsByTagName(self::TAG_RESULT)->item(0));
 
+		$this->data = [];
 		foreach ($rowNodeList as $rowNode) {
 			\assert($rowNode instanceof \DOMElement);
 
-			/** @var array $row */
 			$row = [];
 			foreach ($domFinder->query('*', $rowNode) as $node) {
 				\assert($node instanceof \DOMElement);
@@ -57,18 +49,13 @@ final class Response
 	}
 
 
-	/**
-	 * @return ResponseInterface
-	 */
-	public function getHttpResponse()
+	public function getHttpResponse(): ResponseInterface
 	{
 		return $this->httpResponse;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getData()
+
+	public function getData(): array
 	{
 		return $this->data;
 	}

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * See https://bis.brontosaurus.cz/myr.php for more information on values.

@@ -1,9 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
 use HnutiBrontosaurus\BisApiClient\BadUsageException;
-use HnutiBrontosaurus\BisApiClient\InvalidArgumentException;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Invitation;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Registration\RegistrationType;
 use HnutiBrontosaurus\BisApiClient\Response\RegistrationTypeException;
@@ -12,150 +11,67 @@ use HnutiBrontosaurus\BisApiClient\Response\RegistrationTypeException;
 final class Event
 {
 
-	/** @var int */
-	private $id;
-
-	/** @var string */
-	private $name;
-
-	/** @var string|null */
-	private $coverPhotoPath;
-
-	/** @var \DateTimeImmutable */
-	private $dateFrom;
-
-	/** @var string|null */
-	private $timeFrom;
-
-	/** @var \DateTimeImmutable */
-	private $dateUntil;
-
-	/** @var string */
-	private $type;
-
-	/** @var Program */
-	private $program;
-
-	/** @var Place */
-	private $place;
-
-	/** @var RegistrationType */
-	private $registrationType;
-
-	/** @var int|null */
-	private $ageFrom;
-
-	/** @var int|null */
-	private $ageUntil;
-
-	/**
-	 * Single number or interval.
-	 * @var int|string
-	 */
-	private $price;
-
-	/** @var Organizer */
-	private $organizer;
-
-	/** @var TargetGroup */
-	private $targetGroup;
-
-	/** @var Invitation|null */
-	private $invitation;
-
-	/** @var string|null */
-	private $programDescription;
-
-	/** @var string|null */
-	private $notes;
-
-	/** @var string|null */
-	private $relatedWebsite;
+	private int $id;
+	private string $name;
+	private ?string $coverPhotoPath;
+	private \DateTimeImmutable $dateFrom;
+	private ?string $timeFrom;
+	private \DateTimeImmutable $dateUntil;
+	private string $type;
+	private Program $program;
+	private Place $place;
+	private RegistrationType $registrationType;
+	private ?int $ageFrom;
+	private ?int $ageUntil;
+	private int|string $price; // single number or interval
+	private Organizer $organizer;
+	private TargetGroup $targetGroup;
+	private ?Invitation $invitation;
+	private ?string $programDescription;
+	private ?string $notes;
+	private ?string $relatedWebsite;
 
 
-	/**
-	 * @param int $id
-	 * @param string $name
-	 * @param string|null $coverPhotoPath
-	 * @param \DateTimeImmutable $dateFrom
-	 * @param \DateTimeImmutable $dateUntil
-	 * @param string $type
-	 * @param string|null $programSlug
-	 * @param string|null $programName
-	 * @param string $placeName
-	 * @param string|null $placeAlternativeName
-	 * @param string|null $placeCoordinates
-	 * @param int $registrationType
-	 * @param string|null $webRegistrationQuestion1
-	 * @param string|null $webRegistrationQuestion2
-	 * @param string|null $webRegistrationQuestion3
-	 * @param string|null $registrationCustomUrl
-	 * @param int|null $ageFrom
-	 * @param int|null $ageUntil
-	 * @param int|string $price
-	 * @param int|null $organizationalUnitId
-	 * @param string|null $organizationalUnitName
-	 * @param string|null $organizers
-	 * @param string|null $contactPersonName
-	 * @param string $contactPhone
-	 * @param string $contactEmail
-	 * @param int $targetGroupId
-	 * @param string|null $invitationOrganizationalInformation
-	 * @param string|null $invitationIntroduction
-	 * @param string|null $invitationPresentationText
-	 * @param array $invitationPresentationPhotos
-	 * @param string|null $invitationWorkDescription
-	 * @param string|null $timeFrom
-	 * @param string|null $responsiblePerson
-	 * @param int|null $workHoursPerDay
-	 * @param string|null $programDescription
-	 * @param string|null $accommodation
-	 * @param string|null $food
-	 * @param string|null $notes
-	 * @param string|null $relatedWebsite
-	 * @throws RegistrationTypeException
-	 * @throws BadUsageException
-	 */
 	private function __construct(
-		$id,
-		$name,
-		$coverPhotoPath = null,
+		int $id,
+		string $name,
+		?string $coverPhotoPath,
 		\DateTimeImmutable $dateFrom,
 		\DateTimeImmutable $dateUntil,
-		$type,
-		$programSlug = null,
-		$programName = null,
-		$placeName,
-		$placeAlternativeName = null,
-		$placeCoordinates = null,
-		$registrationType,
-		$webRegistrationQuestion1 = null,
-		$webRegistrationQuestion2 = null,
-		$webRegistrationQuestion3 = null,
-		$registrationCustomUrl = null,
-		$ageFrom = null,
-		$ageUntil = null,
-		$price = null,
-		$organizationalUnitId = null,
-		$organizationalUnitName = null,
-		$organizers = null,
-		$contactPersonName = null,
-		$contactPhone,
-		$contactEmail,
-		$targetGroupId,
-		$invitationOrganizationalInformation = null,
-		$invitationIntroduction = null,
-		$invitationPresentationText = null,
-		array $invitationPresentationPhotos = [],
-		$invitationWorkDescription = null,
-		$timeFrom = null,
-		$responsiblePerson = null,
-		$workHoursPerDay = null,
-		$programDescription = null,
-		$accommodation = null,
-		$food = null,
-		$notes = null,
-		$relatedWebsite = null
+		string $type,
+		?string $programSlug,
+		?string $programName,
+		string $placeName,
+		?string $placeAlternativeName,
+		?string $placeCoordinates,
+		int $registrationType,
+		?string $webRegistrationQuestion1,
+		?string $webRegistrationQuestion2,
+		?string $webRegistrationQuestion3,
+		?string $registrationCustomUrl,
+		?int $ageFrom,
+		?int $ageUntil,
+		int|string $price,
+		?int $organizationalUnitId,
+		?string $organizationalUnitName,
+		?string $organizers,
+		?string $contactPersonName,
+		string $contactPhone,
+		string $contactEmail,
+		int $targetGroupId,
+		?string $invitationOrganizationalInformation,
+		?string $invitationIntroduction,
+		?string $invitationPresentationText,
+		array $invitationPresentationPhotos,
+		?string $invitationWorkDescription,
+		?string $timeFrom,
+		?string $responsiblePerson,
+		?int $workHoursPerDay,
+		?string $programDescription,
+		?string $accommodation,
+		?int $food,
+		?string $notes,
+		?string $relatedWebsite,
 	) {
 		$this->id = $id;
 		$this->name = $name;
@@ -240,11 +156,10 @@ final class Event
 
 	/**
 	 * @param string[] $data Everything is string as it comes from HTTP response body.
-	 * @return self
 	 * @throws RegistrationTypeException
 	 * @throws BadUsageException
 	 */
-	public static function fromResponseData(array $data)
+	public static function fromResponseData(array $data): static
 	{
 		$price = 0;
 		if (isset($data['poplatek']) && $data['poplatek'] !== '') {
@@ -298,7 +213,7 @@ final class Event
 			(isset($data['vek_od']) && $data['vek_od'] !== '') ? ((int) $data['vek_od']) : null,
 			(isset($data['vek_do']) && $data['vek_do'] !== '') ? ((int) $data['vek_do']) : null,
 			$price,
-			(isset($data['porada_id']) && $data['porada_id'] !== '') ? ((int)$data['porada_id']) : null,
+			(isset($data['porada_id']) && $data['porada_id'] !== '') ? ((int) $data['porada_id']) : null,
 			(isset($data['porada']) && $data['porada'] !== '') ? $data['porada'] : null,
 			(isset($data['org']) && $data['org'] !== '') ? $data['org'] : null,
 			(isset($data['kontakt']) && $data['kontakt'] !== '') ? $data['kontakt'] : null,
@@ -322,183 +237,139 @@ final class Event
 	}
 
 
-	/**
-	 * @return int
-	 */
-	public function getId()
+	public function getId(): int
 	{
 		return $this->id;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getCoverPhotoPath()
+
+	public function getCoverPhotoPath(): ?string
 	{
 		return $this->coverPhotoPath;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function hasCoverPhoto()
+
+	public function hasCoverPhoto(): bool
 	{
 		return $this->coverPhotoPath !== null;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName()
+
+	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * @return \DateTimeImmutable
-	 */
-	public function getDateFrom()
+
+	public function getDateFrom(): \DateTimeImmutable
 	{
 		return $this->dateFrom;
 	}
 
-	/**
-	 * @return \DateTimeImmutable
-	 */
-	public function getDateUntil()
+
+	public function getDateUntil(): \DateTimeImmutable
 	{
 		return $this->dateUntil;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getType()
+
+	public function getType(): string
 	{
 		return $this->type;
 	}
 
-	/**
-	 * @return Program
-	 */
-	public function getProgram()
+
+	public function getProgram(): Program
 	{
 		return $this->program;
 	}
 
-	/**
-	 * @return Place
-	 */
-	public function getPlace()
+
+	public function getPlace(): Place
 	{
 		return $this->place;
 	}
 
-	/**
-	 * @return RegistrationType
-	 */
-	public function getRegistrationType()
+
+	public function getRegistrationType(): RegistrationType
 	{
 		return $this->registrationType;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getAgeFrom()
+
+	public function getAgeFrom(): ?int
 	{
 		return $this->ageFrom;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getAgeUntil()
+
+	public function getAgeUntil(): ?int
 	{
 		return $this->ageUntil;
 	}
 
-	/**
-	 * @return int|string
-	 */
-	public function getPrice()
+
+	public function getPrice(): int|string
 	{
 		return $this->price;
 	}
 
-	public function isPaid()
+
+	public function isPaid(): bool
 	{
 		return $this->price !== 0;
 	}
 
-	/**
-	 * @return Organizer
-	 */
-	public function getOrganizer()
+
+	public function getOrganizer(): Organizer
 	{
 		return $this->organizer;
 	}
 
-	/**
-	 * @return TargetGroup
-	 */
-	public function getTargetGroup()
+
+	public function getTargetGroup(): TargetGroup
 	{
 		return $this->targetGroup;
 	}
 
-	/**
-	 * @return Invitation|null
-	 */
-	public function getInvitation()
+
+	public function getInvitation(): ?Invitation
 	{
 		return $this->invitation;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function hasTimeFrom()
+
+	public function hasTimeFrom(): bool
 	{
 		return $this->timeFrom !== null;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getTimeFrom()
+
+	public function getTimeFrom(): ?string
 	{
 		return $this->timeFrom;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getProgramDescription()
+
+	public function getProgramDescription(): ?string
 	{
 		return $this->programDescription;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getNotes()
+
+	public function getNotes(): ?string
 	{
 		return $this->notes;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function hasRelatedWebsite()
+
+	public function hasRelatedWebsite(): bool
 	{
 		return $this->relatedWebsite !== null;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getRelatedWebsite()
+
+	public function getRelatedWebsite(): ?string
 	{
 		return $this->relatedWebsite;
 	}
@@ -507,13 +378,10 @@ final class Event
 	/**
 	 * Extracted from \Nette\Utils\Strings (v2.3)
 	 * Starts the $haystack string with the prefix $needle?
-	 * @param  string
-	 * @param  string
-	 * @return bool
 	 */
-	private static function startsWith($haystack, $needle)
+	private static function startsWith(string $haystack, string $needle): bool
 	{
-		return strncmp($haystack, $needle, strlen($needle)) === 0;
+		return \strncmp($haystack, $needle, \strlen($needle)) === 0;
 	}
 
 }
