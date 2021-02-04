@@ -30,22 +30,16 @@ final class Invitation
 	) {
 		$this->introduction = $introduction;
 		$this->organizationalInformation = $organizationalInformation;
-
-		if ($accommodation !== null) {
-			$this->accommodation = $accommodation;
-		}
+		$this->accommodation = $accommodation;
 
 		$this->food = Food::from($food);
 
 		$this->workDescription = $workDescription;
+		$this->workHoursPerDay = $workHoursPerDay;
 
-		if ($workHoursPerDay !== null) {
-			$this->workHoursPerDay = $workHoursPerDay;
-		}
-
-		if ($presentationText !== null || \count($presentationPhotos) > 0) {
-			$this->presentation = Presentation::from($presentationText, $presentationPhotos);
-		}
+		$this->presentation = ($presentationText !== null || \count($presentationPhotos) > 0)
+			? Presentation::from($presentationText, $presentationPhotos)
+			: null;
 	}
 
 	/**

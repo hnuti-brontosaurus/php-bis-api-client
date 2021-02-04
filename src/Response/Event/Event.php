@@ -85,13 +85,7 @@ final class Event
 		$this->timeFrom = $timeFrom;
 		$this->programDescription = $programDescription;
 		$this->notes = $notes;
-
-
-		// cover photo
-
-		if ($coverPhotoPath !== null) {
-			$this->coverPhotoPath = $coverPhotoPath;
-		}
+		$this->coverPhotoPath = $coverPhotoPath;
 
 
 		// program
@@ -144,6 +138,7 @@ final class Event
 
 		// related website
 
+		$this->relatedWebsite = null;
 		if ($relatedWebsite !== null) {
 			if ( ! self::startsWith($relatedWebsite, 'http')) { // count with no protocol typed URLs
 				$relatedWebsite = 'http://' . $relatedWebsite;
