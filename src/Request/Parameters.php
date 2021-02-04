@@ -1,7 +1,7 @@
 <?php
 
 /**
- * See https://bis.brontosaurus.cz/myr.html for more information on values.
+ * See https://bis.brontosaurus.cz/myr.php for more information on values.
  */
 
 namespace HnutiBrontosaurus\BisApiClient\Request;

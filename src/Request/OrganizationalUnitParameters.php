@@ -25,6 +25,8 @@ final class OrganizationalUnitParameters extends Parameters
 
 	/**
 	 * @param string $type
+	 * @return self
+	 * @throws InvalidArgumentException
 	 */
 	public function setType($type)
 	{
@@ -32,11 +34,13 @@ final class OrganizationalUnitParameters extends Parameters
 			self::TYPE_CLUB,
 			self::TYPE_BASE,
 			self::TYPE_REGIONAL,
-		], TRUE)) {
+		], true)) {
 			throw new InvalidArgumentException('Type `' . $type . '` is not of valid types.');
 		}
 
 		$this->params[self::PARAM_FILTER] = $type;
+
+		return $this;
 	}
 
 }

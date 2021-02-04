@@ -3,11 +3,31 @@
 namespace HnutiBrontosaurus\BisApiClient;
 
 
-class InvalidArgumentException extends \InvalidArgumentException
+// overall exceptions
+
+abstract class BisApiClientLogicException extends \LogicException
 {}
 
-class ResourceNotFoundException extends \RuntimeException
+abstract class BisApiClientRuntimeException extends \RuntimeException
 {}
 
-class BisClientException extends \RuntimeException
+
+// working with API exceptions
+
+final class InvalidArgumentException extends BisApiClientLogicException
+{}
+
+final class BadUsageException extends BisApiClientLogicException
+{}
+
+
+// communicating with BIS exceptions
+
+abstract class ConnectionException extends BisApiClientRuntimeException
+{}
+
+final class TransferErrorException extends ConnectionException
+{}
+
+final class NotFoundException extends ConnectionException
 {}

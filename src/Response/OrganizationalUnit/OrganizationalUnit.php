@@ -1,8 +1,6 @@
 <?php
 
-namespace HnutiBrontosaurus\BisApiClient\Response;
-
-use HnutiBrontosaurus\BisApiClient\InvalidArgumentException;
+namespace HnutiBrontosaurus\BisApiClient\Response\OrganizationalUnit;
 
 
 final class OrganizationalUnit
@@ -29,22 +27,22 @@ final class OrganizationalUnit
 	/** @var string */
 	private $postCode;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $phone;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $email;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $website;
 
 	/** @var int */
 	private $type;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $chairman;
 
-	/** @var string|NULL */
+	/** @var string|null */
 	private $manager;
 
 
@@ -54,25 +52,25 @@ final class OrganizationalUnit
 	 * @param string $street
 	 * @param string $city
 	 * @param string $postCode
-	 * @param string|NULL $phone
-	 * @param string|NULL $email
-	 * @param string|NULL $website
+	 * @param string|null $phone
+	 * @param string|null $email
+	 * @param string|null $website
 	 * @param int $type
-	 * @param string|NULL $chairman
-	 * @param string|NULL $manager
+	 * @param string|null $chairman
+	 * @param string|null $manager
 	 */
-	public function __construct(
+	private function __construct(
 		$id,
 		$name,
 		$street,
 		$city,
 		$postCode,
-		$phone = NULL,
-		$email = NULL,
-		$website = NULL,
+		$phone = null,
+		$email = null,
+		$website = null,
 		$type,
-		$chairman = NULL,
-		$manager = NULL
+		$chairman = null,
+		$manager = null
 	) {
 		$this->id = $id;
 		$this->name = $name;
@@ -90,8 +88,8 @@ final class OrganizationalUnit
 			self::TYPE_BASE,
 			self::TYPE_REGIONAL,
 			self::TYPE_OFFICE,
-		], TRUE)) {
-			throw new InvalidArgumentException('Type `' . $type . '` is not of valid types.');
+		], true)) {
+			throw new UnknownOrganizationUnitTypeException('Type `' . $type . '` is not of valid types.');
 		}
 		$this->type = $type;
 	}
@@ -105,12 +103,12 @@ final class OrganizationalUnit
 			$data['ulice'],
 			$data['mesto'],
 			$data['psc'],
-			$data['telefon'] !== '' ? $data['telefon'] : NULL,
-			$data['email'] !== '' ? $data['email'] : NULL,
-			$data['www'] !== '' ? $data['www'] : NULL,
+			(isset($data['telefon']) && $data['telefon'] !== '') ? $data['telefon'] : null,
+			(isset($data['email']) && $data['email'] !== '') ? $data['email'] : null,
+			(isset($data['www']) && $data['www'] !== '') ? $data['www'] : null,
 			(int) $data['uroven'],
-			$data['predseda'] !== '' ? $data['predseda'] : NULL,
-			$data['hospodar'] !== '' ? $data['hospodar'] : NULL
+			(isset($data['predseda']) && $data['predseda'] !== '') ? $data['predseda'] : null,
+			(isset($data['hospodar']) && $data['hospodar'] !== '') ? $data['hospodar'] : null
 		);
 	}
 
@@ -156,7 +154,7 @@ final class OrganizationalUnit
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getPhone()
 	{
@@ -164,7 +162,7 @@ final class OrganizationalUnit
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getEmail()
 	{
@@ -172,7 +170,7 @@ final class OrganizationalUnit
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getWebsite()
 	{
@@ -188,7 +186,7 @@ final class OrganizationalUnit
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getChairman()
 	{
@@ -196,7 +194,7 @@ final class OrganizationalUnit
 	}
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public function getManager()
 	{

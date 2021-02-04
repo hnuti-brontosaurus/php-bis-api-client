@@ -10,6 +10,7 @@ final class Response
 
 	const TAG_RESULT = 'result';
 	const TAG_RESULT_ATTRIBUTE_ERROR = 'error';
+	const TAG_ATTRIBUTE_ID = 'id';
 
 
 	/** @var ResponseInterface */
@@ -37,13 +38,18 @@ final class Response
 		$rowNodeList = $domFinder->query('*', $domDocument->getElementsByTagName(self::TAG_RESULT)->item(0));
 
 		foreach ($rowNodeList as $rowNode) {
-			\assert($rowNode instanceof \DOMNode);
+			\assert($rowNode instanceof \DOMElement);
 
+			/** @var array $row */
 			$row = [];
 			foreach ($domFinder->query('*', $rowNode) as $node) {
-				\assert($node instanceof \DOMNode);
+				\assert($node instanceof \DOMElement);
 
-				$row[$node->nodeName] = $node->nodeValue;
+				// if there is an ID attribute, use this one a the value as it is numeric representation (thus more technically reliable) of element's content
+				$row[$node->nodeName] = $node->hasAttribute(self::TAG_ATTRIBUTE_ID) ?
+					$node->getAttribute(self::TAG_ATTRIBUTE_ID)
+					:
+					$node->nodeValue;
 			}
 
 			$this->data[] = $row;

@@ -11,6 +11,7 @@
 	"minimum-stability": "stable",
 	"require": {
 		"php": ">=5.6",
+		"ext-dom": "*",
 		"guzzlehttp/guzzle": "^6.3"
 	},
 	"require-dev": {
@@ -20,7 +21,11 @@
 		"psr-4": {
 			"HnutiBrontosaurus\\BisApiClient\\": "src/"
 		},
-		"classmap": ["src/exceptions.php"]
+		"classmap": [
+			"src/exceptions.php",
+			"src/Response/exceptions.php",
+			"src/Response/OrganizationalUnit/exceptions.php"
+		]
 	},
 	"config": {
 		"sort-packages": true
