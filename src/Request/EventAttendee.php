@@ -17,7 +17,7 @@ final class EventAttendee extends Parameters
 		string $phoneNumber,
 		string $emailAddress,
 		?string $note,
-		?array $questionAnswers,
+		array $questionAnswers,
 	) {
 		parent::__construct([
 			self::PARAM_QUERY => 'prihlaska',

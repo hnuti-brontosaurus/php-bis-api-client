@@ -34,11 +34,11 @@ final class RegistrationType
 
 	/**
 	 * @param int $type
-	 * @param array|null $questions
+	 * @param array $questions
 	 * @param string|null $email
 	 * @param string|null $url
 	 */
-	private function __construct($type, array $questions = null, $email = null, $url = null)
+	private function __construct($type, array $questions, $email = null, $url = null)
 	{
 		if ( ! \in_array($type, [
 			self::TYPE_VIA_BRONTOWEB,
@@ -51,7 +51,7 @@ final class RegistrationType
 
 		$this->type = $type;
 
-		if ($type === self::TYPE_VIA_BRONTOWEB && $questions !== null && \count($questions) > 0) {
+		if ($type === self::TYPE_VIA_BRONTOWEB && \count($questions) > 0) {
 			$this->questions = \array_map(function ($question) {
 				return RegistrationQuestion::from($question);
 			}, $questions);
@@ -76,12 +76,12 @@ final class RegistrationType
 
 	/**
 	 * @param int $type
-	 * @param array|null $questions
+	 * @param array $questions
 	 * @param string|null $email
 	 * @param string|null $url
 	 * @return self
 	 */
-	public static function from($type, array $questions = null, $email = null, $url = null)
+	public static function from($type, array $questions, $email = null, $url = null)
 	{
 		return new self($type, $questions, $email, $url);
 	}
