@@ -7,7 +7,7 @@ final class EventAttendee extends Parameters
 {
 
 	/**
-	 * @param string[]|null $questionAnswers
+	 * @param string[] $questionAnswers
 	 */
 	public function __construct(
 		int $eventId,

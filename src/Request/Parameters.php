@@ -16,13 +16,11 @@ abstract class Parameters
 	const PARAM_QUERY = 'query';
 
 
-	/** @var array */
-	protected $params = [];
+	protected array $params = [];
 
 
 	/**
 	 * Currently no limitations to what can be in `params`.
-	 * @param array $params
 	 */
 	public function __construct(array $params = [])
 	{
@@ -30,29 +28,19 @@ abstract class Parameters
 	}
 
 
-	/**
-	 * @return array
-	 */
-	public function getAll()
+	public function getAll(): array
 	{
 		return $this->params;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getQueryString()
+
+	public function getQueryString(): string
 	{
 		return \http_build_query($this->params);
 	}
 
 
-	/**
-	 * @param string $username
-	 * @param string $password
-	 * @return self
-	 */
-	public function setCredentials($username, $password)
+	public function setCredentials(string $username, string $password): static
 	{
 		$this->params[self::PARAM_USERNAME] = $username;
 		$this->params[self::PARAM_PASSWORD] = $password;

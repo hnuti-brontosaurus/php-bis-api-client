@@ -6,33 +6,18 @@ namespace HnutiBrontosaurus\BisApiClient\Response\Event\Invitation;
 final class Photo
 {
 
-	/** @var string */
-	private $path;
+	private function __construct(
+		private string $path,
+	) {}
 
 
-	/**
-	 * @param $path
-	 */
-	private function __construct($path)
-	{
-		$this->path = $path;
-	}
-
-
-	/**
-	 * @param $path
-	 * @return self
-	 */
-	public static function from($path)
+	public static function from(string $path): self
 	{
 		return new self($path);
 	}
 
 
-	/**
-	 * @return string
-	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return $this->path;
 	}

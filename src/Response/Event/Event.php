@@ -3,7 +3,11 @@
 namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
 use HnutiBrontosaurus\BisApiClient\BadUsageException;
+use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Food;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Invitation;
+use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Photo;
+use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Presentation;
+use HnutiBrontosaurus\BisApiClient\Response\Event\Registration\RegistrationQuestion;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Registration\RegistrationType;
 use HnutiBrontosaurus\BisApiClient\Response\RegistrationTypeException;
 
@@ -50,7 +54,14 @@ final class Event
 		$placeName = $data['lokalita'];
 		$placeAlternativeName = (isset($data['lokalita_misto']) && $data['lokalita_misto'] !== '') ? $data['lokalita_misto'] : null;
 		$placeCoordinates = (isset($data['lokalita_gps']) && $data['lokalita_gps'] !== '') ? $data['lokalita_gps'] : null;
-		$place = Place::from($placeName, $placeAlternativeName, $placeCoordinates);
+		$place = Place::from(
+			$placeAlternativeName !== null
+				? $placeAlternativeName // it looks like alternative names are more specific
+				: $placeName,
+			$placeCoordinates !== null
+				? $placeCoordinates
+				: null,
+		);
 
 		// registration
 		$registrationType = (int) $data['prihlaska'];
@@ -66,7 +77,7 @@ final class Event
 		], fn($v, $k) => $v !== null, \ARRAY_FILTER_USE_BOTH);
 		$registrationType = RegistrationType::from(
 			$registrationType,
-			$registrationQuestions,
+			\array_map(fn(string $question) => RegistrationQuestion::from($question), $registrationQuestions),
 			$contactEmail,
 			$registrationCustomUrl,
 		);
@@ -89,8 +100,9 @@ final class Event
 		$contactPhone = $data['kontakt_telefon'];
 		$responsiblePerson = (isset($data['odpovedna']) && $data['odpovedna'] !== '') ? $data['odpovedna'] : null;
 		$organizer = Organizer::from(
-			$organizationalUnitId,
-			$organizationalUnitName,
+			($organizationalUnitId !== null && $organizationalUnitName !== null)
+				? OrganizerOrganizationalUnit::from($organizationalUnitId, $organizationalUnitName)
+				: null,
 			$responsiblePerson,
 			$organizers,
 			$contactPersonName,
@@ -104,24 +116,12 @@ final class Event
 		// BIS API returns "0", "1", "2" etc. for real options and "" when nothing is set
 		$food = (isset($data['strava']) && $data['strava'] !== '') ? (int) $data['strava'] : null;
 
+		/** @var Photo[] $invitationPresentationPhotos */
 		$invitationPresentationPhotos = [];
-		if (isset($data['ochutnavka_1']) && $data['ochutnavka_1'] !== '') {
-			$invitationPresentationPhotos[] = $data['ochutnavka_1'];
-		}
-		if (isset($data['ochutnavka_2']) && $data['ochutnavka_2'] !== '') {
-			$invitationPresentationPhotos[] = $data['ochutnavka_2'];
-		}
-		if (isset($data['ochutnavka_3']) && $data['ochutnavka_3'] !== '') {
-			$invitationPresentationPhotos[] = $data['ochutnavka_3'];
-		}
-		if (isset($data['ochutnavka_4']) && $data['ochutnavka_4'] !== '') {
-			$invitationPresentationPhotos[] = $data['ochutnavka_4'];
-		}
-		if (isset($data['ochutnavka_5']) && $data['ochutnavka_5'] !== '') {
-			$invitationPresentationPhotos[] = $data['ochutnavka_5'];
-		}
-		if (isset($data['ochutnavka_6']) && $data['ochutnavka_6'] !== '') {
-			$invitationPresentationPhotos[] = $data['ochutnavka_6'];
+		for ($i = 1; $i <= 6; $i++) {
+			if (isset($data['ochutnavka_' . $i]) && $data['ochutnavka_' . $i] !== '') {
+				$invitationPresentationPhotos[] = Photo::from($data['ochutnavka_' . $i]);
+			}
 		}
 
 		$invitationOrganizationalInformation = (isset($data['text_info']) && $data['text_info'] !== '') ? $data['text_info'] : null;
@@ -134,11 +134,12 @@ final class Event
 			$invitationIntroduction,
 			$invitationOrganizationalInformation,
 			$accommodation,
-			$food,
+			Food::from($food),
 			$invitationWorkDescription,
 			$workHoursPerDay,
-			$invitationPresentationText,
-			$invitationPresentationPhotos
+			($invitationPresentationText !== null || \count($invitationPresentationPhotos) > 0)
+				? Presentation::from($invitationPresentationText, $invitationPresentationPhotos)
+				: null,
 		);
 
 

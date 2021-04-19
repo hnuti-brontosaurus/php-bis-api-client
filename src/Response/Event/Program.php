@@ -2,8 +2,6 @@
 
 namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
-use HnutiBrontosaurus\BisApiClient\InvalidArgumentException;
-
 
 final class Program
 {
@@ -17,19 +15,16 @@ final class Program
 	const PROGRAM_EDUCATION = 'vzdelavani';
 
 
-	/** @var string */
-	private $slug;
+	private function __construct(
+		private string $slug,
+		private ?string $name,
+	) {}
 
-	/** @var string|null */
-	private $name;
 
-
-	/**
-	 * @param string|null $slug
-	 * @param string|null $name
-	 * @throws InvalidArgumentException
-	 */
-	private function __construct($slug = null, $name = null)
+	public static function from(
+		?string $slug,
+		?string $name,
+	): self
 	{
 		if ($slug === null) {
 			$slug = self::PROGRAM_NONE;
@@ -47,93 +42,59 @@ final class Program
 			$slug = self::PROGRAM_NONE;
 		}
 
-		$this->slug = $slug;
-
-		if ($name !== null) {
-			$this->name = $name;
-		}
-	}
-
-	/**
-	 * @param string|null $slug
-	 * @param string|null $name
-	 * @return self
-	 */
-	public static function from($slug = null, $name = null)
-	{
 		return new self($slug, $name);
 	}
 
 
-	/**
-	 * @return string
-	 */
-	public function getSlug()
+	public function getSlug(): string
 	{
 		return $this->slug;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName()
+
+	public function getName(): ?string
 	{
 		return $this->name;
 	}
 
 
-	/**
-	 * @return bool
-	 */
-	public function isNotSelected()
+	public function isNotSelected(): bool
 	{
 		return $this->slug === self::PROGRAM_NONE;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeNature()
+
+	public function isOfTypeNature(): bool
 	{
 		return $this->slug === self::PROGRAM_NATURE;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeSights()
+
+	public function isOfTypeSights(): bool
 	{
 		return $this->slug === self::PROGRAM_SIGHTS;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeBrdo()
+
+	public function isOfTypeBrdo(): bool
 	{
 		return $this->slug === self::PROGRAM_BRDO;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeEkostan()
+
+	public function isOfTypeEkostan(): bool
 	{
 		return $this->slug === self::PROGRAM_EKOSTAN;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypePsb()
+
+	public function isOfTypePsb(): bool
 	{
 		return $this->slug === self::PROGRAM_PSB;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeEducation()
+
+	public function isOfTypeEducation(): bool
 	{
 		return $this->slug === self::PROGRAM_EDUCATION;
 	}

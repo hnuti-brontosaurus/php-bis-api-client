@@ -15,14 +15,9 @@ final class TargetGroup
 	const FIRST_TIME_ATTENDEES = 5;
 
 
-	/** @var int */
-	private $id;
+	private int $id;
 
-
-	/**
-	 * @param int $id
-	 */
-	private function __construct($id)
+	private function __construct(int $id)
 	{
 		if ( ! \in_array($id, [
 			self::EVERYONE,
@@ -37,52 +32,39 @@ final class TargetGroup
 		$this->id = $id;
 	}
 
-	/**
-	 * @param int $id
-	 * @return self
-	 */
-	public static function from($id)
+
+	public static function from(int $id): self
 	{
 		return new self($id);
 	}
 
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeEveryone()
+
+	public function isOfTypeEveryone(): bool
 	{
 		return $this->id === self::EVERYONE;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeAdults()
+
+	public function isOfTypeAdults(): bool
 	{
 		return $this->id === self::ADULTS;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeChildren()
+
+	public function isOfTypeChildren(): bool
 	{
 		return $this->id === self::CHILDREN;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeFamilies()
+
+	public function isOfTypeFamilies(): bool
 	{
 		return $this->id === self::FAMILIES;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeFirstTimeAttendees()
+
+	public function isOfTypeFirstTimeAttendees(): bool
 	{
 		return $this->id === self::FIRST_TIME_ATTENDEES;
 	}

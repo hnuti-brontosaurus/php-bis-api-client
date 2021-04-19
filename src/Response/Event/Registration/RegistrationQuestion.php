@@ -6,42 +6,26 @@ namespace HnutiBrontosaurus\BisApiClient\Response\Event\Registration;
 final class RegistrationQuestion
 {
 
-	/** @var string */
-	private $question;
+	private function __construct(
+		private string $question,
+	) {}
 
 
-	/**
-	 * @param string $question
-	 */
-	private function __construct($question)
-	{
-		$this->question = $question;
-	}
-
-	/**
-	 * @param string $question
-	 * @return self
-	 */
-	public static function from($question)
+	public static function from(string $question): self
 	{
 		return new self($question);
 	}
 
 
-	/**
-	 * @return string
-	 */
-	public function toString()
-	{
-		return $this->__toString();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function __toString()
+	public function toString(): string
 	{
 		return $this->question;
+	}
+
+
+	public function __toString(): string
+	{
+		return $this->toString();
 	}
 
 }
