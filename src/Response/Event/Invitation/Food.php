@@ -10,24 +10,13 @@ final class Food
 	private const VEGETARIAN = 1;
 	private const NON_VEGETARIAN = 2;
 
-
-	/** @var bool */
-	private $isListed = false;
-
-	/** @var bool */
-	private $isOfTypeChooseable = false;
-
-	/** @var bool */
-	private $isOfTypeVegetarian = false;
-
-	/** @var bool */
-	private $isOfTypeNonVegetarian = false;
+	private bool $isListed = false;
+	private bool $isOfTypeChooseable = false;
+	private bool $isOfTypeVegetarian = false;
+	private bool $isOfTypeNonVegetarian = false;
 
 
-	/**
-	 * @param int|null $food
-	 */
-	private function __construct($food)
+	private function __construct(?int $food)
 	{
 		if (\in_array($food, [
 			self::CHOOSEABLE,
@@ -42,44 +31,32 @@ final class Food
 		}
 	}
 
-	/**
-	 * @param int|null $food
-	 * @return self
-	 */
-	public static function from($food)
+
+	public static function from(?int $food): self
 	{
 		return new self($food);
 	}
 
 
-	/**
-	 * @return bool
-	 */
-	public function isListed()
+	public function isListed(): bool
 	{
 		return $this->isListed;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeChooseable()
+
+	public function isOfTypeChooseable(): bool
 	{
 		return $this->isOfTypeChooseable;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeVegetarian()
+
+	public function isOfTypeVegetarian(): bool
 	{
 		return $this->isOfTypeVegetarian;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeNonVegetarian()
+
+	public function isOfTypeNonVegetarian(): bool
 	{
 		return $this->isOfTypeNonVegetarian;
 	}

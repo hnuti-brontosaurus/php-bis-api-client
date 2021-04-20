@@ -6,95 +6,45 @@ namespace HnutiBrontosaurus\BisApiClient\Response\Event\Invitation;
 final class Presentation
 {
 
-	/** @var string|null */
-	private $text;
-
-	/** @var bool */
-	private $hasAnyPhotos = false;
-
-	/** @var Photo[] */
-	private $photos = [];
+	/**
+	 * @param Photo[] $photos
+	 */
+	private function __construct(
+		private ?string $text,
+		private array $photos = [],
+	) {}
 
 
 	/**
-	 * @param string|null $text
-	 * @param string[] $photoPaths
+	 * @param Photo[] $photos
 	 */
-	private function __construct($text, array $photoPaths)
+	public static function from(?string $text, array $photos): self
 	{
-		if ($text !== null) {
-			$this->text = $text;
-		}
-
-		if (\count($photoPaths) > 0) {
-			$this->addPhotos($photoPaths);
-		}
+		return new self($text, $photos);
 	}
 
 
-	/**
-	 * @param string[] $photoPaths
-	 * @return self
-	 */
-	public static function from(?string $text, array $photoPaths)
-	{
-		return new self($text, $photoPaths);
-	}
-
-	/**
-	 * @param string $photoPath
-	 * @return self
-	 */
-	private function addPhoto($photoPath)
-	{
-		$this->hasAnyPhotos = true;
-		$this->photos[] = Photo::from($photoPath);
-
-		return $this;
-	}
-
-	/**
-	 * @param string[] $photoPaths
-	 * @return self
-	 */
-	private function addPhotos(array $photoPaths)
-	{
-		foreach ($photoPaths as $photoPath) {
-			$this->addPhoto($photoPath);
-		}
-
-		return $this;
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function hasText()
+	public function hasText(): bool
 	{
 		return $this->text !== null;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getText()
+
+	public function getText(): ?string
 	{
 		return $this->text;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function hasAnyPhotos()
+
+	public function hasAnyPhotos(): bool
 	{
-		return $this->hasAnyPhotos;
+		return \count($this->photos) > 0;
 	}
 
 	/**
 	 * @return Photo[]
 	 */
-	public function getPhotos()
+	public function getPhotos(): array
 	{
 		return $this->photos;
 	}

@@ -25,11 +25,7 @@ final class EventParameters extends Parameters
 	}
 
 
-	/**
-	 * @param int $id
-	 * @return self
-	 */
-	public function setId($id)
+	public function setId(int $id): static
 	{
 		$this->params['id'] = (int) $id;
 		return $this;
@@ -50,11 +46,9 @@ final class EventParameters extends Parameters
 	 *
 	 * Beside standard constant usage as a parameter, you can pass bitwise operation argument, e.g. `EventParameters::FILTER_WEEKEND|EventParameters::FILTER_CAMP`.
 	 *
-	 * @param int $filter
-	 * @return self
 	 * @throws InvalidArgumentException
 	 */
-	public function setFilter($filter)
+	public function setFilter(int $filter): static
 	{
 		$keys = [
 			self::FILTER_CLUB => 'klub',
@@ -112,11 +106,9 @@ final class EventParameters extends Parameters
 	const TYPE_GROUP_MEETING = 'schuzka'; // oddílová, družinová schůzka
 
 	/**
-	 * @param string $type
-	 * @return self
 	 * @throws InvalidArgumentException
 	 */
-	public function setType($type)
+	public function setType(string $type): static
 	{
 		if ( ! \in_array($type, [
 			self::TYPE_VOLUNTARY,
@@ -147,9 +139,8 @@ final class EventParameters extends Parameters
 
 	/**
 	 * @param string[] $types
-	 * @return self
 	 */
-	public function setTypes(array $types)
+	public function setTypes(array $types): static
 	{
 		foreach ($types as $type) {
 			$this->setType($type);
@@ -170,11 +161,9 @@ final class EventParameters extends Parameters
 	const PROGRAM_EDUCATION = 'vzdelavani';
 
 	/**
-	 * @param string $program
-	 * @return self
 	 * @throws InvalidArgumentException
 	 */
-	public function setProgram($program)
+	public function setProgram(string $program): static
 	{
 		if ( ! \in_array($program, [
 			self::PROGRAM_NOT_SELECTED,
@@ -194,9 +183,8 @@ final class EventParameters extends Parameters
 
 	/**
 	 * @param string[] $programs
-	 * @return self
 	 */
-	public function setPrograms(array $programs)
+	public function setPrograms(array $programs): static
 	{
 		foreach ($programs as $program) {
 			$this->setProgram($program);
@@ -215,11 +203,9 @@ final class EventParameters extends Parameters
 	const TARGET_GROUP_FIRST_TIME_ATTENDEES = 'prvouc';
 
 	/**
-	 * @param string $targetGroup
-	 * @return self
 	 * @throws InvalidArgumentException
 	 */
-	public function setTargetGroup($targetGroup)
+	public function setTargetGroup(string $targetGroup): static
 	{
 		if ( ! \in_array($targetGroup, [
 			self::TARGET_GROUP_EVERYONE,
@@ -237,9 +223,8 @@ final class EventParameters extends Parameters
 
 	/**
 	 * @param string[] $targetGroups
-	 * @return self
 	 */
-	public function setTargetGroups(array $targetGroups)
+	public function setTargetGroups(array $targetGroups): static
 	{
 		foreach ($targetGroups as $targetGroup) {
 			$this->setTargetGroup($targetGroup);
@@ -253,40 +238,25 @@ final class EventParameters extends Parameters
 
 	const PARAM_DATE_FORMAT = 'Y-m-d';
 
-	/**
-	 * @param \DateTimeImmutable $dateFrom
-	 * @return self
-	 */
-	public function setFrom(\DateTimeImmutable $dateFrom)
+	public function setFrom(\DateTimeImmutable $dateFrom): static
 	{
 		$this->params['od'] = $dateFrom->format(self::PARAM_DATE_FORMAT);
 		return $this;
 	}
 
-	/**
-	 * @param \DateTimeImmutable $dateFrom
-	 * @return self
-	 */
-	public function setUntil(\DateTimeImmutable $dateFrom)
+	public function setUntil(\DateTimeImmutable $dateFrom): static
 	{
 		$this->params['do'] = $dateFrom->format(self::PARAM_DATE_FORMAT);
 		return $this;
 	}
 
-	/**
-	 * @param int $year
-	 * @return self
-	 */
-	public function setYear($year)
+	public function setYear(int $year): static
 	{
 		$this->params['rok'] = (int) $year;
 		return $this;
 	}
 
-	/**
-	 * @return self
-	 */
-	public function hideTheseAlreadyStarted()
+	public function hideTheseAlreadyStarted(): static
 	{
 		unset($this->params[self::PARAM_DISPLAY_ALREADY_STARTED_KEY]);
 		return $this;
@@ -295,10 +265,7 @@ final class EventParameters extends Parameters
 
 	// miscellaneous
 
-	/**
-	 * @return self
-	 */
-	public function orderByStartDate()
+	public function orderByStartDate(): static
 	{
 		unset($this->params[self::PARAM_ORDER_BY_KEY]);
 		return $this;
@@ -306,9 +273,8 @@ final class EventParameters extends Parameters
 
 	/**
 	 * @param int|int[] $unitIds
-	 * @return self
 	 */
-	public function setOrganizedBy($unitIds)
+	public function setOrganizedBy(array|int $unitIds): static
 	{
 		$organizedByKey = 'zc';
 
@@ -329,10 +295,7 @@ final class EventParameters extends Parameters
 		return $this;
 	}
 
-	/**
-	 * @return self
-	 */
-	public function includeNonPublic()
+	public function includeNonPublic(): static
 	{
 		$this->params['vse'] = 1;
 		return $this;

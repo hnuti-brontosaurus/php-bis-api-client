@@ -24,11 +24,9 @@ final class OrganizationalUnitParameters extends Parameters
 
 
 	/**
-	 * @param string $type
-	 * @return self
 	 * @throws InvalidArgumentException
 	 */
-	public function setType($type)
+	public function setType(string $type): static
 	{
 		if (!\in_array($type, [
 			self::TYPE_CLUB,

@@ -6,145 +6,94 @@ namespace HnutiBrontosaurus\BisApiClient\Response\Event\Invitation;
 final class Invitation
 {
 
-	private string $introduction;
-	private string $organizationalInformation;
-	private ?string $accommodation;
-	private Food $food;
-	private ?string $workDescription;
-	private ?int $workHoursPerDay;
-	private ?Presentation $presentation;
-
-
-	/**
-	 * @param string[] $presentationPhotos
-	 */
 	private function __construct(
-		string $introduction,
-		string $organizationalInformation,
-		?string $accommodation,
-		?int $food,
-		?string $workDescription,
-		?int $workHoursPerDay,
-		?string $presentationText,
-		array $presentationPhotos,
-	) {
-		$this->introduction = $introduction;
-		$this->organizationalInformation = $organizationalInformation;
-		$this->accommodation = $accommodation;
+		private string $introduction,
+		private string $organizationalInformation,
+		private ?string $accommodation,
+		private Food $food,
+		private ?string $workDescription,
+		private ?int $workHoursPerDay,
+		private ?Presentation $presentation,
+	) {}
 
-		$this->food = Food::from($food);
 
-		$this->workDescription = $workDescription;
-		$this->workHoursPerDay = $workHoursPerDay;
-
-		$this->presentation = ($presentationText !== null || \count($presentationPhotos) > 0)
-			? Presentation::from($presentationText, $presentationPhotos)
-			: null;
-	}
-
-	/**
-	 * @param string[] $presentationPhotos
-	 */
 	public static function from(
 		string $introduction,
 		string $organizationalInformation,
 		?string $accommodation,
-		?int $food,
+		Food $food,
 		?string $workDescription,
 		?int $workHoursPerDay,
-		?string $presentationText,
-		array $presentationPhotos,
-	): static
+		?Presentation $presentation,
+	): self
 	{
-		return new static(
+		return new self(
 			$introduction,
 			$organizationalInformation,
 			$accommodation,
 			$food,
 			$workDescription,
 			$workHoursPerDay,
-			$presentationText,
-			$presentationPhotos
+			$presentation,
 		);
 	}
 
 
-	/**
-	 * @return string
-	 */
-	public function getIntroduction()
+	public function getIntroduction(): string
 	{
 		return $this->introduction;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getOrganizationalInformation()
+
+	public function getOrganizationalInformation(): string
 	{
 		return $this->organizationalInformation;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isAccommodationListed()
+
+	public function isAccommodationListed(): bool
 	{
 		return $this->accommodation !== null;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getAccommodation()
+
+	public function getAccommodation(): ?string
 	{
 		return $this->accommodation;
 	}
 
-	/**
-	 * @return Food
-	 */
-	public function getFood()
+
+	public function getFood(): Food
 	{
 		return $this->food;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getWorkDescription()
+
+	public function getWorkDescription(): ?string
 	{
 		return $this->workDescription;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function areWorkHoursPerDayListed()
+
+	public function areWorkHoursPerDayListed(): bool
 	{
 		return $this->workHoursPerDay !== null;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getWorkHoursPerDay()
+
+	public function getWorkHoursPerDay(): ?int
 	{
 		return $this->workHoursPerDay;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function hasPresentation()
+
+	public function hasPresentation(): bool
 	{
 		return $this->presentation !== null;
 	}
 
-	/**
-	 * @return Presentation|null
-	 */
-	public function getPresentation()
+
+	public function getPresentation(): ?Presentation
 	{
 		return $this->presentation;
 	}

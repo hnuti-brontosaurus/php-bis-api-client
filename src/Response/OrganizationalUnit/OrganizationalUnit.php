@@ -12,76 +12,24 @@ final class OrganizationalUnit
 	const TYPE_OFFICE = 4;
 
 
-	/** @var int */
-	private $id;
-
-	/** @var string */
-	private $name;
-
-	/** @var string */
-	private $street;
-
-	/** @var string */
-	private $city;
-
-	/** @var string */
-	private $postCode;
-
-	/** @var string|null */
-	private $phone;
-
-	/** @var string|null */
-	private $email;
-
-	/** @var string|null */
-	private $website;
-
-	/** @var int */
-	private $type;
-
-	/** @var string|null */
-	private $chairman;
-
-	/** @var string|null */
-	private $manager;
-
+	private int $type;
 
 	/**
-	 * @param int $id
-	 * @param string $name
-	 * @param string $street
-	 * @param string $city
-	 * @param string $postCode
-	 * @param string|null $phone
-	 * @param string|null $email
-	 * @param string|null $website
-	 * @param int $type
-	 * @param string|null $chairman
-	 * @param string|null $manager
+	 * @throws UnknownOrganizationUnitTypeException
 	 */
 	private function __construct(
-		int $id,
-		string $name,
-		string $street,
-		string $city,
-		string $postCode,
-		?string $phone,
-		?string $email,
-		?string $website,
+		private int $id,
+		private string $name,
+		private string $street,
+		private string $city,
+		private string $postCode,
+		private ?string $phone,
+		private ?string $email,
+		private ?string $website,
 		int $type,
-		?string $chairman,
-		?string $manager,
+		private ?string $chairman,
+		private ?string $manager,
 	) {
-		$this->id = $id;
-		$this->name = $name;
-		$this->street = $street;
-		$this->city = $city;
-		$this->postCode = $postCode;
-		$this->phone = $phone;
-		$this->email = $email;
-		$this->website = $website;
-		$this->chairman = $chairman;
-		$this->manager = $manager;
 
 		if (!\in_array($type, [
 			self::TYPE_CLUB,
@@ -91,11 +39,15 @@ final class OrganizationalUnit
 		], true)) {
 			throw new UnknownOrganizationUnitTypeException('Type `' . $type . '` is not of valid types.');
 		}
+
 		$this->type = $type;
 	}
 
 
-	public static function fromResponseData(array $data)
+	/**
+	 * @throws UnknownOrganizationUnitTypeException
+	 */
+	public static function fromResponseData(array $data): self
 	{
 		return new self(
 			(int) $data['id'],
@@ -108,128 +60,90 @@ final class OrganizationalUnit
 			(isset($data['www']) && $data['www'] !== '') ? $data['www'] : null,
 			(int) $data['uroven'],
 			(isset($data['predseda']) && $data['predseda'] !== '') ? $data['predseda'] : null,
-			(isset($data['hospodar']) && $data['hospodar'] !== '') ? $data['hospodar'] : null
+			(isset($data['hospodar']) && $data['hospodar'] !== '') ? $data['hospodar'] : null,
 		);
 	}
 
 
-	/**
-	 * @return int
-	 */
-	public function getId()
+	public function getId(): int
 	{
 		return $this->id;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName()
+
+	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getStreet()
+
+	public function getStreet(): string
 	{
 		return $this->street;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getCity()
+
+	public function getCity(): string
 	{
 		return $this->city;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPostCode()
+
+	public function getPostCode(): string
 	{
 		return $this->postCode;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getPhone()
+
+	public function getPhone(): ?string
 	{
 		return $this->phone;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getEmail()
+
+	public function getEmail(): ?string
 	{
 		return $this->email;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getWebsite()
+
+	public function getWebsite(): ?string
 	{
 		return $this->website;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getType()
-	{
-		return $this->type;
-	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getChairman()
+	public function getChairman(): ?string
 	{
 		return $this->chairman;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getManager()
+
+	public function getManager(): ?string
 	{
 		return $this->manager;
 	}
 
 
-	/**
-	 * @return bool
-	 */
-	public function isClub()
+	public function isClub(): bool
 	{
 		return $this->type === self::TYPE_CLUB;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isBaseUnit()
+
+	public function isBaseUnit(): bool
 	{
 		return $this->type === self::TYPE_BASE;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isRegionalUnit()
+
+	public function isRegionalUnit(): bool
 	{
 		return $this->type === self::TYPE_REGIONAL;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOffice()
+
+	public function isOffice(): bool
 	{
 		return $this->type === self::TYPE_OFFICE;
 	}

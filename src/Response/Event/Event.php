@@ -3,7 +3,11 @@
 namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
 use HnutiBrontosaurus\BisApiClient\BadUsageException;
+use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Food;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Invitation;
+use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Photo;
+use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Presentation;
+use HnutiBrontosaurus\BisApiClient\Response\Event\Registration\RegistrationQuestion;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Registration\RegistrationType;
 use HnutiBrontosaurus\BisApiClient\Response\RegistrationTypeException;
 
@@ -11,142 +15,27 @@ use HnutiBrontosaurus\BisApiClient\Response\RegistrationTypeException;
 final class Event
 {
 
-	private int $id;
-	private string $name;
-	private ?string $coverPhotoPath;
-	private \DateTimeImmutable $dateFrom;
-	private ?string $timeFrom;
-	private \DateTimeImmutable $dateUntil;
-	private string $type;
-	private Program $program;
-	private Place $place;
-	private RegistrationType $registrationType;
-	private ?int $ageFrom;
-	private ?int $ageUntil;
-	private int|string $price; // single number or interval
-	private Organizer $organizer;
-	private TargetGroup $targetGroup;
-	private ?Invitation $invitation;
-	private ?string $programDescription;
-	private ?string $notes;
-	private ?string $relatedWebsite;
-
-
 	private function __construct(
-		int $id,
-		string $name,
-		?string $coverPhotoPath,
-		\DateTimeImmutable $dateFrom,
-		\DateTimeImmutable $dateUntil,
-		string $type,
-		?string $programSlug,
-		?string $programName,
-		string $placeName,
-		?string $placeAlternativeName,
-		?string $placeCoordinates,
-		int $registrationType,
-		?string $webRegistrationQuestion1,
-		?string $webRegistrationQuestion2,
-		?string $webRegistrationQuestion3,
-		?string $registrationCustomUrl,
-		?int $ageFrom,
-		?int $ageUntil,
-		int|string $price,
-		?int $organizationalUnitId,
-		?string $organizationalUnitName,
-		?string $organizers,
-		?string $contactPersonName,
-		string $contactPhone,
-		string $contactEmail,
-		int $targetGroupId,
-		?string $invitationOrganizationalInformation,
-		?string $invitationIntroduction,
-		?string $invitationPresentationText,
-		array $invitationPresentationPhotos,
-		?string $invitationWorkDescription,
-		?string $timeFrom,
-		?string $responsiblePerson,
-		?int $workHoursPerDay,
-		?string $programDescription,
-		?string $accommodation,
-		?int $food,
-		?string $notes,
-		?string $relatedWebsite,
-	) {
-		$this->id = $id;
-		$this->name = $name;
-		$this->dateFrom = $dateFrom;
-		$this->dateUntil = $dateUntil;
-		$this->type = $type;
-		$this->place = Place::from($placeName, $placeAlternativeName, $placeCoordinates);
-		$this->ageFrom = $ageFrom;
-		$this->ageUntil = $ageUntil;
-		$this->price = $price;
-		$this->timeFrom = $timeFrom;
-		$this->programDescription = $programDescription;
-		$this->notes = $notes;
-		$this->coverPhotoPath = $coverPhotoPath;
-
-
-		// program
-
-		$this->program = Program::from($programSlug, $programName);
-
-
-		// registration
-
-		$registrationQuestions = \array_filter([ // exclude all null items
-			$webRegistrationQuestion1,
-			$webRegistrationQuestion2,
-			$webRegistrationQuestion3,
-		], function ($v, $k) {
-			return $v !== null;
-		}, ARRAY_FILTER_USE_BOTH);
-		$this->registrationType = RegistrationType::from($registrationType, $registrationQuestions, $contactEmail, $registrationCustomUrl);
-
-
-		// organizers
-
-		$this->organizer = Organizer::from(
-			$organizationalUnitId,
-			$organizationalUnitName,
-			$responsiblePerson,
-			$organizers,
-			$contactPersonName,
-			$contactPhone,
-			$contactEmail
-		);
-
-
-		// target group
-		$this->targetGroup = TargetGroup::from($targetGroupId);
-
-
-		// invitation
-
-		$this->invitation = Invitation::from(
-			$invitationIntroduction,
-			$invitationOrganizationalInformation,
-			$accommodation,
-			$food,
-			$invitationWorkDescription,
-			$workHoursPerDay,
-			$invitationPresentationText,
-			$invitationPresentationPhotos
-		);
-
-
-		// related website
-
-		$this->relatedWebsite = null;
-		if ($relatedWebsite !== null) {
-			if ( ! self::startsWith($relatedWebsite, 'http')) { // count with no protocol typed URLs
-				$relatedWebsite = 'http://' . $relatedWebsite;
-			}
-
-			$this->relatedWebsite = $relatedWebsite;
-		}
-	}
+		private int $id,
+		private string $name,
+		private ?string $coverPhotoPath,
+		private \DateTimeImmutable $dateFrom,
+		private \DateTimeImmutable $dateUntil,
+		private string $type,
+		private Program $program,
+		private Place $place,
+		private RegistrationType $registrationType,
+		private ?int $ageFrom,
+		private ?int $ageUntil,
+		private int|string $price, // single number or interval
+		private Organizer $organizer,
+		private TargetGroup $targetGroup,
+		private Invitation $invitation,
+		private ?string $timeFrom,
+		private ?string $programDescription,
+		private ?string $notes,
+		private ?string $relatedWebsite,
+	) {}
 
 
 	/**
@@ -156,6 +45,44 @@ final class Event
 	 */
 	public static function fromResponseData(array $data): static
 	{
+		// program
+		$programSlug = (isset($data['program_id']) && $data['program_id'] !== '') ? $data['program_id'] : null;
+		$programName = (isset($data['program']) && $data['program'] !== '') ? $data['program'] : null;
+		$program = Program::from($programSlug, $programName);
+
+		// place
+		$placeName = $data['lokalita'];
+		$placeAlternativeName = (isset($data['lokalita_misto']) && $data['lokalita_misto'] !== '') ? $data['lokalita_misto'] : null;
+		$placeCoordinates = (isset($data['lokalita_gps']) && $data['lokalita_gps'] !== '') ? $data['lokalita_gps'] : null;
+		$place = Place::from(
+			$placeAlternativeName !== null
+				? $placeAlternativeName // it looks like alternative names are more specific
+				: $placeName,
+			$placeCoordinates !== null
+				? $placeCoordinates
+				: null,
+		);
+
+		// registration
+		$registrationType = (int) $data['prihlaska'];
+		$webRegistrationQuestion1 = (isset($data['add_info_title']) && $data['add_info_title'] !== '') ? $data['add_info_title'] : null;
+		$webRegistrationQuestion2 = (isset($data['add_info_title_2']) && $data['add_info_title_2'] !== '') ? $data['add_info_title_2'] : null;
+		$webRegistrationQuestion3 = (isset($data['add_info_title_3']) && $data['add_info_title_3'] !== '') ? $data['add_info_title_3'] : null;
+		$contactEmail = $data['kontakt_email'];
+		$registrationCustomUrl = (isset($data['kontakt_url']) && $data['kontakt_url'] !== '') ? $data['kontakt_url'] : null;
+		$registrationQuestions = \array_filter([ // exclude all null items
+			$webRegistrationQuestion1,
+			$webRegistrationQuestion2,
+			$webRegistrationQuestion3,
+		], fn($v, $k) => $v !== null, \ARRAY_FILTER_USE_BOTH);
+		$registrationType = RegistrationType::from(
+			$registrationType,
+			\array_map(fn(string $question) => RegistrationQuestion::from($question), $registrationQuestions),
+			$contactEmail,
+			$registrationCustomUrl,
+		);
+
+		// price
 		$price = 0;
 		if (isset($data['poplatek']) && $data['poplatek'] !== '') {
 			$price = $data['poplatek'];
@@ -165,27 +92,66 @@ final class Event
 			}
 		}
 
+		// organizers
+		$organizationalUnitId = (isset($data['porada_id']) && $data['porada_id'] !== '') ? ((int) $data['porada_id']) : null;
+		$organizationalUnitName= (isset($data['porada']) && $data['porada'] !== '') ? $data['porada'] : null;
+		$organizers = (isset($data['org']) && $data['org'] !== '') ? $data['org'] : null;
+		$contactPersonName = (isset($data['kontakt']) && $data['kontakt'] !== '') ? $data['kontakt'] : null;
+		$contactPhone = $data['kontakt_telefon'];
+		$responsiblePerson = (isset($data['odpovedna']) && $data['odpovedna'] !== '') ? $data['odpovedna'] : null;
+		$organizer = Organizer::from(
+			($organizationalUnitId !== null && $organizationalUnitName !== null)
+				? OrganizerOrganizationalUnit::from($organizationalUnitId, $organizationalUnitName)
+				: null,
+			$responsiblePerson,
+			$organizers,
+			$contactPersonName,
+			$contactPhone,
+			$contactEmail,
+		);
+
+
+		// invitation
+
 		// BIS API returns "0", "1", "2" etc. for real options and "" when nothing is set
 		$food = (isset($data['strava']) && $data['strava'] !== '') ? (int) $data['strava'] : null;
 
+		/** @var Photo[] $invitationPresentationPhotos */
 		$invitationPresentationPhotos = [];
-		if (isset($data['ochutnavka_1']) && $data['ochutnavka_1'] !== '') {
-			$invitationPresentationPhotos[] = $data['ochutnavka_1'];
+		for ($i = 1; $i <= 6; $i++) {
+			if (isset($data['ochutnavka_' . $i]) && $data['ochutnavka_' . $i] !== '') {
+				$invitationPresentationPhotos[] = Photo::from($data['ochutnavka_' . $i]);
+			}
 		}
-		if (isset($data['ochutnavka_2']) && $data['ochutnavka_2'] !== '') {
-			$invitationPresentationPhotos[] = $data['ochutnavka_2'];
-		}
-		if (isset($data['ochutnavka_3']) && $data['ochutnavka_3'] !== '') {
-			$invitationPresentationPhotos[] = $data['ochutnavka_3'];
-		}
-		if (isset($data['ochutnavka_4']) && $data['ochutnavka_4'] !== '') {
-			$invitationPresentationPhotos[] = $data['ochutnavka_4'];
-		}
-		if (isset($data['ochutnavka_5']) && $data['ochutnavka_5'] !== '') {
-			$invitationPresentationPhotos[] = $data['ochutnavka_5'];
-		}
-		if (isset($data['ochutnavka_6']) && $data['ochutnavka_6'] !== '') {
-			$invitationPresentationPhotos[] = $data['ochutnavka_6'];
+
+		$invitationOrganizationalInformation = (isset($data['text_info']) && $data['text_info'] !== '') ? $data['text_info'] : null;
+		$invitationIntroduction = (isset($data['text_uvod']) && $data['text_uvod'] !== '') ? $data['text_uvod'] : null;
+		$invitationPresentationText = (isset($data['text_mnam']) && $data['text_mnam'] !== '') ? $data['text_mnam'] : null;
+		$invitationWorkDescription = (isset($data['text_dobr']) && $data['text_dobr'] !== '') ? $data['text_dobr'] : null;
+		$workHoursPerDay = (isset($data['pracovni_doba']) && $data['pracovni_doba'] !== '') ? ((int) $data['pracovni_doba']) : null;
+		$accommodation = (isset($data['ubytovani']) && $data['ubytovani'] !== '') ? $data['ubytovani'] : null;
+		$invitation = Invitation::from(
+			$invitationIntroduction,
+			$invitationOrganizationalInformation,
+			$accommodation,
+			Food::from($food),
+			$invitationWorkDescription,
+			$workHoursPerDay,
+			($invitationPresentationText !== null || \count($invitationPresentationPhotos) > 0)
+				? Presentation::from($invitationPresentationText, $invitationPresentationPhotos)
+				: null,
+		);
+
+
+		// related website
+		$relatedWebsite = (isset($data['web']) && $data['web'] !== '') ? $data['web'] : null;
+		$_relatedWebsite = null;
+		if ($relatedWebsite !== null) {
+			if ( ! self::startsWith($relatedWebsite, 'http')) { // count with no protocol typed URLs
+				$relatedWebsite = 'http://' . $relatedWebsite;
+			}
+
+			$_relatedWebsite = $relatedWebsite;
 		}
 
 		return new self(
@@ -195,39 +161,19 @@ final class Event
 			\DateTimeImmutable::createFromFormat('Y-m-d', $data['od']),
 			\DateTimeImmutable::createFromFormat('Y-m-d', $data['do']),
 			$data['typ'],
-			(isset($data['program_id']) && $data['program_id'] !== '') ? $data['program_id'] : null,
-			(isset($data['program']) && $data['program'] !== '') ? $data['program'] : null,
-			$data['lokalita'],
-			(isset($data['lokalita_misto']) && $data['lokalita_misto'] !== '') ? $data['lokalita_misto'] : null,
-			(isset($data['lokalita_gps']) && $data['lokalita_gps'] !== '') ? $data['lokalita_gps'] : null,
-			(int) $data['prihlaska'],
-			(isset($data['add_info_title']) && $data['add_info_title'] !== '') ? $data['add_info_title'] : null,
-			(isset($data['add_info_title_2']) && $data['add_info_title_2'] !== '') ? $data['add_info_title_2'] : null,
-			(isset($data['add_info_title_3']) && $data['add_info_title_3'] !== '') ? $data['add_info_title_3'] : null,
-			(isset($data['kontakt_url']) && $data['kontakt_url'] !== '') ? $data['kontakt_url'] : null,
+			$program,
+			$place,
+			$registrationType,
 			(isset($data['vek_od']) && $data['vek_od'] !== '') ? ((int) $data['vek_od']) : null,
 			(isset($data['vek_do']) && $data['vek_do'] !== '') ? ((int) $data['vek_do']) : null,
 			$price,
-			(isset($data['porada_id']) && $data['porada_id'] !== '') ? ((int) $data['porada_id']) : null,
-			(isset($data['porada']) && $data['porada'] !== '') ? $data['porada'] : null,
-			(isset($data['org']) && $data['org'] !== '') ? $data['org'] : null,
-			(isset($data['kontakt']) && $data['kontakt'] !== '') ? $data['kontakt'] : null,
-			$data['kontakt_telefon'],
-			$data['kontakt_email'],
-			(int) $data['prokoho'],
-			(isset($data['text_info']) && $data['text_info'] !== '') ? $data['text_info'] : null,
-			(isset($data['text_uvod']) && $data['text_uvod'] !== '') ? $data['text_uvod'] : null,
-			(isset($data['text_mnam']) && $data['text_mnam'] !== '') ? $data['text_mnam'] : null,
-			$invitationPresentationPhotos,
-			(isset($data['text_dobr']) && $data['text_dobr'] !== '') ? $data['text_dobr'] : null,
+			$organizer,
+			TargetGroup::from((int) $data['prokoho']),
+			$invitation,
 			(isset($data['sraz']) && $data['sraz'] !== '') ? $data['sraz'] : null,
-			(isset($data['odpovedna']) && $data['odpovedna'] !== '') ? $data['odpovedna'] : null,
-			(isset($data['pracovni_doba']) && $data['pracovni_doba'] !== '') ? ((int) $data['pracovni_doba']) : null,
 			(isset($data['popis_programu']) && $data['popis_programu'] !== '') ? $data['popis_programu'] : null,
-			(isset($data['ubytovani']) && $data['ubytovani'] !== '') ? $data['ubytovani'] : null,
-			$food,
 			(isset($data['jak_se_prihlasit']) && $data['jak_se_prihlasit'] !== '') ? $data['jak_se_prihlasit'] : null,
-			(isset($data['web']) && $data['web'] !== '') ? $data['web'] : null
+			$_relatedWebsite,
 		);
 	}
 
@@ -235,6 +181,12 @@ final class Event
 	public function getId(): int
 	{
 		return $this->id;
+	}
+
+
+	public function getName(): string
+	{
+		return $this->name;
 	}
 
 
@@ -247,12 +199,6 @@ final class Event
 	public function hasCoverPhoto(): bool
 	{
 		return $this->coverPhotoPath !== null;
-	}
-
-
-	public function getName(): string
-	{
-		return $this->name;
 	}
 
 
@@ -328,7 +274,7 @@ final class Event
 	}
 
 
-	public function getInvitation(): ?Invitation
+	public function getInvitation(): Invitation
 	{
 		return $this->invitation;
 	}

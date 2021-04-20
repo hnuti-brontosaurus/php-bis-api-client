@@ -16,29 +16,35 @@ final class RegistrationType
 	const TYPE_DISABLED = 5;
 
 
-	/** @var int One of above constant values. */
-	private $type;
-
-	/** @var RegistrationQuestion[] In case of registering via Brontoweb. */
-	private $questions = [];
-
-	/** @var string|null In case of registering via e-mail. */
-	private $email;
-
-	/** @var string|null In case of registering via custom webpage. */
-	private $url;
-
-	/** @var bool */
-	private $hasValidData = true;
+	private bool $hasValidData;
 
 
 	/**
-	 * @param int $type
-	 * @param array $questions
-	 * @param string|null $email
-	 * @param string|null $url
+	 * @param RegistrationQuestion[] $questions
 	 */
-	private function __construct($type, array $questions, $email = null, $url = null)
+	private function __construct(
+		private int $type, // one of above constant values
+		private array $questions, // in case of registering via Brontoweb
+		private ?string $email, // in case of registering via e-mail
+		private ?string $url, // in case of registering via custom webpage
+	) {
+		$this->hasValidData = match (true) {
+			$type === self::TYPE_VIA_EMAIL && $email === null,
+			$type === self::TYPE_VIA_CUSTOM_WEBPAGE && $url === null,
+				=> false,
+			default => true
+		};
+	}
+
+	/**
+	 * @param RegistrationQuestion[] $questions
+	 */
+	public static function from(
+		int $type,
+		array $questions,
+		?string $email,
+		?string $url,
+	): self
 	{
 		if ( ! \in_array($type, [
 			self::TYPE_VIA_BRONTOWEB,
@@ -49,58 +55,19 @@ final class RegistrationType
 			$type = self::TYPE_DISABLED; // silent fallback
 		}
 
-		$this->type = $type;
-
-		if ($type === self::TYPE_VIA_BRONTOWEB && \count($questions) > 0) {
-			$this->questions = \array_map(function ($question) {
-				return RegistrationQuestion::from($question);
-			}, $questions);
-		}
-
-		if ($type === self::TYPE_VIA_EMAIL) {
-			if ($email === null) {
-				$this->hasValidData = false;
-			}
-
-			$this->email = $email;
-		}
-
-		if ($type === self::TYPE_VIA_CUSTOM_WEBPAGE) {
-			if ($url === null) {
-				$this->hasValidData = false;
-			}
-
-			$this->url = $url;
-		}
-	}
-
-	/**
-	 * @param int $type
-	 * @param array $questions
-	 * @param string|null $email
-	 * @param string|null $url
-	 * @return self
-	 */
-	public static function from($type, array $questions, $email = null, $url = null)
-	{
 		return new self($type, $questions, $email, $url);
 	}
 
 
 	// registration via Brontoweb
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeBrontoWeb()
+	public function isOfTypeBrontoWeb(): bool
 	{
 		return $this->type === self::TYPE_VIA_BRONTOWEB;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function areAnyQuestions()
+
+	public function areAnyQuestions(): bool
 	{
 		return \count($this->questions) > 0;
 	}
@@ -108,7 +75,7 @@ final class RegistrationType
 	/**
 	 * @return RegistrationQuestion[]
 	 */
-	public function getQuestions()
+	public function getQuestions(): array
 	{
 		return $this->questions;
 	}
@@ -116,20 +83,16 @@ final class RegistrationType
 
 	// registration via e-mail
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeEmail()
+	public function isOfTypeEmail(): bool
 	{
 		return $this->type === self::TYPE_VIA_EMAIL;
 	}
 
 	/**
-	 * @return string|null
 	 * @throws RegistrationTypeException
 	 * @throws BadUsageException
 	 */
-	public function getEmail()
+	public function getEmail(): ?string
 	{
 		if ( ! $this->hasValidData()) {
 			throw RegistrationTypeException::missingAdditionalData('email', $this->type);
@@ -145,20 +108,16 @@ final class RegistrationType
 
 	// registration via custom webpage
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeCustomWebpage()
+	public function isOfTypeCustomWebpage(): bool
 	{
 		return $this->type === self::TYPE_VIA_CUSTOM_WEBPAGE;
 	}
 
 	/**
-	 * @return string|null
 	 * @throws RegistrationTypeException
 	 * @throws BadUsageException
 	 */
-	public function getUrl()
+	public function getUrl(): ?string
 	{
 		if ( ! $this->hasValidData()) {
 			throw RegistrationTypeException::missingAdditionalData('url', $this->type);
@@ -174,10 +133,7 @@ final class RegistrationType
 
 	// no registration needed
 
-	/**
-	 * @return bool
-	 */
-	public function isOfTypeNone()
+	public function isOfTypeNone(): bool
 	{
 		return $this->type === self::TYPE_NONE;
 	}
@@ -185,13 +141,13 @@ final class RegistrationType
 
 	// registration disabled
 
-	public function isOfTypeDisabled()
+	public function isOfTypeDisabled(): bool
 	{
 		return $this->type === self::TYPE_DISABLED;
 	}
 
 
-	public function hasValidData()
+	public function hasValidData(): bool
 	{
 		return $this->hasValidData;
 	}
