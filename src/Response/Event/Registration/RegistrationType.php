@@ -9,13 +9,6 @@ use HnutiBrontosaurus\BisApiClient\Response\RegistrationTypeException;
 final class RegistrationType
 {
 
-	const TYPE_VIA_BRONTOWEB = 1;
-	const TYPE_VIA_EMAIL = 2;
-	const TYPE_VIA_CUSTOM_WEBPAGE = 3;
-	const TYPE_NONE = 4;
-	const TYPE_DISABLED = 5;
-
-
 	private bool $hasValidData;
 
 
@@ -23,14 +16,14 @@ final class RegistrationType
 	 * @param RegistrationQuestion[] $questions
 	 */
 	private function __construct(
-		private int $type, // one of above constant values
+		private RegistrationTypeEnum $type,
 		private array $questions, // in case of registering via Brontoweb
 		private ?string $email, // in case of registering via e-mail
 		private ?string $url, // in case of registering via custom webpage
 	) {
 		$this->hasValidData = match (true) {
-			$type === self::TYPE_VIA_EMAIL && $email === null,
-			$type === self::TYPE_VIA_CUSTOM_WEBPAGE && $url === null,
+			$type->equals(RegistrationTypeEnum::EMAIL()) && $email === null,
+			$type->equals(RegistrationTypeEnum::EXTERNAL_WEBPAGE()) && $url === null,
 				=> false,
 			default => true
 		};
@@ -40,21 +33,12 @@ final class RegistrationType
 	 * @param RegistrationQuestion[] $questions
 	 */
 	public static function from(
-		int $type,
+		RegistrationTypeEnum $type,
 		array $questions,
 		?string $email,
 		?string $url,
 	): self
 	{
-		if ( ! \in_array($type, [
-			self::TYPE_VIA_BRONTOWEB,
-			self::TYPE_VIA_EMAIL,
-			self::TYPE_VIA_CUSTOM_WEBPAGE,
-			self::TYPE_NONE,
-		], true)) {
-			$type = self::TYPE_DISABLED; // silent fallback
-		}
-
 		return new self($type, $questions, $email, $url);
 	}
 
@@ -63,7 +47,7 @@ final class RegistrationType
 
 	public function isOfTypeBrontoWeb(): bool
 	{
-		return $this->type === self::TYPE_VIA_BRONTOWEB;
+		return $this->type->equals(RegistrationTypeEnum::BRONTOWEB());
 	}
 
 
@@ -85,7 +69,7 @@ final class RegistrationType
 
 	public function isOfTypeEmail(): bool
 	{
-		return $this->type === self::TYPE_VIA_EMAIL;
+		return $this->type->equals(RegistrationTypeEnum::EMAIL());
 	}
 
 	/**
@@ -110,7 +94,7 @@ final class RegistrationType
 
 	public function isOfTypeCustomWebpage(): bool
 	{
-		return $this->type === self::TYPE_VIA_CUSTOM_WEBPAGE;
+		return $this->type->equals(RegistrationTypeEnum::EXTERNAL_WEBPAGE());
 	}
 
 	/**
@@ -135,7 +119,7 @@ final class RegistrationType
 
 	public function isOfTypeNone(): bool
 	{
-		return $this->type === self::TYPE_NONE;
+		return $this->type->equals(RegistrationTypeEnum::NONE());
 	}
 
 
@@ -143,7 +127,7 @@ final class RegistrationType
 
 	public function isOfTypeDisabled(): bool
 	{
-		return $this->type === self::TYPE_DISABLED;
+		return $this->type->equals(RegistrationTypeEnum::DISABLED());
 	}
 
 

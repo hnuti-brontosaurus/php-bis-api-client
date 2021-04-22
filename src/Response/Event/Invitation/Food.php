@@ -2,63 +2,22 @@
 
 namespace HnutiBrontosaurus\BisApiClient\Response\Event\Invitation;
 
+use Grifart\Enum\AutoInstances;
+use Grifart\Enum\Enum;
 
-final class Food
+
+/**
+ * @method static Food NOT_LISTED()
+ * @method static Food CHOOSEABLE()
+ * @method static Food VEGETARIAN()
+ * @method static Food NON_VEGETARIAN()
+ */
+final class Food extends Enum
 {
+	use AutoInstances;
 
-	private const CHOOSEABLE = 0;
-	private const VEGETARIAN = 1;
-	private const NON_VEGETARIAN = 2;
-
-	private bool $isListed = false;
-	private bool $isOfTypeChooseable = false;
-	private bool $isOfTypeVegetarian = false;
-	private bool $isOfTypeNonVegetarian = false;
-
-
-	private function __construct(?int $food)
-	{
-		if (\in_array($food, [
-			self::CHOOSEABLE,
-			self::VEGETARIAN,
-			self::NON_VEGETARIAN,
-		], true)) {
-			$this->isListed = true;
-
-			$this->isOfTypeChooseable = $food === self::CHOOSEABLE;
-			$this->isOfTypeVegetarian = $food === self::VEGETARIAN;
-			$this->isOfTypeNonVegetarian = $food === self::NON_VEGETARIAN;
-		}
-	}
-
-
-	public static function from(?int $food): self
-	{
-		return new self($food);
-	}
-
-
-	public function isListed(): bool
-	{
-		return $this->isListed;
-	}
-
-
-	public function isOfTypeChooseable(): bool
-	{
-		return $this->isOfTypeChooseable;
-	}
-
-
-	public function isOfTypeVegetarian(): bool
-	{
-		return $this->isOfTypeVegetarian;
-	}
-
-
-	public function isOfTypeNonVegetarian(): bool
-	{
-		return $this->isOfTypeNonVegetarian;
-	}
-
+	protected const NOT_LISTED = -1;
+	protected const CHOOSEABLE = 0;
+	protected const VEGETARIAN = 1;
+	protected const NON_VEGETARIAN = 2;
 }

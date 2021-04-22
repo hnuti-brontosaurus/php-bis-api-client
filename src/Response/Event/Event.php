@@ -2,6 +2,7 @@
 
 namespace HnutiBrontosaurus\BisApiClient\Response\Event;
 
+use Grifart\Enum\MissingValueDeclarationException;
 use HnutiBrontosaurus\BisApiClient\BadUsageException;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Food;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Invitation;
@@ -9,6 +10,7 @@ use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Photo;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Invitation\Presentation;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Registration\RegistrationQuestion;
 use HnutiBrontosaurus\BisApiClient\Response\Event\Registration\RegistrationType;
+use HnutiBrontosaurus\BisApiClient\Response\Event\Registration\RegistrationTypeEnum;
 use HnutiBrontosaurus\BisApiClient\Response\RegistrationTypeException;
 
 
@@ -46,7 +48,13 @@ final class Event
 	public static function fromResponseData(array $data): static
 	{
 		// program
-		$programSlug = (isset($data['program_id']) && $data['program_id'] !== '') ? $data['program_id'] : null;
+		try {
+			$programSlug = (isset($data['program_id']) && $data['program_id'] !== '')
+				? ProgramType::fromScalar($data['program_id'])
+				: ProgramType::NONE();
+		} catch (MissingValueDeclarationException) {
+			$programSlug = ProgramType::NONE();
+		}
 		$programName = (isset($data['program']) && $data['program'] !== '') ? $data['program'] : null;
 		$program = Program::from($programSlug, $programName);
 
@@ -64,7 +72,12 @@ final class Event
 		);
 
 		// registration
-		$registrationType = (int) $data['prihlaska'];
+		try {
+			$registrationType = RegistrationTypeEnum::fromScalar((int) $data['prihlaska']);
+		} catch (MissingValueDeclarationException) {
+			$registrationType = RegistrationTypeEnum::DISABLED(); // silent fallback
+		}
+
 		$webRegistrationQuestion1 = (isset($data['add_info_title']) && $data['add_info_title'] !== '') ? $data['add_info_title'] : null;
 		$webRegistrationQuestion2 = (isset($data['add_info_title_2']) && $data['add_info_title_2'] !== '') ? $data['add_info_title_2'] : null;
 		$webRegistrationQuestion3 = (isset($data['add_info_title_3']) && $data['add_info_title_3'] !== '') ? $data['add_info_title_3'] : null;
@@ -114,7 +127,9 @@ final class Event
 		// invitation
 
 		// BIS API returns "0", "1", "2" etc. for real options and "" when nothing is set
-		$food = (isset($data['strava']) && $data['strava'] !== '') ? (int) $data['strava'] : null;
+		$food = (isset($data['strava']) && $data['strava'] !== '')
+			? Food::fromScalar((int) $data['strava'])
+			: Food::NOT_LISTED();
 
 		/** @var Photo[] $invitationPresentationPhotos */
 		$invitationPresentationPhotos = [];
@@ -134,7 +149,7 @@ final class Event
 			$invitationIntroduction,
 			$invitationOrganizationalInformation,
 			$accommodation,
-			Food::from($food),
+			$food,
 			$invitationWorkDescription,
 			$workHoursPerDay,
 			($invitationPresentationText !== null || \count($invitationPresentationPhotos) > 0)

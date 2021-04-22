@@ -12,6 +12,7 @@
 	"require": {
 		"php": ">=8.0",
 		"ext-dom": "*",
+		"grifart/enum": "^0.2.1",
 		"guzzlehttp/guzzle": "^6.3"
 	},
 	"require-dev": {

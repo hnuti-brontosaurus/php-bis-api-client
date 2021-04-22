@@ -2,21 +2,12 @@
 
 namespace HnutiBrontosaurus\BisApiClient\Response\OrganizationalUnit;
 
+use Grifart\Enum\MissingValueDeclarationException;
+
 
 final class OrganizationalUnit
 {
 
-	const TYPE_CLUB = 1;
-	const TYPE_BASE = 2;
-	const TYPE_REGIONAL = 3;
-	const TYPE_OFFICE = 4;
-
-
-	private int $type;
-
-	/**
-	 * @throws UnknownOrganizationUnitTypeException
-	 */
 	private function __construct(
 		private int $id,
 		private string $name,
@@ -26,22 +17,10 @@ final class OrganizationalUnit
 		private ?string $phone,
 		private ?string $email,
 		private ?string $website,
-		int $type,
+		private OrganizationalUnitType $type,
 		private ?string $chairman,
 		private ?string $manager,
-	) {
-
-		if (!\in_array($type, [
-			self::TYPE_CLUB,
-			self::TYPE_BASE,
-			self::TYPE_REGIONAL,
-			self::TYPE_OFFICE,
-		], true)) {
-			throw new UnknownOrganizationUnitTypeException('Type `' . $type . '` is not of valid types.');
-		}
-
-		$this->type = $type;
-	}
+	) {}
 
 
 	/**
@@ -49,6 +28,14 @@ final class OrganizationalUnit
 	 */
 	public static function fromResponseData(array $data): self
 	{
+		try {
+			$organizationalUnitTypeScalar = (int) $data['uroven'];
+			$organizationalUnitType = OrganizationalUnitType::fromScalar($organizationalUnitTypeScalar);
+
+		} catch (MissingValueDeclarationException) {
+			throw new UnknownOrganizationUnitTypeException('Type `' . $organizationalUnitTypeScalar . '` is not of valid types.');
+		}
+
 		return new self(
 			(int) $data['id'],
 			$data['nazev'],
@@ -58,7 +45,7 @@ final class OrganizationalUnit
 			(isset($data['telefon']) && $data['telefon'] !== '') ? $data['telefon'] : null,
 			(isset($data['email']) && $data['email'] !== '') ? $data['email'] : null,
 			(isset($data['www']) && $data['www'] !== '') ? $data['www'] : null,
-			(int) $data['uroven'],
+			$organizationalUnitType,
 			(isset($data['predseda']) && $data['predseda'] !== '') ? $data['predseda'] : null,
 			(isset($data['hospodar']) && $data['hospodar'] !== '') ? $data['hospodar'] : null,
 		);
@@ -127,25 +114,25 @@ final class OrganizationalUnit
 
 	public function isClub(): bool
 	{
-		return $this->type === self::TYPE_CLUB;
+		return $this->type->equals(OrganizationalUnitType::CLUB());
 	}
 
 
 	public function isBaseUnit(): bool
 	{
-		return $this->type === self::TYPE_BASE;
+		return $this->type->equals(OrganizationalUnitType::BASE());
 	}
 
 
 	public function isRegionalUnit(): bool
 	{
-		return $this->type === self::TYPE_REGIONAL;
+		return $this->type->equals(OrganizationalUnitType::REGIONAL());
 	}
 
 
 	public function isOffice(): bool
 	{
-		return $this->type === self::TYPE_OFFICE;
+		return $this->type->equals(OrganizationalUnitType::OFFICE());
 	}
 
 }
