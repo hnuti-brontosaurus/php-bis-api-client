@@ -139,8 +139,8 @@ final class Event
 			}
 		}
 
-		$invitationOrganizationalInformation = (isset($data['text_info']) && $data['text_info'] !== '') ? $data['text_info'] : null;
-		$invitationIntroduction = (isset($data['text_uvod']) && $data['text_uvod'] !== '') ? $data['text_uvod'] : null;
+		$invitationOrganizationalInformation = (isset($data['text_info']) && $data['text_info'] !== '') ? $data['text_info'] : ''; // this will not be needed in BIS but now it has to be there as somehow obligatory fields are not required anymore in old BIS
+		$invitationIntroduction = (isset($data['text_uvod']) && $data['text_uvod'] !== '') ? $data['text_uvod'] : ''; // this will not be needed in BIS but now it has to be there as somehow obligatory fields are not required anymore in old BIS
 		$invitationPresentationText = (isset($data['text_mnam']) && $data['text_mnam'] !== '') ? $data['text_mnam'] : null;
 		$invitationWorkDescription = (isset($data['text_dobr']) && $data['text_dobr'] !== '') ? $data['text_dobr'] : null;
 		$workHoursPerDay = (isset($data['pracovni_doba']) && $data['pracovni_doba'] !== '') ? ((int) $data['pracovni_doba']) : null;
