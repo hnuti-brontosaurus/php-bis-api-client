@@ -18,10 +18,11 @@ final class BisClientFactory
 
 
 	public function __construct(
+		string $apiUrl,
 		private string $clientId,
 		private string $clientSecret,
 	) {
-		$this->httpClient = new Client();
+		$this->httpClient = new Client(['base_uri' => \rtrim($apiUrl, '/') . '/']);
 		$this->bisAuthenticator = new Authenticator(
 			$this->clientId,
 			$this->clientSecret,

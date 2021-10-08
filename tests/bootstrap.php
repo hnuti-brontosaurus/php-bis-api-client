@@ -12,9 +12,10 @@ Debugger::enable();
 // wrapped in IIFE not to pollute script with client* variables
 return (function () {
 	$secret = require_once __DIR__ . '/secret.php';
-	['clientId' => $clientId, 'clientSecret' => $clientSecret] = $secret;
+	['apiUrl' => $apiUrl, 'clientId' => $clientId, 'clientSecret' => $clientSecret] = $secret;
 
 	return (new BisClientFactory(
+		$apiUrl,
 		$clientId,
 		$clientSecret,
 	))->create();

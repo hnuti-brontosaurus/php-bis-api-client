@@ -25,11 +25,12 @@ Download latest version from [github](https://github.com/hnuti-brontosaurus/php-
 
 # Usage
 
-First you need to create client instance. Note that you need to obtain client ID and secret from BIS administrator
+First you need to create client instance. Note that you need to know the API URL and obtain client ID and secret from BIS administrator
 to be able to authenticate against BIS.
 
 ```php
 $client = (new BisClientFactory(
+	'apiUrl',
 	'clientId',
 	'clientSecret',
 ))->create();
