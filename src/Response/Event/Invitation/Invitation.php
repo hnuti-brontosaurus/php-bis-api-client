@@ -1,27 +1,33 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\Event\Invitation;
+namespace HnutiBrontosaurus\BisClient\Response\Event\Invitation;
 
 
 final class Invitation
 {
 
+	/**
+	 * @param Food[] $food
+	 */
 	private function __construct(
 		private string $introduction,
 		private string $organizationalInformation,
 		private ?string $accommodation,
-		private Food $food,
+		private array $food,
 		private ?string $workDescription,
 		private ?int $workHoursPerDay,
 		private ?Presentation $presentation,
 	) {}
 
 
+	/**
+	 * @param Food[] $food
+	 */
 	public static function from(
 		string $introduction,
 		string $organizationalInformation,
 		?string $accommodation,
-		Food $food,
+		array $food,
 		?string $workDescription,
 		?int $workHoursPerDay,
 		?Presentation $presentation,
@@ -51,19 +57,16 @@ final class Invitation
 	}
 
 
-	public function isAccommodationListed(): bool
-	{
-		return $this->accommodation !== null;
-	}
-
-
 	public function getAccommodation(): ?string
 	{
 		return $this->accommodation;
 	}
 
 
-	public function getFood(): Food
+	/**
+	 * @return Food[]
+	 */
+	public function getFood(): array
 	{
 		return $this->food;
 	}
@@ -75,21 +78,9 @@ final class Invitation
 	}
 
 
-	public function areWorkHoursPerDayListed(): bool
-	{
-		return $this->workHoursPerDay !== null;
-	}
-
-
 	public function getWorkHoursPerDay(): ?int
 	{
 		return $this->workHoursPerDay;
-	}
-
-
-	public function hasPresentation(): bool
-	{
-		return $this->presentation !== null;
 	}
 
 
