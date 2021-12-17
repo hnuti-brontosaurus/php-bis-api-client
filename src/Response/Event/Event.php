@@ -79,10 +79,6 @@ final class Event
 
 		// invitation
 
-		$food = $data->diet !== null
-			? Food::fromScalar($data->diet)
-			: Food::NOT_LISTED();
-
 		/** @var Photo[] $invitationPresentationPhotos */
 		$invitationPresentationPhotos = [];
 		for ($i = 1; $i <= 6; $i++) {
@@ -97,7 +93,7 @@ final class Event
 			$data->invitation_text_1,
 			$data->invitation_text_2,
 			$data->accommodation !== '' ? $data->accommodation : null,
-			$food,
+			\array_map(static fn($diet) => Food::fromScalar($diet), $data->diet),
 			$data->invitation_text_3,
 			$data->working_hours,
 			($invitationPresentationText !== null || \count($invitationPresentationPhotos) > 0)
