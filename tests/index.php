@@ -23,9 +23,8 @@ $addAttendee = function (int $eventId) use ($client): void
 	));
 };
 // uncomment if you need to test it otherwise it would post on every page load
-//$addAttendee(eventId: 13703); // ⚠  do not forget to customize event id not to pollute real events with testing data
-
-
+//$addAttendee(eventId: 9513); // ⚠  do not forget to customize event id not to pollute real events with testing data
+//exit;
 // -----------------------------
 // retrieving information test
 // -----------------------------
