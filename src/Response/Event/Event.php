@@ -35,7 +35,7 @@ final class Event
 		private Organizer $organizer,
 		private TargetGroup $targetGroup,
 		private Invitation $invitation,
-		private \DateTimeImmutable $startDate,
+		private ?\DateTimeImmutable $startDate,
 		private ?string $relatedWebsite,
 	) {}
 
@@ -133,7 +133,9 @@ final class Event
 			$organizer,
 			TargetGroup::fromScalar($data->indended_for),
 			$invitation,
-			new \DateTimeImmutable($data->start_date),
+			$data->start_date !== null
+				? new \DateTimeImmutable($data->start_date)
+				: null,
 			$_relatedWebsite,
 		);
 	}
