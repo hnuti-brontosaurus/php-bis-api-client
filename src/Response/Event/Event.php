@@ -117,10 +117,16 @@ final class Event
 			$data->id,
 			$data->name,
 			$data->main_photo,
-			\DateTimeImmutable::createFromFormat('Y-m-d', $data->date_from),
-			\DateTimeImmutable::createFromFormat('Y-m-d', $data->date_to),
+			$data->date_from === null
+				? \DateTimeImmutable::createFromFormat('Y-m-d', '1970-01-01') // todo temp, until there are nullable dates coming from API
+				: \DateTimeImmutable::createFromFormat('Y-m-d', $data->date_from),
+			$data->date_to === null
+				? \DateTimeImmutable::createFromFormat('Y-m-d', '1970-01-02') // todo temp, until there are nullable dates coming from API
+				: \DateTimeImmutable::createFromFormat('Y-m-d', $data->date_to),
 			Program::fromScalar($data->program),
-			Place::from(
+			$data->location === null
+				? Place::from('nezadáno', null) // todo temp, until there are nullable locations coming from API
+				: Place::from(
 				$data->location->name,
 				$data->location->gps_latitude !== null && $data->location->gps_longitude !== null
 					? Coordinates::from($data->location->gps_latitude, $data->location->gps_longitude)
