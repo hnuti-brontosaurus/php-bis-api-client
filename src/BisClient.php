@@ -48,8 +48,8 @@ final class BisClient
 			return [];
 		}
 
-		\assert(\is_array($data));
-		return \array_map(Event::class . '::fromResponseData', $data);
+		\assert(\is_array($data->results));
+		return \array_map(Event::class . '::fromResponseData', $data->results);
 	}
 
 
