@@ -89,8 +89,8 @@ $parameters->setTargetGroup(\HnutiBrontosaurus\BisClient\Enums\TargetGroup::FIRS
 // only events organized by organizational unit with ID 123
 $parameters->setOrganizedBy(123);
 
-// excludes running events
-$parameters->excludeRunning();
+// only events in given period
+$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Request\Event\Period::RUNNING_AND_FUTURE());
 
 $events = $client->getEvents($parameters);
 ```
