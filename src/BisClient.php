@@ -56,9 +56,9 @@ final class BisClient
 	/**
 	 * @throws ConnectionToBisFailed
 	 */
-	public function addAttendee(EventAttendee $eventAttendee): void
+	public function signUpForEvent(EventAttendee $eventAttendee): void
 	{
-		$this->httpClient->send('POST', Endpoint::ADD_ATTENDEE_TO_EVENT(), null, $eventAttendee);
+		$this->httpClient->send('POST', Endpoint::SIGN_UP_FOR_EVENT(), null, $eventAttendee);
 	}
 
 

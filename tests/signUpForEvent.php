@@ -7,8 +7,8 @@ use HnutiBrontosaurus\BisClient\Request\Event\EventAttendee;
 $client = require_once __DIR__ . '/bootstrap.php';
 
 
-$addAttendee = static fn(int $eventId) =>
-	$client->addAttendee(new EventAttendee(
+$signUpForEvent = static fn(int $eventId) =>
+	$client->signUpForEvent(new EventAttendee(
 		$eventId,
 		'Jan',
 		'Novák',
@@ -23,4 +23,4 @@ $addAttendee = static fn(int $eventId) =>
  * Uncomment line below to run a test.
  * ⚠ Don't forget to change event ID not to pollute real events with testing data!
  */
-//$addAttendee(eventId: 13703);
+//$signUpForEvent(eventId: 13703);
