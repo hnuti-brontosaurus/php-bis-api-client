@@ -135,12 +135,12 @@ $parameters->orderByDateTo(); // default
 $events = $client->getEvents($parameters);
 ```
 
-### Adding attendee
+### Signing up for event
 
-You can add attendee to an event:
+You can sign up for an event:
 
 ```php
-$client->addAttendee(new \HnutiBrontosaurus\BisClient\Request\Event\EventAttendee(
+$client->signUpForEvent(new \HnutiBrontosaurus\BisClient\Request\Event\EventAttendee(
     123, // event ID
     'Jan', // first name
     'Novák', // last name
