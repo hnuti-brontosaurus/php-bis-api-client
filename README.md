@@ -161,7 +161,7 @@ composer install
 - `src` – source code
     - `Enums` – basic enum types
     - `Request` – request-related value objects
-    - `Response` – request-related value objects and exceptions
+    - `Response` – response-related value objects and exceptions
     - `BisClient` – client itself, serves for making requests to BIS API
     - `BisClientFactory` – takes configuration and creates instance of `BisClient`
     - `HttpClient` – wrapper around Guzzle client which adds BIS API specific pieces into the request
