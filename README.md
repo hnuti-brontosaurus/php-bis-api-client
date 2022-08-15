@@ -131,23 +131,6 @@ $parameters->orderByDateTo(); // default
 $events = $client->getEvents($parameters);
 ```
 
-### Signing up for event
-
-You can sign up for an event:
-
-```php
-$client->signUpForEvent(new \HnutiBrontosaurus\BisClient\Request\Event\EventAttendee(
-    123, // event ID
-    'Jan', // first name
-    'Novák', // last name
-    '12.3.2004', // birth date
-    '123 456 789', // phone number
-    'jan@novak.cz', // e-mail address
-    'poznámka', // note
-    ['odpověď na otázku č. 1', '', 'odpověď na otázku č. 3'], // answers to optional questions (optional)
-));
-```
-
 ## Organizational units
 
 Retrieve all information about all organizational units:
