@@ -2,7 +2,6 @@
 
 namespace HnutiBrontosaurus\BisClient;
 
-use HnutiBrontosaurus\BisClient\Request\Event\EventAttendee;
 use HnutiBrontosaurus\BisClient\Request\Event\EventParameters;
 use HnutiBrontosaurus\BisClient\Response\Event\Event;
 use HnutiBrontosaurus\BisClient\Response\OrganizationalUnit\OrganizationalUnit;
@@ -50,15 +49,6 @@ final class BisClient
 
 		\assert(\is_array($data->results));
 		return \array_map(Event::class . '::fromResponseData', $data->results);
-	}
-
-
-	/**
-	 * @throws ConnectionToBisFailed
-	 */
-	public function signUpForEvent(EventAttendee $eventAttendee): void
-	{
-		$this->httpClient->send('POST', Endpoint::SIGN_UP_FOR_EVENT(), null, $eventAttendee);
 	}
 
 

@@ -21,9 +21,4 @@ final class Endpoint
 		return 'bronto/administrative_unit/';
 	}
 
-	public static function SIGN_UP_FOR_EVENT(): string
-	{
-		return 'sign_up_for_event/';
-	}
-
 }
