@@ -9,14 +9,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 Debugger::enable();
 
 // client factory
-// wrapped in IIFE not to pollute script with client* variables
+// wrapped in IIFE not to pollute script with variables from configuration
 return (function () {
 	$configuration = require_once __DIR__ . '/config.php';
-	['apiUrl' => $apiUrl, 'clientId' => $clientId, 'clientSecret' => $clientSecret] = $configuration;
+	['apiUrl' => $apiUrl] = $configuration;
 
-	return (new BisClientFactory(
-		$apiUrl,
-		$clientId,
-		$clientSecret,
-	))->create();
+	return (new BisClientFactory($apiUrl))
+		->create();
 })();

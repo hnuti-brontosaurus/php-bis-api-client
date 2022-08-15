@@ -6,11 +6,6 @@ namespace HnutiBrontosaurus\BisClient;
 final class Endpoint
 {
 
-	public static function AUTHENTICATION(): string
-	{
-		return 'o/token/';
-	}
-
 	public static function EVENT(int $id): string
 	{
 		return \sprintf('bronto/event/%d/', $id);
