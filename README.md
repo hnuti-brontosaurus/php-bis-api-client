@@ -195,4 +195,4 @@ composer install
 This library has just `tests/index.php` which – if run on a webserver – will
 pass or fail visually – no error and results output or an exception.
 
-Note that you have to obtain client ID and secret as well to be able to run the test. Ask BIS administrator to get it, copy `tests/secret.template.php` to `tests/secret.php` and insert credentials there.
+Note that you have to obtain client ID and secret as well to be able to run the test. Ask BIS administrator to get it, copy `tests/config.template.php` to `tests/config.php` and insert credentials there.
