@@ -14,11 +14,11 @@ use GuzzleHttp\Client;
 final class BisClientFactory
 {
 
-	private Client $httpClient;
+	private Client $underlyingHttpClient;
 
 	public function __construct(string $apiUrl)
 	{
-		$this->httpClient = new Client(['base_uri' => \rtrim($apiUrl, '/') . '/']);
+		$this->underlyingHttpClient = new Client(['base_uri' => \rtrim($apiUrl, '/') . '/']);
 	}
 
 
@@ -29,7 +29,7 @@ final class BisClientFactory
 	public function create(): BisClient
 	{
 		return new BisClient(
-			new HttpClient($this->httpClient),
+			new HttpClient($this->underlyingHttpClient),
 		);
 	}
 
