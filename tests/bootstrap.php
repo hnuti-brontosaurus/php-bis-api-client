@@ -11,8 +11,8 @@ Debugger::enable();
 // client factory
 // wrapped in IIFE not to pollute script with client* variables
 return (function () {
-	$secret = require_once __DIR__ . '/secret.php';
-	['apiUrl' => $apiUrl, 'clientId' => $clientId, 'clientSecret' => $clientSecret] = $secret;
+	$configuration = require_once __DIR__ . '/config.php';
+	['apiUrl' => $apiUrl, 'clientId' => $clientId, 'clientSecret' => $clientSecret] = $configuration;
 
 	return (new BisClientFactory(
 		$apiUrl,
