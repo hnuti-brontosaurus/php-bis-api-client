@@ -8,17 +8,17 @@ final class Endpoint
 
 	public static function EVENT(int $id): string
 	{
-		return \sprintf('bronto/event/%d/', $id);
+		return \sprintf('web/event/%d/', $id);
 	}
 
 	public static function EVENTS(): string
 	{
-		return 'bronto/event/';
+		return 'web/events/';
 	}
 
 	public static function ADMINISTRATIVE_UNITS(): string
 	{
-		return 'bronto/administrative_unit/';
+		return 'web/administration_units/';
 	}
 
 }
