@@ -25,15 +25,11 @@ Download latest version from [github](https://github.com/hnuti-brontosaurus/php-
 
 # Usage
 
-First you need to create client instance. Note that you need to know the API URL and obtain client ID and secret from BIS administrator
-to be able to authenticate against BIS.
+First you need to create client instance. The only parameter to pass is an API URL.
 
 ```php
-$client = (new BisClientFactory(
-	'apiUrl',
-	'clientId',
-	'clientSecret',
-))->create();
+$client = (new BisClientFactory('apiUrl'))
+    ->create();
 ```
 
 Now you can perform any of available operations.
@@ -184,7 +180,7 @@ composer install
     - `Request` – request-related value objects
     - `Response` – request-related value objects and exceptions
     - `BisClient` – client itself, serves for making requests to BIS API
-    - `BisClientFactory` – collects configuration data, ensures authentication against BIS and returns `BisClient`
+    - `BisClientFactory` – takes configuration and creates instance of `BisClient`
     - `HttpClient` – wrapper around Guzzle client which adds BIS API specific pieces into the request
 - `tests` – test code
 
@@ -195,4 +191,4 @@ composer install
 This library has just `tests/index.php` which – if run on a webserver – will
 pass or fail visually – no error and results output or an exception.
 
-Note that you have to obtain client ID and secret as well to be able to run the test. Ask BIS administrator to get it, copy `tests/config.template.php` to `tests/config.php` and insert credentials there.
+You need to copy `tests/config.template.php` to `tests/config.php` to be able to run it.

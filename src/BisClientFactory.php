@@ -13,21 +13,12 @@ use GuzzleHttp\Client;
  */
 final class BisClientFactory
 {
-	private Authenticator $bisAuthenticator;
+
 	private Client $httpClient;
 
-
-	public function __construct(
-		string $apiUrl,
-		private string $clientId,
-		private string $clientSecret,
-	) {
+	public function __construct(string $apiUrl)
+	{
 		$this->httpClient = new Client(['base_uri' => \rtrim($apiUrl, '/') . '/']);
-		$this->bisAuthenticator = new Authenticator(
-			$this->clientId,
-			$this->clientSecret,
-			$this->httpClient,
-		);
 	}
 
 
@@ -37,11 +28,9 @@ final class BisClientFactory
 	 */
 	public function create(): BisClient
 	{
-		$token = $this->bisAuthenticator->authenticate();
-		return new BisClient(new HttpClient(
-			$token,
-			$this->httpClient,
-		));
+		return new BisClient(
+			new HttpClient($this->httpClient),
+		);
 	}
 
 }

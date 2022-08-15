@@ -2,6 +2,4 @@
 
 return [
 	'apiUrl' => '',
-	'clientId' => '',
-	'clientSecret' => '',
 ];
