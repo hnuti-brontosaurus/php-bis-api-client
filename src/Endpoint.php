@@ -21,4 +21,9 @@ final class Endpoint
 		return 'web/administration_units/';
 	}
 
+	public static function OPPORTUNITIES(): string
+	{
+		return 'web/opportunities/';
+	}
+
 }

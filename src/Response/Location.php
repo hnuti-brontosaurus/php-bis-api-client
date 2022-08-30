@@ -1,14 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Response\Event;
+namespace HnutiBrontosaurus\BisClient\Response;
 
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
 
 
-/**
- * @deprecated use HnutiBrontosaurus\BisClient\Response\Location instead
- */
-final class Place
+final class Location
 {
 
 	private function __construct(
