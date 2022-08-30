@@ -17,9 +17,9 @@ final class TargetGroup extends Enum
 {
 	use AutoInstances;
 
-	protected const EVERYONE = 'everyone';
-	protected const ADULTS = 'adolescents_and_adults';
-	protected const CHILDREN = 'children';
-	protected const FAMILIES = 'parents_and_children';
-	protected const FIRST_TIME_ATTENDEES = 'newcomers';
+	protected const EVERYONE = 'for_all';
+	protected const ADULTS = 'for_young_and_adult';
+	protected const CHILDREN = 'for_kids';
+	protected const FAMILIES = 'for_parents_with_kids';
+	protected const FIRST_TIME_ATTENDEES = 'for_first_time_participant';
 }

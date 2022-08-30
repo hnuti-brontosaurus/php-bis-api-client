@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Response\Event\Organizer;
+namespace HnutiBrontosaurus\BisClient\Response\Event;
 
 final class ContactPerson
 {

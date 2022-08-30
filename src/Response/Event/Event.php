@@ -9,9 +9,6 @@ use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Food;
 use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Invitation;
 use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Photo;
 use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Presentation;
-use HnutiBrontosaurus\BisClient\Response\Event\Organizer\ContactPerson;
-use HnutiBrontosaurus\BisClient\Response\Event\Organizer\Organizer;
-use HnutiBrontosaurus\BisClient\Response\Event\Organizer\OrganizerOrganizationalUnit;
 use HnutiBrontosaurus\BisClient\Response\Event\Registration\RegistrationQuestion;
 use HnutiBrontosaurus\BisClient\Response\Event\Registration\RegistrationType;
 use HnutiBrontosaurus\BisClient\Response\Event\Registration\RegistrationTypeEnum;
@@ -23,7 +20,7 @@ final class Event
 	private function __construct(
 		private int $id,
 		private string $name,
-		private ?string $coverPhotoPath,
+		private ?Photo $coverPhotoPath,
 		private \DateTimeImmutable $dateFrom,
 		private \DateTimeImmutable $dateUntil,
 		private Program $program,
@@ -31,11 +28,11 @@ final class Event
 		private RegistrationType $registrationType,
 		private ?int $ageFrom,
 		private ?int $ageUntil,
-		private ?string $price, // single number or interval
-		private Organizer $organizer,
+		private ?string $price, // todo: single number or interval
+		private ?string $organizers,
+		private ContactPerson $contactPerson,
 		private TargetGroup $targetGroup,
 		private Invitation $invitation,
-		private ?string $meetingTime,
 		private ?string $relatedWebsite,
 	) {}
 
@@ -43,69 +40,46 @@ final class Event
 	public static function fromResponseData(\stdClass $data): self
 	{
 		// registration
-		$contactEmail = $data->contact_person_email;
+		$contactEmail = $data->propagation->contact_email;
+		$data->entry_form_url = '';
 		$registrationCustomUrl = $data->entry_form_url;
-		$registrationQuestions = \array_filter([ // exclude all null items
-			$data->additional_question_1,
-			$data->additional_question_2,
-			$data->additional_question_3,
-		], fn($v, $k) => $v !== '', \ARRAY_FILTER_USE_BOTH);
+		$registrationQuestions = \array_filter([], fn($v, $k) => $v !== '', \ARRAY_FILTER_USE_BOTH); // todo remove
 		$registrationType = RegistrationType::from(
-			RegistrationTypeEnum::fromScalar($data->registration_method),
+//			RegistrationTypeEnum::fromScalar($data->registration_method),
+			RegistrationTypeEnum::BRONTOWEB(), // todo
 			\array_map(fn(string $question) => RegistrationQuestion::from($question), $registrationQuestions),
 			$contactEmail,
 			$registrationCustomUrl,
 		);
 
 
-		// organizers
-		$organizationalUnitName = $data->administrative_unit_name !== '' ? $data->administrative_unit_name : null;
-		$organizationalUnitWebsite = $data->administrative_unit_web_url !== '' ? $data->administrative_unit_web_url : null;
-		$organizers = $data->looking_forward_to_you !== '' ? $data->looking_forward_to_you : null;
-		$responsiblePerson = $data->responsible_person !== '' ? $data->responsible_person : null;
-		$organizer = Organizer::from(
-			($organizationalUnitName !== null)
-				? OrganizerOrganizationalUnit::from($organizationalUnitName, $organizationalUnitWebsite)
-				: null,
-			$responsiblePerson,
-			$organizers,
-			ContactPerson::from(
-				$data->contact_person_name,
-				$contactEmail,
-				$data->contact_person_telephone,
-			),
-		);
-
-
 		// invitation
 
-		/** @var Photo[] $invitationPresentationPhotos */
-		$invitationPresentationPhotos = [];
-		for ($i = 1; $i <= 6; $i++) {
-			$photo = $data->{'additional_photo_' . $i};
-			if ($photo !== null) {
-				$invitationPresentationPhotos[] = Photo::from($photo);
-			}
-		}
+		$photos = \array_map(
+			static fn($photo) => Photo::from((array) $photo),
+			$data->propagation->images,
+		);
+		$mainPhoto = \array_shift($photos);
 
-		$invitationPresentationText = $data->invitation_text_4;
+		$invitationPresentationText = $data->propagation->invitation_text_about_us;
 		$invitation = Invitation::from(
-			$data->invitation_text_1,
-			$data->invitation_text_2,
-			$data->accommodation !== '' ? $data->accommodation : null,
-			\array_map(static fn($diet) => Food::fromScalar($diet), $data->diet),
-			$data->invitation_text_3,
-			$data->working_hours,
-			($invitationPresentationText !== null || \count($invitationPresentationPhotos) > 0)
-				? Presentation::from($invitationPresentationText, $invitationPresentationPhotos)
+			$data->propagation->invitation_text_introduction,
+			$data->propagation->invitation_text_practical_information,
+			$data->propagation->accommodation,
+			\array_map(static fn($diet) => Food::fromScalar($diet->slug), $data->propagation->diets),
+			$data->propagation->invitation_text_work_description,
+//			$data->working_hours,
+			2,
+			($invitationPresentationText !== null || \count($photos) > 0)
+				? Presentation::from($invitationPresentationText, $photos)
 				: null,
 		);
 
 
 		// related website
-		$relatedWebsite = $data->web_url;
+		$relatedWebsite = $data->propagation->web_url;
 		$_relatedWebsite = null;
-		if ($relatedWebsite !== null) {
+		if ($relatedWebsite !== '') {
 			if ( ! self::startsWith($relatedWebsite, 'http')) { // count with no protocol typed URLs
 				$relatedWebsite = 'http://' . $relatedWebsite;
 			}
@@ -116,30 +90,30 @@ final class Event
 		return new self(
 			$data->id,
 			$data->name,
-			$data->main_photo,
-			$data->date_from === null
-				? \DateTimeImmutable::createFromFormat('Y-m-d', '1970-01-01') // todo temp, until there are nullable dates coming from API
-				: \DateTimeImmutable::createFromFormat('Y-m-d', $data->date_from),
-			$data->date_to === null
-				? \DateTimeImmutable::createFromFormat('Y-m-d', '1970-01-02') // todo temp, until there are nullable dates coming from API
-				: \DateTimeImmutable::createFromFormat('Y-m-d', $data->date_to),
-			Program::fromScalar($data->program),
-			$data->location === null
+			$mainPhoto,
+			new \DateTimeImmutable($data->start),
+			\DateTimeImmutable::createFromFormat('Y-m-d', $data->end),
+			Program::fromScalar($data->program->slug),
+			$data->location->gps_location === null
 				? Place::from('nezadáno', null) // todo temp, until there are nullable locations coming from API
 				: Place::from(
 				$data->location->name,
-				$data->location->gps_latitude !== null && $data->location->gps_longitude !== null
-					? Coordinates::from($data->location->gps_latitude, $data->location->gps_longitude)
+				$data->location->gps_location->latitude !== null && $data->location->gps_location->longitude !== null
+					? Coordinates::from($data->location->gps_location->latitude, $data->location->gps_location->longitude)
 					: null,
 			),
 			$registrationType,
-			$data->age_from,
-			$data->age_to,
-			$data->participation_fee !== null ? $data->participation_fee : null,
-			$organizer,
-			TargetGroup::fromScalar($data->indended_for),
+			$data->propagation->minimum_age,
+			$data->propagation->maximum_age,
+			$data->propagation->cost !== null ? $data->propagation->cost : null,
+			$data->propagation->organizers !== '' ? $data->propagation->organizers : null,
+			ContactPerson::from(
+				$data->propagation->contact_name,
+				$contactEmail,
+				$data->propagation->contact_phone,
+			),
+			TargetGroup::fromScalar($data->propagation->intended_for->slug),
 			$invitation,
-			$data->start_date,
 			$_relatedWebsite,
 		);
 	}
@@ -157,7 +131,7 @@ final class Event
 	}
 
 
-	public function getCoverPhotoPath(): ?string
+	public function getCoverPhotoPath(): ?Photo
 	{
 		return $this->coverPhotoPath;
 	}
@@ -211,9 +185,15 @@ final class Event
 	}
 
 
-	public function getOrganizer(): Organizer
+	public function getOrganizers(): ?string
 	{
-		return $this->organizer;
+		return $this->organizers;
+	}
+
+
+	public function getContactPerson(): ContactPerson
+	{
+		return $this->contactPerson;
 	}
 
 
@@ -226,12 +206,6 @@ final class Event
 	public function getInvitation(): Invitation
 	{
 		return $this->invitation;
-	}
-
-
-	public function getMeetingTime(): ?string
-	{
-		return $this->meetingTime;
 	}
 
 

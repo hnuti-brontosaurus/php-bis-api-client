@@ -7,19 +7,46 @@ final class Photo
 {
 
 	private function __construct(
-		private string $path,
+		private string $smallSizePath,
+		private string $mediumSizePath,
+		private string $largeSizePath,
+		private string $originalSizePath,
 	) {}
 
 
-	public static function from(string $path): self
+	/** @param array{small: string, medium: string, large: string, original: string} $variants */
+	public static function from(array $variants): self
 	{
-		return new self($path);
+		return new self(
+			$variants['small'],
+			$variants['medium'],
+			$variants['large'],
+			$variants['original'],
+		);
 	}
 
 
-	public function getPath(): string
+	public function getSmallSizePath(): string
 	{
-		return $this->path;
+		return $this->smallSizePath;
+	}
+
+
+	public function getMediumSizePath(): string
+	{
+		return $this->mediumSizePath;
+	}
+
+
+	public function getLargeSizePath(): string
+	{
+		return $this->largeSizePath;
+	}
+
+
+	public function getOriginalSizePath(): string
+	{
+		return $this->originalSizePath;
 	}
 
 }
