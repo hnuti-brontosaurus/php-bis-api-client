@@ -89,6 +89,19 @@ final class BisClient
 	}
 
 
+	/**
+	 * @throws NotFound
+	 * @throws ConnectionToBisFailed
+	 */
+	public function getOpportunity(int $id): Opportunity
+	{
+		$data = $this->httpClient->send('GET', Endpoint::OPPORTUNITY($id));
+
+		\assert($data instanceof \stdClass);
+		return Opportunity::fromResponseData($data);
+	}
+
+
 	// adoption
 
 	// not yet implemented

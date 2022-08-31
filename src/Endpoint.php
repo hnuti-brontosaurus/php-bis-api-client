@@ -26,4 +26,9 @@ final class Endpoint
 		return 'web/opportunities/';
 	}
 
+	public static function OPPORTUNITY(int $id): string
+	{
+		return \sprintf('web/opportunities/%d/', $id);
+	}
+
 }
