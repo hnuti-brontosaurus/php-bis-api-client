@@ -29,4 +29,10 @@ final class Coordinates
 		return $this->longitude;
 	}
 
+
+	public function __toString(): string
+	{
+		return \sprintf('%s,%s', $this->latitude, $this->longitude);
+	}
+
 }
