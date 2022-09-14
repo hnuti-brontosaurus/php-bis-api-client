@@ -25,12 +25,4 @@ echo '<div style="display: grid; grid-template-columns: repeat(3, 1fr)">';
 		}
 	echo '</div>';
 
-	echo '<div>';
-		echo '<h2>Organizational units</h2>';
-
-		foreach ($client->getOrganizationalUnits() as $unit) {
-			dump($unit);
-		}
-	echo '</div>';
-
 echo '</div>';
