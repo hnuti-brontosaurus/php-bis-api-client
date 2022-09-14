@@ -23,10 +23,8 @@ final class BisClient
 	 */
 	public function getEvent(int $id): Event
 	{
-		$data = $this->httpClient->send('GET', Endpoint::EVENT($id));
-
-		\assert($data instanceof \stdClass);
-		return Event::fromResponseData($data);
+		$response = $this->httpClient->send('GET', Endpoint::EVENT($id));
+		return Event::fromResponseData($response);
 	}
 
 
@@ -42,13 +40,7 @@ final class BisClient
 				? $params
 				: new EventParameters(),
 		);
-
-		if ($data === null) {
-			return [];
-		}
-
-		\assert(\is_array($data->results));
-		return \array_map(Event::class . '::fromResponseData', $data->results);
+		return \array_map(Event::class . '::fromResponseData', $data['results']);
 	}
 
 
@@ -61,12 +53,6 @@ final class BisClient
 	public function getOrganizationalUnits(): array
 	{
 		$data = $this->httpClient->send('GET', Endpoint::ADMINISTRATIVE_UNITS());
-
-		if ($data === null) {
-			return [];
-		}
-
-		\assert(\is_array($data));
 		return \array_map(OrganizationalUnit::class . '::fromResponseData', $data);
 	}
 

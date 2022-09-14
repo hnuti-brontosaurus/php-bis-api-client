@@ -30,7 +30,7 @@ final class HttpClient
 		string $endpoint,
 		?ToArray $parameters = null,
 		?ToArray $data = null,
-	): array|\stdClass|null
+	): array
 	{
 		$queryString = $parameters !== null
 			? '?' . \http_build_query($parameters->toArray())
@@ -71,7 +71,7 @@ final class HttpClient
 			throw ConnectionToBisFailed::withPrevious($e);
 		}
 
-		return \json_decode($response->getBody()->getContents());
+		return \json_decode($response->getBody()->getContents(), flags: JSON_OBJECT_AS_ARRAY);
 	}
 
 }
