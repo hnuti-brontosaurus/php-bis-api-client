@@ -1,5 +1,5 @@
 parameters:
-    level: 0 # incrementaly increase up to the highest (currently 8)
+    level: max
     paths:
         - src/
         - tests/
