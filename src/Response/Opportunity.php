@@ -22,7 +22,7 @@ final class Opportunity
 		private Html $personalBenefits,
 		private Html $requirements,
 		private ContactPerson $contactPerson,
-		private string $image,
+		private Image $image,
 	) {}
 
 	public static function fromResponseData(\stdClass $data): self
@@ -49,7 +49,7 @@ final class Opportunity
 				$data->contact_email,
 				$data->contact_phone, // todo nullability?
 			),
-			$data->image, // todo variants?
+			Image::from((array) $data->image),
 		);
 	}
 
