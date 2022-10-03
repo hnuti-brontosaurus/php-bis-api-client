@@ -126,7 +126,7 @@ final class Opportunity
 	}
 
 
-	public function getImage(): string
+	public function getImage(): Image
 	{
 		return $this->image;
 	}
