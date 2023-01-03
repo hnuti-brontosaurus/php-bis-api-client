@@ -2,6 +2,8 @@
 
 namespace HnutiBrontosaurus\BisClient\Response\Event\Organizer;
 
+
+// todo extract from event to response
 final class ContactPerson
 {
 

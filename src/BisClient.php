@@ -3,7 +3,9 @@
 namespace HnutiBrontosaurus\BisClient;
 
 use HnutiBrontosaurus\BisClient\Request\Event\EventParameters;
+use HnutiBrontosaurus\BisClient\Request\OpportunityParameters;
 use HnutiBrontosaurus\BisClient\Response\Event\Event;
+use HnutiBrontosaurus\BisClient\Response\Opportunity;
 use HnutiBrontosaurus\BisClient\Response\OrganizationalUnit\OrganizationalUnit;
 
 
@@ -54,6 +56,35 @@ final class BisClient
 	{
 		$data = $this->httpClient->send('GET', Endpoint::ADMINISTRATIVE_UNITS());
 		return \array_map(OrganizationalUnit::class . '::fromResponseData', $data);
+	}
+
+
+	/**
+	 * @return Opportunity[]
+	 */
+	public function getOpportunities(?OpportunityParameters $params = null): array
+	{
+		$data = $this->httpClient->send('GET', Endpoint::OPPORTUNITIES(), $params !== null ? $params : new OpportunityParameters());
+
+		if ($data === null) {
+			return [];
+		}
+
+		\assert(\is_array($data->results));
+		return \array_map(Opportunity::class . '::fromResponseData', $data->results);
+	}
+
+
+	/**
+	 * @throws NotFound
+	 * @throws ConnectionToBisFailed
+	 */
+	public function getOpportunity(int $id): Opportunity
+	{
+		$data = $this->httpClient->send('GET', Endpoint::OPPORTUNITY($id));
+
+		\assert($data instanceof \stdClass);
+		return Opportunity::fromResponseData($data);
 	}
 
 
