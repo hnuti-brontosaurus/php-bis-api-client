@@ -7,12 +7,12 @@ use Grifart\Enum\Enum;
 
 
 /**
- * @method static AdministrationUnitType CLUB()
- * @method static AdministrationUnitType BASIC_SECTION()
- * @method static AdministrationUnitType REGIONAL_CENTER()
- * @method static AdministrationUnitType HEADQUARTER()
+ * @method static AdministrationUnitCategory CLUB()
+ * @method static AdministrationUnitCategory BASIC_SECTION()
+ * @method static AdministrationUnitCategory REGIONAL_CENTER()
+ * @method static AdministrationUnitCategory HEADQUARTER()
  */
-final class AdministrationUnitType extends Enum
+final class AdministrationUnitCategory extends Enum
 {
 	use AutoInstances;
 
