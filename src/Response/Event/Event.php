@@ -3,7 +3,7 @@
 namespace HnutiBrontosaurus\BisClient\Response\Event;
 
 use HnutiBrontosaurus\BisClient\Enums\Program;
-use HnutiBrontosaurus\BisClient\Enums\TargetGroup;
+use HnutiBrontosaurus\BisClient\Enums\IntendedFor;
 use HnutiBrontosaurus\BisClient\Response\ContactPerson;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Food;
@@ -34,7 +34,7 @@ final class Event
 		private ?string $price, // todo: single number or interval
 		private ?string $organizers,
 		private ContactPerson $contactPerson,
-		private TargetGroup $targetGroup,
+		private IntendedFor $targetGroup,
 		private Invitation $invitation,
 		private ?string $relatedWebsite,
 	) {}
@@ -174,7 +174,7 @@ final class Event
 				$contactEmail,
 				$data['propagation']['contact_phone'],
 			),
-			TargetGroup::fromScalar($data['intended_for']['slug']),
+			IntendedFor::fromScalar($data['intended_for']['slug']),
 			$invitation,
 			$data['propagation']['web_url'] !== '' ? $data['propagation']['web_url'] : null,
 		);
@@ -259,7 +259,7 @@ final class Event
 	}
 
 
-	public function getTargetGroup(): TargetGroup
+	public function getTargetGroup(): IntendedFor
 	{
 		return $this->targetGroup;
 	}

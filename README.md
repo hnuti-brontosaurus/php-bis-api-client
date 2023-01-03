@@ -73,32 +73,29 @@ You can filter in many ways:
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
 
-// only events of "voluntary" type
-$parameters->setType(\HnutiBrontosaurus\BisClient\Enums\EventType::VOLUNTARY());
+// only camps
+$parameters->setGroup(\HnutiBrontosaurus\BisClient\Enums\EventGroup::CAMP());
+
+// only events of "voluntary" category
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTARY());
 
 // only events of "PsB" program
 $parameters->setProgram(\HnutiBrontosaurus\BisClient\Enums\Program::PSB());
 
-// only events of "first time attendees" target group
-$parameters->setTargetGroup(\HnutiBrontosaurus\BisClient\Enums\TargetGroup::FIRST_TIME_ATTENDEES());
-
-// only events organized by organizational unit with ID 123
-$parameters->setOrganizedBy(123);
-
-// only events in given period
-$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Request\Event\Period::RUNNING_AND_FUTURE());
+// only events intended for first time participants
+$parameters->setTargetGroup(\HnutiBrontosaurus\BisClient\Enums\IntendedFor::FIRST_TIME_PARTICIPANT());
 
 $events = $client->getEvents($parameters);
 ```
 
-For type, program and target group, you can set more values at once:
+For group, category, program and intended for, you can set more values at once like so:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
 
-$parameters->setTypes([
-    \HnutiBrontosaurus\BisClient\Enums\EventType::VOLUNTARY(),
-    \HnutiBrontosaurus\BisClient\Enums\EventType::SPORT(),
+$parameters->setCategories([
+    \HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTARY(),
+    \HnutiBrontosaurus\BisClient\Enums\EventCategory::SPORT(),
 ]);
 
 $events = $client->getEvents($parameters);
@@ -109,17 +106,17 @@ Note that each method call rewrites the previous one:
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
 
-// sets "voluntary" type
-$parameters->setType(\HnutiBrontosaurus\BisClient\Enums\EventType::VOLUNTARY());
-// rewrites type with "sport"
-$parameters->setType(\HnutiBrontosaurus\BisClient\Enums\EventType::SPORT());
+// sets "voluntary" category
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTARY());
+// rewrites category to "sport"
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::SPORT());
 
 $events = $client->getEvents($parameters);
 ```
 
 #### Sorting
 
-You can even use some basic sorting options:
+You can use some basic sorting options:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
@@ -133,7 +130,7 @@ $events = $client->getEvents($parameters);
 
 ## Administration units
 
-Retrieve information about all administration units:
+For retrieving information about all administration units:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Request\AdministrationUnit\AdministrationUnitParameters();
@@ -149,7 +146,7 @@ foreach ($administrationUnits as $administrationUnit) {
 
 ## Opportunities
 
-Retrieve information about all opportunities:
+Retrieving information about all opportunities:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Request\Opportunity\OpportunityParameters();

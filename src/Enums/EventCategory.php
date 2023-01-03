@@ -7,25 +7,25 @@ use Grifart\Enum\Enum;
 
 
 /**
- * @method static EventType VOLUNTARY()
- * @method static EventType VOLUNTARY_WITH_EXPERIENCE()
- * @method static EventType EXPERIENCE()
- * @method static EventType SPORT()
- * @method static EventType EDUCATIONAL_LECTURE()
- * @method static EventType EDUCATIONAL_COURSE()
- * @method static EventType EDUCATIONAL_OHB()
- * @method static EventType EDUCATIONAL_PROGRAM()
- * @method static EventType EDUCATIONAL_PROGRAM_WITH_STAY()
- * @method static EventType CLUB_MEETUP()
- * @method static EventType CLUB_TALK()
- * @method static EventType FOR_PUBLIC()
- * @method static EventType EKOSTAN()
- * @method static EventType EXHIBITION()
- * @method static EventType INTERNAL_VOLUNTEER_MEETING()
- * @method static EventType INTERNAL_GENERAL_MEETING()
- * @method static EventType INTERNAL_GROUP_MEETING()
+ * @method static EventCategory VOLUNTARY()
+ * @method static EventCategory VOLUNTARY_WITH_EXPERIENCE()
+ * @method static EventCategory EXPERIENCE()
+ * @method static EventCategory SPORT()
+ * @method static EventCategory EDUCATIONAL_LECTURE()
+ * @method static EventCategory EDUCATIONAL_COURSE()
+ * @method static EventCategory EDUCATIONAL_OHB()
+ * @method static EventCategory EDUCATIONAL_PROGRAM()
+ * @method static EventCategory EDUCATIONAL_PROGRAM_WITH_STAY()
+ * @method static EventCategory CLUB_MEETUP()
+ * @method static EventCategory CLUB_TALK()
+ * @method static EventCategory FOR_PUBLIC()
+ * @method static EventCategory EKOSTAN()
+ * @method static EventCategory EXHIBITION()
+ * @method static EventCategory INTERNAL_VOLUNTEER_MEETING()
+ * @method static EventCategory INTERNAL_GENERAL_MEETING()
+ * @method static EventCategory INTERNAL_GROUP_MEETING()
  */
-final class EventType extends Enum
+final class EventCategory extends Enum
 {
 	use AutoInstances;
 
