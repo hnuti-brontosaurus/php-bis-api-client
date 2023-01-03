@@ -16,7 +16,7 @@ final class Endpoint
 		return 'web/events/';
 	}
 
-	public static function ADMINISTRATIVE_UNITS(): string
+	public static function ADMINISTRATION_UNITS(): string
 	{
 		return 'web/administration_units/';
 	}

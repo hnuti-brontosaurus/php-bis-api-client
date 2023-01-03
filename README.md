@@ -131,19 +131,19 @@ $parameters->orderByDateTo(); // default
 $events = $client->getEvents($parameters);
 ```
 
-## Organizational units
+## Administration units
 
-Retrieve all information about all organizational units:
+Retrieve all information about all administration units:
 
 ```php
-$organizationalUnits = $client->getOrganizationalUnits();
+$administrationUnits = $client->getAdministrationUnits();
 
 // example of reading data
-foreach ($organizationalUnits as $organizationalUnit) {
-    $organizationalUnit->getName();
-    $organizationalUnit->getCity();
-    $organizationalUnit->getChairman();
-    $organizationalUnit->getCoordinates();
+foreach ($administrationUnits as $administrationUnit) {
+    $administrationUnit->getName();
+    $administrationUnit->getCity();
+    $administrationUnit->getChairman();
+    $administrationUnit->getCoordinates();
 }
 ```
 

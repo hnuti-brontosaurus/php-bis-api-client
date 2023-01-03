@@ -8,6 +8,6 @@ $client = require_once __DIR__ . '/bootstrap.php';
 
 echo '<h2>Organizational units</h2>';
 
-foreach ($client->getOrganizationalUnits() as $unit) {
+foreach ($client->getAdministrationUnits() as $unit) {
 	dump($unit);
 }

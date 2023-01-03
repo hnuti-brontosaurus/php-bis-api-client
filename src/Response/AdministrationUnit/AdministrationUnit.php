@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Response\OrganizationalUnit;
+namespace HnutiBrontosaurus\BisClient\Response\AdministrationUnit;
 
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
 
 
-final class OrganizationalUnit
+final class AdministrationUnit
 {
 
 	private function __construct(
@@ -17,7 +17,7 @@ final class OrganizationalUnit
 		private string $phone,
 		private string $email,
 		private ?string $website,
-		private OrganizationalUnitType $type,
+		private AdministrationUnitType $type,
 		private ?string $chairman,
 		private ?string $manager,
 	) {}
@@ -62,7 +62,7 @@ final class OrganizationalUnit
 			$data['phone'],
 			$data['email'],
 			$data['www'],
-			OrganizationalUnitType::fromScalar($data['category']['slug']),
+			AdministrationUnitType::fromScalar($data['category']['slug']),
 			$data['chairman'] !== null ? $data['chairman']['name'] : null,
 			$data['manager'] !== null ? $data['manager']['name'] : null,
 		);
@@ -131,25 +131,25 @@ final class OrganizationalUnit
 
 	public function isClub(): bool
 	{
-		return $this->type->equals(OrganizationalUnitType::CLUB());
+		return $this->type->equals(AdministrationUnitType::CLUB());
 	}
 
 
 	public function isBaseUnit(): bool
 	{
-		return $this->type->equals(OrganizationalUnitType::BASE());
+		return $this->type->equals(AdministrationUnitType::BASIC_SECTION());
 	}
 
 
 	public function isRegionalUnit(): bool
 	{
-		return $this->type->equals(OrganizationalUnitType::REGIONAL());
+		return $this->type->equals(AdministrationUnitType::REGIONAL_CENTER());
 	}
 
 
 	public function isOffice(): bool
 	{
-		return $this->type->equals(OrganizationalUnitType::OFFICE());
+		return $this->type->equals(AdministrationUnitType::HEADQUARTER());
 	}
 
 }

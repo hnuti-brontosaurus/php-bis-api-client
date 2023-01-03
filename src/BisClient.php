@@ -6,7 +6,7 @@ use HnutiBrontosaurus\BisClient\Request\Event\EventParameters;
 use HnutiBrontosaurus\BisClient\Request\OpportunityParameters;
 use HnutiBrontosaurus\BisClient\Response\Event\Event;
 use HnutiBrontosaurus\BisClient\Response\Opportunity;
-use HnutiBrontosaurus\BisClient\Response\OrganizationalUnit\OrganizationalUnit;
+use HnutiBrontosaurus\BisClient\Response\AdministrationUnit\AdministrationUnit;
 
 
 final class BisClient
@@ -46,16 +46,16 @@ final class BisClient
 	}
 
 
-	// organizational units
+	// administration units
 
 	/**
-	 * @return OrganizationalUnit[]
+	 * @return AdministrationUnit[]
 	 * @throws ConnectionToBisFailed
 	 */
-	public function getOrganizationalUnits(): array
+	public function getAdministrationUnits(): array
 	{
-		$data = $this->httpClient->send('GET', Endpoint::ADMINISTRATIVE_UNITS());
-		return \array_map(OrganizationalUnit::class . '::fromResponseData', $data['results']);
+		$data = $this->httpClient->send('GET', Endpoint::ADMINISTRATION_UNITS());
+		return \array_map(AdministrationUnit::class . '::fromResponseData', $data['results']);
 	}
 
 
