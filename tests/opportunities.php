@@ -2,7 +2,7 @@
 
 use HnutiBrontosaurus\BisClient\BisClient;
 use HnutiBrontosaurus\BisClient\Enums\OpportunityCategory;
-use HnutiBrontosaurus\BisClient\Request\OpportunityParameters;
+use HnutiBrontosaurus\BisClient\Request\Opportunity\OpportunityParameters;
 
 
 /** @var BisClient $client */

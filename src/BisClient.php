@@ -3,7 +3,7 @@
 namespace HnutiBrontosaurus\BisClient;
 
 use HnutiBrontosaurus\BisClient\Request\Event\EventParameters;
-use HnutiBrontosaurus\BisClient\Request\OpportunityParameters;
+use HnutiBrontosaurus\BisClient\Request\Opportunity\OpportunityParameters;
 use HnutiBrontosaurus\BisClient\Response\AdministrationUnit\AdministrationUnit;
 use HnutiBrontosaurus\BisClient\Response\Event\Event;
 use HnutiBrontosaurus\BisClient\Response\Opportunity\Opportunity;

@@ -1,8 +1,9 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Request;
+namespace HnutiBrontosaurus\BisClient\Request\Opportunity;
 
 use HnutiBrontosaurus\BisClient\Enums\OpportunityCategory;
+use HnutiBrontosaurus\BisClient\Request\ToArray;
 
 
 final class OpportunityParameters implements ToArray
