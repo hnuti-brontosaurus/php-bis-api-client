@@ -2,6 +2,7 @@
 
 namespace HnutiBrontosaurus\BisClient;
 
+use HnutiBrontosaurus\BisClient\Request\AdministrationUnit\AdministrationUnitParameters;
 use HnutiBrontosaurus\BisClient\Request\Event\EventParameters;
 use HnutiBrontosaurus\BisClient\Request\Opportunity\OpportunityParameters;
 use HnutiBrontosaurus\BisClient\Response\AdministrationUnit\AdministrationUnit;
@@ -53,10 +54,10 @@ final class BisClient
 	 * @return AdministrationUnit[]
 	 * @throws ConnectionToBisFailed
 	 */
-	public function getAdministrationUnits(): array
+	public function getAdministrationUnits(?AdministrationUnitParameters $params = null): array
 	{
 		/** @var array{results: array<mixed>} $data */
-		$data = $this->httpClient->send('GET', Endpoint::ADMINISTRATION_UNITS());
+		$data = $this->httpClient->send('GET', Endpoint::ADMINISTRATION_UNITS(), $params !== null ? $params : new AdministrationUnitParameters());
 		return \array_map(static fn($result) => AdministrationUnit::fromResponseData($result), $data['results']);
 	}
 
