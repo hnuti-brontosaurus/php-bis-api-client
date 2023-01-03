@@ -133,12 +133,12 @@ $events = $client->getEvents($parameters);
 
 ## Administration units
 
-Retrieve all information about all administration units:
+Retrieve information about all administration units:
 
 ```php
-$administrationUnits = $client->getAdministrationUnits();
+$parameters = new \HnutiBrontosaurus\BisClient\Request\AdministrationUnit\AdministrationUnitParameters();
+$administrationUnits = $client->getAdministrationUnits($parameters); // $parameters is optional
 
-// example of reading data
 foreach ($administrationUnits as $administrationUnit) {
     $administrationUnit->getName();
     $administrationUnit->getCity();
@@ -146,6 +146,34 @@ foreach ($administrationUnits as $administrationUnit) {
     $administrationUnit->getCoordinates();
 }
 ```
+
+## Opportunities
+
+Retrieve information about all opportunities:
+
+```php
+$parameters = new \HnutiBrontosaurus\BisClient\Request\Opportunity\OpportunityParameters();
+$opportunities = $client->getOpportunities($parameters); // $parameters is optional
+
+foreach ($opportunities as $opportunity) {
+    $opportunity->getName();
+    $opportunity->getDateStart();
+    $opportunity->getIntroduction();
+    $opportunity->getLocation()->getCoordinates();
+}
+```
+
+Or only single one:
+
+```php
+$opportunity = $client->getOpportunity(1234);
+
+$opportunity->getName();
+$opportunity->getDateStart();
+$opportunity->getIntroduction();
+$opportunity->getLocation()->getCoordinates();
+```
+
 
 # Development
 
