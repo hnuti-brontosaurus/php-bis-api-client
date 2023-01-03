@@ -65,13 +65,7 @@ final class BisClient
 	public function getOpportunities(?OpportunityParameters $params = null): array
 	{
 		$data = $this->httpClient->send('GET', Endpoint::OPPORTUNITIES(), $params !== null ? $params : new OpportunityParameters());
-
-		if ($data === null) {
-			return [];
-		}
-
-		\assert(\is_array($data->results));
-		return \array_map(Opportunity::class . '::fromResponseData', $data->results);
+		return \array_map(Opportunity::class . '::fromResponseData', $data['results']);
 	}
 
 
@@ -82,8 +76,6 @@ final class BisClient
 	public function getOpportunity(int $id): Opportunity
 	{
 		$data = $this->httpClient->send('GET', Endpoint::OPPORTUNITY($id));
-
-		\assert($data instanceof \stdClass);
 		return Opportunity::fromResponseData($data);
 	}
 

@@ -4,6 +4,7 @@ namespace HnutiBrontosaurus\BisClient\Response;
 
 use HnutiBrontosaurus\BisClient\Enums\OpportunityCategory;
 use HnutiBrontosaurus\BisClient\Response\Event\ContactPerson;
+use HnutiBrontosaurus\BisClient\RuntimeException;
 
 
 final class Opportunity
@@ -25,31 +26,78 @@ final class Opportunity
 		private Image $image,
 	) {}
 
-	public static function fromResponseData(\stdClass $data): self
+	/**
+	 * @param array{
+	 *     id: int,
+	 *     category: array{
+	 *         id: int,
+	 *         name: string,
+	 *         description: string,
+	 *         slug: string,
+	 *     },
+	 *     name: string,
+	 *     start: string,
+	 *     end: string,
+	 *     on_web_start: string,
+	 *     on_web_end: string,
+	 *     location: array{
+	 *         name: string,
+	 *         description: string,
+	 *         patron: null,
+	 *         program: array{id: int, name: string, slug: string}|null,
+	 *         accessibility_from_prague: array{id: int, name: string, slug: string}|null,
+	 *         accessibility_from_brno: array{id: int, name: string, slug: string}|null,
+	 *         volunteering_work: string,
+	 *         volunteering_work_done: string,
+	 *         volunteering_work_goals: string,
+	 *         options_around: string,
+	 *         facilities: string,
+	 *         web: string,
+	 *         address: string,
+	 *         gps_location: array{type: string, coordinates: array{0: float, 1: float}}|null,
+	 *         region: string|null,
+	 *         photos: array<array{small: string, medium: string, large: string, original: string}>,
+	 *     },
+	 *     introduction: string,
+	 *     description: string,
+	 *     location_benefits: string,
+	 *     personal_benefits: string,
+	 *     requirements: string,
+	 *     contact_name: string,
+	 *     contact_phone: string,
+	 *     contact_email: string,
+	 *     image: array{small: string, medium: string, large: string, original: string},
+	 * } $data
+	 */
+	public static function fromResponseData(array $data): self
 	{
+		$startDate = \DateTimeImmutable::createFromFormat('Y-m-d', $data['start']);
+		if ($startDate === false) throw new RuntimeException(\sprintf("Unexpected format of start date '%s'", $data['start']));
+		$endDate = \DateTimeImmutable::createFromFormat('Y-m-d', $data['end']);
+		if ($endDate === false) throw new RuntimeException(\sprintf("Unexpected format of end date '%s'", $data['end']));
 		return new self(
-			$data->id,
-			$data->name,
-			OpportunityCategory::fromScalar($data->category->slug),
-			\DateTimeImmutable::createFromFormat('Y-m-d', $data->start),
-			\DateTimeImmutable::createFromFormat('Y-m-d', $data->end),
-			Location::from($data->location->name, $data->location->gps_location !== null
+			$data['id'],
+			$data['name'],
+			OpportunityCategory::fromScalar($data['category']['slug']),
+			$startDate,
+			$endDate,
+			Location::from($data['location']['name'], $data['location']['gps_location'] !== null
 				? Coordinates::from(
-					$data->location->gps_location->coordinates[1],
-					$data->location->gps_location->coordinates[0],
+					$data['location']['gps_location']['coordinates'][1],
+					$data['location']['gps_location']['coordinates'][0],
 				)
 				: null),
-			Html::of($data->introduction),
-			Html::of($data->description),
-			$data->location_benefits !== '' ? Html::of($data->location_benefits) : null,
-			Html::of($data->personal_benefits),
-			Html::of($data->requirements),
+			Html::of($data['introduction']),
+			Html::of($data['description']),
+			$data['location_benefits'] !== '' ? Html::of($data['location_benefits']) : null,
+			Html::of($data['personal_benefits']),
+			Html::of($data['requirements']),
 			ContactPerson::from(
-				$data->contact_name,
-				$data->contact_email,
-				$data->contact_phone, // todo nullability?
+				$data['contact_name'],
+				$data['contact_email'],
+				$data['contact_phone'], // todo nullability?
 			),
-			Image::from((array) $data->image),
+			Image::from((array) $data['image']),
 		);
 	}
 
