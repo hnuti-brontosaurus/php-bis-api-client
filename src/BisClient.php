@@ -25,8 +25,8 @@ final class BisClient
 	 */
 	public function getEvent(int $id): Event
 	{
-		$response = $this->httpClient->send('GET', Endpoint::EVENT($id));
-		return Event::fromResponseData($response);
+		$data = $this->httpClient->send('GET', Endpoint::EVENT($id));
+		return Event::fromResponseData($data);
 	}
 
 
