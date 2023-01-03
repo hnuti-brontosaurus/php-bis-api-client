@@ -89,8 +89,8 @@ $parameters->setTargetGroup(\HnutiBrontosaurus\BisClient\Enums\TargetGroup::FIRS
 // only events organized by organizational unit with ID 123
 $parameters->setOrganizedBy(123);
 
-// excludes running events
-$parameters->excludeRunning();
+// only events in given period
+$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Request\Event\Period::RUNNING_AND_FUTURE());
 
 $events = $client->getEvents($parameters);
 ```
@@ -135,12 +135,12 @@ $parameters->orderByDateTo(); // default
 $events = $client->getEvents($parameters);
 ```
 
-### Adding attendee
+### Signing up for event
 
-You can add attendee to an event:
+You can sign up for an event:
 
 ```php
-$client->addAttendee(new \HnutiBrontosaurus\BisClient\Request\Event\EventAttendee(
+$client->signUpForEvent(new \HnutiBrontosaurus\BisClient\Request\Event\EventAttendee(
     123, // event ID
     'Jan', // first name
     'Novák', // last name
@@ -182,7 +182,7 @@ composer install
 - `src` – source code
     - `Enums` – basic enum types
     - `Request` – request-related value objects
-    - `Response` – request-related value objects and exceptions
+    - `Response` – response-related value objects and exceptions
     - `BisClient` – client itself, serves for making requests to BIS API
     - `BisClientFactory` – collects configuration data, ensures authentication against BIS and returns `BisClient`
     - `HttpClient` – wrapper around Guzzle client which adds BIS API specific pieces into the request
@@ -195,4 +195,4 @@ composer install
 This library has just `tests/index.php` which – if run on a webserver – will
 pass or fail visually – no error and results output or an exception.
 
-Note that you have to obtain client ID and secret as well to be able to run the test. Ask BIS administrator to get it, copy `tests/secret.template.php` to `tests/secret.php` and insert credentials there.
+Note that you have to obtain client ID and secret as well to be able to run the test. Ask BIS administrator to get it, copy `tests/config.template.php` to `tests/config.php` and insert credentials there.

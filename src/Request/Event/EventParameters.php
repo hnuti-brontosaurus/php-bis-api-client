@@ -105,20 +105,39 @@ final class EventParameters implements ToArray
 	}
 
 
+	// period (defaults to unlimited)
 
-	// miscellaneous
+	private \DateTimeImmutable $dateFromGreaterThanOrEqualTo;
+	private \DateTimeImmutable $dateFromLessThanOrEqualTo;
+	private \DateTimeImmutable $dateToGreaterThanOrEqualTo;
+	private \DateTimeImmutable $dateToLessThanOrEqualTo;
 
-	private \DateTimeImmutable $dateFromGreaterThan;
-
-	/**
-	 * Excludes events which are running (started, but not yet ended). Defaults to include them.
-	 */
-	public function excludeRunning(): self
+	public function setPeriod(Period $period): self
 	{
-		$this->dateFromGreaterThan = new \DateTimeImmutable();
+		if ($period->equals(Period::RUNNING_ONLY())) {
+			$this->dateFromLessThanOrEqualTo = new \DateTimeImmutable();
+			$this->dateToGreaterThanOrEqualTo = new \DateTimeImmutable();
+
+		} elseif ($period->equals(Period::FUTURE_ONLY())) {
+			$this->dateFromGreaterThanOrEqualTo = new \DateTimeImmutable();
+
+		} elseif ($period->equals(Period::PAST_ONLY())) {
+			$this->dateToLessThanOrEqualTo = new \DateTimeImmutable();
+
+		} elseif ($period->equals(Period::RUNNING_AND_FUTURE())) {
+			$this->dateToGreaterThanOrEqualTo = new \DateTimeImmutable();
+
+		} elseif ($period->equals(Period::RUNNING_AND_PAST())) {
+			$this->dateFromLessThanOrEqualTo = new \DateTimeImmutable();
+
+		} else {} // Period::UNLIMITED() – default
+
 		return $this;
 	}
 
+
+
+	// miscellaneous
 
 	public function orderByDateFrom(): self
 	{
@@ -166,8 +185,17 @@ final class EventParameters implements ToArray
 			'administrative_unit' => \implode(',', $this->organizedBy),
 		];
 
-		if (isset($this->dateFromGreaterThan)) {
-			$array['date_from__gte'] = $this->dateFromGreaterThan->format('Y-m-d');
+		if (isset($this->dateFromGreaterThanOrEqualTo)) {
+			$array['date_from__gte'] = $this->dateFromGreaterThanOrEqualTo->format('Y-m-d');
+		}
+		if (isset($this->dateFromLessThanOrEqualTo)) {
+			$array['date_from__lte'] = $this->dateFromLessThanOrEqualTo->format('Y-m-d');
+		}
+		if (isset($this->dateToGreaterThanOrEqualTo)) {
+			$array['date_to__gte'] = $this->dateToGreaterThanOrEqualTo->format('Y-m-d');
+		}
+		if (isset($this->dateToLessThanOrEqualTo)) {
+			$array['date_to__lte'] = $this->dateToLessThanOrEqualTo->format('Y-m-d');
 		}
 
 		return $array;

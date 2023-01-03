@@ -35,7 +35,7 @@ final class Event
 		private Organizer $organizer,
 		private TargetGroup $targetGroup,
 		private Invitation $invitation,
-		private ?\DateTimeImmutable $startDate,
+		private ?string $meetingTime,
 		private ?string $relatedWebsite,
 	) {}
 
@@ -139,9 +139,7 @@ final class Event
 			$organizer,
 			TargetGroup::fromScalar($data->indended_for),
 			$invitation,
-			$data->start_date !== null
-				? new \DateTimeImmutable($data->start_date)
-				: null,
+			$data->start_date,
 			$_relatedWebsite,
 		);
 	}
@@ -231,9 +229,9 @@ final class Event
 	}
 
 
-	public function getStartDate(): ?\DateTimeImmutable
+	public function getMeetingTime(): ?string
 	{
-		return $this->startDate;
+		return $this->meetingTime;
 	}
 
 
