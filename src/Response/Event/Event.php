@@ -31,7 +31,7 @@ final class Event
 		private RegistrationType $registrationType,
 		private ?int $ageFrom,
 		private ?int $ageUntil,
-		private ?string $price, // todo: single number or interval
+		private ?string $price,
 		private ?string $organizers,
 		private ContactPerson $contactPerson,
 		private IntendedFor $targetGroup,
