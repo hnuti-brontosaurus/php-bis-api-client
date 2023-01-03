@@ -6,6 +6,7 @@ namespace HnutiBrontosaurus\BisClient\Request;
 interface ToArray
 {
 
+	/** @return array<scalar|\Stringable> */
 	public function toArray(): array;
 
 }
