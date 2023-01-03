@@ -55,7 +55,7 @@ final class BisClient
 	public function getOrganizationalUnits(): array
 	{
 		$data = $this->httpClient->send('GET', Endpoint::ADMINISTRATIVE_UNITS());
-		return \array_map(OrganizationalUnit::class . '::fromResponseData', $data);
+		return \array_map(OrganizationalUnit::class . '::fromResponseData', $data['results']);
 	}
 
 

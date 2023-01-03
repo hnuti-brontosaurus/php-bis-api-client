@@ -11,36 +11,60 @@ final class OrganizationalUnit
 	private function __construct(
 		private int $id,
 		private string $name,
-		private string $street,
-		private string $city,
-		private string $postCode,
+		private bool $isForKids,
+		private string $address,
 		private ?Coordinates $coordinates,
 		private string $phone,
 		private string $email,
 		private ?string $website,
 		private OrganizationalUnitType $type,
-		private string $chairman,
-		private string $manager,
+		private ?string $chairman,
+		private ?string $manager,
 	) {}
 
 
-	public static function fromResponseData(\stdClass $data): self
+	/**
+	 * @param array{
+	 *     id: int,
+	 *     name: string,
+	 *     abbreviation: string,
+	 *     is_for_kids: bool,
+	 *     phone: string,
+	 *     email: string,
+	 *     www: string,
+	 *     ic: string,
+	 *     address: string,
+	 *     contact_address: null,
+	 *     bank_account_number: string,
+	 *     existed_since: string|null,
+	 *     existed_till: string|null,
+	 *     category: array{
+	 *         id: int,
+	 *         name: string,
+	 *         slug: string,
+	 *	   },
+	 *     chairman: array{id: int, name: string, email: string, phone: string}|null,
+	 *     vice_chairman: array{id: int, name: string, email: string, phone: string}|null,
+	 *     manager: array{id: int, name: string, email: string, phone: string}|null,
+	 *     board_members: array<array{id: int, name: string, email: string, phone: string}>,
+	 * } $data
+	 */
+	public static function fromResponseData(array $data): self
 	{
 		return new self(
-			$data->id,
-			$data->name,
-			$data->street,
-			$data->city,
-			$data->zip_code,
-			$data->gps_latitude !== null && $data->gps_longitude !== null
-				? Coordinates::from($data->gps_latitude, $data->gps_longitude)
+			$data['id'],
+			$data['name'],
+			$data['is_for_kids'],
+			$data['address'],
+			$data['gps_latitude'] !== null && $data['gps_longitude'] !== null
+				? Coordinates::from($data['gps_latitude'], $data['gps_longitude'])
 				: null,
-			$data->telephone,
-			$data->from_email_address,
-			$data->web_url,
-			OrganizationalUnitType::fromScalar($data->level),
-			$data->president_name,
-			$data->manager_name,
+			$data['phone'],
+			$data['email'],
+			$data['www'],
+			OrganizationalUnitType::fromScalar($data['category']['slug']),
+			$data['chairman'] !== null ? $data['chairman']['name'] : null,
+			$data['manager'] !== null ? $data['manager']['name'] : null,
 		);
 	}
 
@@ -57,21 +81,15 @@ final class OrganizationalUnit
 	}
 
 
-	public function getStreet(): string
+	public function getIsForKids(): bool
 	{
-		return $this->street;
+		return $this->isForKids;
 	}
 
 
-	public function getCity(): string
+	public function getAddress(): string
 	{
-		return $this->city;
-	}
-
-
-	public function getPostCode(): string
-	{
-		return $this->postCode;
+		return $this->address;
 	}
 
 
@@ -99,13 +117,13 @@ final class OrganizationalUnit
 	}
 
 
-	public function getChairman(): string
+	public function getChairman(): ?string
 	{
 		return $this->chairman;
 	}
 
 
-	public function getManager(): string
+	public function getManager(): ?string
 	{
 		return $this->manager;
 	}
