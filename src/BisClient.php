@@ -21,17 +21,6 @@ final class BisClient
 	// events
 
 	/**
-	 * @throws NotFound
-	 * @throws ConnectionToBisFailed
-	 */
-	public function getEvent(int $id): Event
-	{
-		$data = $this->httpClient->send('GET', Endpoint::EVENT($id));
-		return Event::fromResponseData($data);
-	}
-
-
-	/**
 	 * @return Event[]
 	 * @throws ConnectionToBisFailed
 	 */
@@ -48,6 +37,17 @@ final class BisClient
 	}
 
 
+	/**
+	 * @throws NotFound
+	 * @throws ConnectionToBisFailed
+	 */
+	public function getEvent(int $id): Event
+	{
+		$data = $this->httpClient->send('GET', Endpoint::EVENT($id));
+		return Event::fromResponseData($data);
+	}
+
+
 	// administration units
 
 	/**
@@ -61,6 +61,8 @@ final class BisClient
 		return \array_map(static fn($result) => AdministrationUnit::fromResponseData($result), $data['results']);
 	}
 
+
+	// opportunities
 
 	/**
 	 * @return Opportunity[]
