@@ -4,6 +4,7 @@ namespace HnutiBrontosaurus\BisClient\Response\Event;
 
 use HnutiBrontosaurus\BisClient\Enums\Program;
 use HnutiBrontosaurus\BisClient\Enums\TargetGroup;
+use HnutiBrontosaurus\BisClient\Response\ContactPerson;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Food;
 use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Invitation;
