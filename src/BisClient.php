@@ -36,13 +36,14 @@ final class BisClient
 	 */
 	public function getEvents(?EventParameters $params = null): array
 	{
+		/** @var array{results: array<mixed>} $data */
 		$data = $this->httpClient->send(
 			'GET', Endpoint::EVENTS(),
 			$params !== null
 				? $params
 				: new EventParameters(),
 		);
-		return \array_map(Event::class . '::fromResponseData', $data['results']);
+		return \array_map(static fn($result) => Event::fromResponseData($result), $data['results']);
 	}
 
 
@@ -54,8 +55,9 @@ final class BisClient
 	 */
 	public function getAdministrationUnits(): array
 	{
+		/** @var array{results: array<mixed>} $data */
 		$data = $this->httpClient->send('GET', Endpoint::ADMINISTRATION_UNITS());
-		return \array_map(AdministrationUnit::class . '::fromResponseData', $data['results']);
+		return \array_map(static fn($result) => AdministrationUnit::fromResponseData($result), $data['results']);
 	}
 
 
@@ -64,8 +66,9 @@ final class BisClient
 	 */
 	public function getOpportunities(?OpportunityParameters $params = null): array
 	{
+		/** @var array{results: array<mixed>} $data */
 		$data = $this->httpClient->send('GET', Endpoint::OPPORTUNITIES(), $params !== null ? $params : new OpportunityParameters());
-		return \array_map(Opportunity::class . '::fromResponseData', $data['results']);
+		return \array_map(static fn($result) => Opportunity::fromResponseData($result), $data['results']);
 	}
 
 

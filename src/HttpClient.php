@@ -21,6 +21,7 @@ final class HttpClient
 
 
 	/**
+	 * @return array<mixed>
 	 * @throws UnableToProcessRequest
 	 * @throws NotFound
 	 * @throws ConnectionToBisFailed
@@ -44,7 +45,7 @@ final class HttpClient
 				[
 					'Content-Type' => 'application/json',
 				],
-				\json_encode($data !== null ? $data->toArray() : []),
+				\json_encode($data !== null ? $data->toArray() : [],\JSON_THROW_ON_ERROR),
 			));
 
 		} catch (ClientException $e) { // 4xx errors
@@ -71,7 +72,9 @@ final class HttpClient
 			throw ConnectionToBisFailed::withPrevious($e);
 		}
 
-		return \json_decode($response->getBody()->getContents(), flags: JSON_OBJECT_AS_ARRAY);
+		$decoded = \json_decode($response->getBody()->getContents(), flags: JSON_OBJECT_AS_ARRAY);
+		\assert(\is_array($decoded));
+		return $decoded;
 	}
 
 }
