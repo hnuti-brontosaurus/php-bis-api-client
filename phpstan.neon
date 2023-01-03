@@ -3,3 +3,32 @@ parameters:
     paths:
         - src/
         - tests/
+
+    ignoreErrors:
+
+    	# don't repeat whole array shape when passing response from client to value objects
+
+        -
+            message: "#^Parameter \\#1 \\$data of static method HnutiBrontosaurus\\\\BisClient\\\\Response\\\\AdministrationUnit\\\\AdministrationUnit\\:\\:fromResponseData\\(\\) expects array\\{id\\: int, name\\: string, abbreviation\\: string, is_for_kids\\: bool, phone\\: string, email\\: string, www\\: string, ic\\: string, \\.\\.\\.\\}, mixed given\\.$#"
+            count: 1
+            path: src/BisClient.php
+
+        -
+            message: "#^Parameter \\#1 \\$data of static method HnutiBrontosaurus\\\\BisClient\\\\Response\\\\Event\\\\Event\\:\\:fromResponseData\\(\\) expects array\\{id\\: int, name\\: string, start\\: string, end\\: string, duration\\: int, location\\: array\\{name\\: string, description\\: string, patron\\: null, program\\: array\\{id\\: int, name\\: string, slug\\: string\\}\\|null, accessibility_from_prague\\: array\\{id\\: int, name\\: string, slug\\: string\\}\\|null, accessibility_from_brno\\: array\\{id\\: int, name\\: string, slug\\: string\\}\\|null, volunteering_work\\: string, volunteering_work_done\\: string, \\.\\.\\.\\}, group\\: array\\{id\\: int, name\\: string, slug\\: string\\}, category\\: array\\{id\\: int, name\\: string, slug\\: string\\}, \\.\\.\\.\\}, array given\\.$#"
+            count: 1
+            path: src/BisClient.php
+
+        -
+            message: "#^Parameter \\#1 \\$data of static method HnutiBrontosaurus\\\\BisClient\\\\Response\\\\Event\\\\Event\\:\\:fromResponseData\\(\\) expects array\\{id\\: int, name\\: string, start\\: string, end\\: string, duration\\: int, location\\: array\\{name\\: string, description\\: string, patron\\: null, program\\: array\\{id\\: int, name\\: string, slug\\: string\\}\\|null, accessibility_from_prague\\: array\\{id\\: int, name\\: string, slug\\: string\\}\\|null, accessibility_from_brno\\: array\\{id\\: int, name\\: string, slug\\: string\\}\\|null, volunteering_work\\: string, volunteering_work_done\\: string, \\.\\.\\.\\}, group\\: array\\{id\\: int, name\\: string, slug\\: string\\}, category\\: array\\{id\\: int, name\\: string, slug\\: string\\}, \\.\\.\\.\\}, mixed given\\.$#"
+            count: 1
+            path: src/BisClient.php
+
+        -
+            message: "#^Parameter \\#1 \\$data of static method HnutiBrontosaurus\\\\BisClient\\\\Response\\\\Opportunity\\\\Opportunity\\:\\:fromResponseData\\(\\) expects array\\{id\\: int, category\\: array\\{id\\: int, name\\: string, description\\: string, slug\\: string\\}, name\\: string, start\\: string, end\\: string, on_web_start\\: string, on_web_end\\: string, location\\: array\\{name\\: string, description\\: string, patron\\: null, program\\: array\\{id\\: int, name\\: string, slug\\: string\\}\\|null, accessibility_from_prague\\: array\\{id\\: int, name\\: string, slug\\: string\\}\\|null, accessibility_from_brno\\: array\\{id\\: int, name\\: string, slug\\: string\\}\\|null, volunteering_work\\: string, volunteering_work_done\\: string, \\.\\.\\.\\}, \\.\\.\\.\\}, array given\\.$#"
+            count: 1
+            path: src/BisClient.php
+
+        -
+            message: "#^Parameter \\#1 \\$data of static method HnutiBrontosaurus\\\\BisClient\\\\Response\\\\Opportunity\\\\Opportunity\\:\\:fromResponseData\\(\\) expects array\\{id\\: int, category\\: array\\{id\\: int, name\\: string, description\\: string, slug\\: string\\}, name\\: string, start\\: string, end\\: string, on_web_start\\: string, on_web_end\\: string, location\\: array\\{name\\: string, description\\: string, patron\\: null, program\\: array\\{id\\: int, name\\: string, slug\\: string\\}\\|null, accessibility_from_prague\\: array\\{id\\: int, name\\: string, slug\\: string\\}\\|null, accessibility_from_brno\\: array\\{id\\: int, name\\: string, slug\\: string\\}\\|null, volunteering_work\\: string, volunteering_work_done\\: string, \\.\\.\\.\\}, \\.\\.\\.\\}, mixed given\\.$#"
+            count: 1
+            path: src/BisClient.php
