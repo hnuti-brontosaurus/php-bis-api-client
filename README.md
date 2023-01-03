@@ -47,7 +47,7 @@ $event = $client->getEvent($id);
 $event->getName();
 $event->getOrganizer()->getResponsiblePerson();
 $event->getRegistrationType()->isOfTypeCustomWebpage();
-$event->getPlace()->getCoordinates();
+$event->getLocation()->getCoordinates();
 ```
 
 ### More events

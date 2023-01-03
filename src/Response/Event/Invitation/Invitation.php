@@ -12,7 +12,7 @@ final class Invitation
 	private function __construct(
 		private string $introduction,
 		private string $organizationalInformation,
-		private ?string $accommodation,
+		private string $accommodation,
 		private array $food,
 		private ?string $workDescription,
 		private ?int $workHoursPerDay,
@@ -26,7 +26,7 @@ final class Invitation
 	public static function from(
 		string $introduction,
 		string $organizationalInformation,
-		?string $accommodation,
+		string $accommodation,
 		array $food,
 		?string $workDescription,
 		?int $workHoursPerDay,
@@ -57,7 +57,7 @@ final class Invitation
 	}
 
 
-	public function getAccommodation(): ?string
+	public function getAccommodation(): string
 	{
 		return $this->accommodation;
 	}

@@ -8,42 +8,50 @@ use Grifart\Enum\Enum;
 
 /**
  * @method static EventType VOLUNTARY()
+ * @method static EventType VOLUNTARY_WITH_EXPERIENCE()
  * @method static EventType EXPERIENCE()
  * @method static EventType SPORT()
- * @method static EventType EDUCATIONAL_TALK()
- * @method static EventType EDUCATIONAL_COURSES()
+ * @method static EventType EDUCATIONAL_LECTURE()
+ * @method static EventType EDUCATIONAL_COURSE()
  * @method static EventType EDUCATIONAL_OHB()
- * @method static EventType LEARNING_PROGRAM()
- * @method static EventType RESIDENTIAL_LEARNING_PROGRAM()
+ * @method static EventType EDUCATIONAL_PROGRAM()
+ * @method static EventType EDUCATIONAL_PROGRAM_WITH_STAY()
  * @method static EventType CLUB_MEETUP()
  * @method static EventType CLUB_TALK()
  * @method static EventType FOR_PUBLIC()
  * @method static EventType EKOSTAN()
  * @method static EventType EXHIBITION()
- * @method static EventType ACTION_GROUP()
- * @method static EventType INTERNAL()
- * @method static EventType GROUP_MEETING()
+ * @method static EventType INTERNAL_VOLUNTEER_MEETING()
+ * @method static EventType INTERNAL_GENERAL_MEETING()
+ * @method static EventType INTERNAL_GROUP_MEETING()
  */
 final class EventType extends Enum
 {
 	use AutoInstances;
 
-	protected const VOLUNTARY = 'pracovni'; // dobrovolnická
-	protected const EXPERIENCE = 'prozitkova'; // zážitková
-	protected const SPORT = 'sportovni';
+	protected const VOLUNTARY = 'public__volunteering__only_volunteering';
+	protected const VOLUNTARY_WITH_EXPERIENCE = 'public__volunteering__with_experience';
+	protected const EXPERIENCE = 'public__only_experiential';
+	protected const SPORT = 'public__sports';
 
-	protected const EDUCATIONAL_TALK = 'prednaska'; // vzdělávací - přednášky
-	protected const EDUCATIONAL_COURSES = 'vzdelavaci'; // vzdělávací - kurzy, školení
-	protected const EDUCATIONAL_OHB = 'ohb'; // vzdělávací - kurz ohb
-	protected const LEARNING_PROGRAM = 'vyuka'; // výukový program
-	protected const RESIDENTIAL_LEARNING_PROGRAM = 'pobyt'; // pobytový výukový program
+	// vzdělávací / educational
+	protected const EDUCATIONAL_LECTURE = 'public__educational__lecture'; // přednáška
+	protected const EDUCATIONAL_COURSE = 'public__educational__course'; // kurz, školení
+	protected const EDUCATIONAL_OHB = 'public__educational__ohb'; // ohb
+	protected const EDUCATIONAL_PROGRAM = 'public__educational__educational'; // výukový program
+	protected const EDUCATIONAL_PROGRAM_WITH_STAY = 'public__educational__educational_with_stay'; // pobytový výukový program
 
-	protected const CLUB_MEETUP = 'klub'; // klub - setkání
-	protected const CLUB_TALK = 'klub-predn'; // klub - přednáška
-	protected const FOR_PUBLIC = 'verejnost'; // akce pro veřejnost
-	protected const EKOSTAN = 'ekostan';
-	protected const EXHIBITION = 'vystava';
-	protected const ACTION_GROUP = 'akcni'; // akční skupina
-	protected const INTERNAL = 'jina'; // interní akce (VH a jiné)
-	protected const GROUP_MEETING = 'schuzka'; // oddílová, družinová schůzka
+	// klub / club
+	protected const CLUB_MEETUP = 'public__club__meeting'; // setkání
+	protected const CLUB_TALK = 'public__club__lecture'; // přednáška
+
+	// ostatní / other
+	protected const FOR_PUBLIC = 'public__other__for_public'; // akce pro veřejnost
+	protected const EXHIBITION = 'public__other__exhibition'; // výstava
+	protected const EKOSTAN = 'public__other__eco_tent'; // ekostan
+
+	// interní / internal
+	protected const INTERNAL_VOLUNTEER_MEETING = 'internal__volunteer_meeting'; // schůzka dobrovolníků, týmovka
+	protected const INTERNAL_GENERAL_MEETING = 'internal__general_meeting'; // valná hromada
+	protected const INTERNAL_GROUP_MEETING = 'internal__section_meeting'; // oddílová, družinová schůzka
 }

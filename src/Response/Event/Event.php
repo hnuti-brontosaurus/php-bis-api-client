@@ -9,12 +9,11 @@ use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Food;
 use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Invitation;
 use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Photo;
 use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Presentation;
-use HnutiBrontosaurus\BisClient\Response\Event\Organizer\ContactPerson;
-use HnutiBrontosaurus\BisClient\Response\Event\Organizer\Organizer;
-use HnutiBrontosaurus\BisClient\Response\Event\Organizer\OrganizerOrganizationalUnit;
 use HnutiBrontosaurus\BisClient\Response\Event\Registration\RegistrationQuestion;
 use HnutiBrontosaurus\BisClient\Response\Event\Registration\RegistrationType;
 use HnutiBrontosaurus\BisClient\Response\Event\Registration\RegistrationTypeEnum;
+use HnutiBrontosaurus\BisClient\Response\Location;
+use HnutiBrontosaurus\BisClient\RuntimeException;
 
 
 final class Event
@@ -23,124 +22,160 @@ final class Event
 	private function __construct(
 		private int $id,
 		private string $name,
-		private ?string $coverPhotoPath,
+		private ?Photo $coverPhotoPath,
 		private \DateTimeImmutable $dateFrom,
 		private \DateTimeImmutable $dateUntil,
 		private Program $program,
-		private Place $place,
+		private Location $location,
 		private RegistrationType $registrationType,
 		private ?int $ageFrom,
 		private ?int $ageUntil,
-		private ?string $price, // single number or interval
-		private Organizer $organizer,
+		private ?string $price, // todo: single number or interval
+		private ?string $organizers,
+		private ContactPerson $contactPerson,
 		private TargetGroup $targetGroup,
 		private Invitation $invitation,
-		private ?string $meetingTime,
 		private ?string $relatedWebsite,
 	) {}
 
 
-	public static function fromResponseData(\stdClass $data): self
+	/**
+	 * @param array{
+	 *     id: int,
+	 *     name: string,
+	 *     start: string,
+	 *     end: string,
+	 *     duration: int,
+	 *     location: array{
+	 *         name: string,
+	 *         description: string,
+	 *         patron: null,
+	 *         program: array{id: int, name: string, slug: string}|null,
+	 *         accessibility_from_prague: array{id: int, name: string, slug: string}|null,
+	 *         accessibility_from_brno: array{id: int, name: string, slug: string}|null,
+	 *         volunteering_work: string,
+	 *         volunteering_work_done: string,
+	 *         volunteering_work_goals: string,
+	 *         options_around: string,
+	 *         facilities: string,
+	 *         web: string,
+	 *         address: string,
+	 *         gps_location: array{type: string, coordinates: array{0: float, 1: float}}|null,
+	 *         region: string|null,
+	 *         photos: array<array{small: string, medium: string, large: string, original: string}>,
+	 *     },
+	 *     group: array{
+	 *         id: int,
+	 *         name: string,
+	 *         slug: string,
+	 *     },
+	 *     category: array{
+	 *         id: int,
+	 *         name: string,
+	 *         slug: string,
+	 *     },
+	 *     program: array{
+	 *         id: int,
+	 *         name: string,
+	 *         slug: string,
+	 *     },
+	 *     intended_for: array{
+	 *         id: int,
+	 *         name: string,
+	 *         slug: string,
+	 *     },
+	 *     administration_units: string[],
+	 *     propagation: array{
+	 *         minimum_age: int|null,
+	 *         maximum_age:int|null,
+	 *         cost: string|null,
+	 *         intended_for: array{id: int, name: string, slug: string},
+	 *         accommodation: string,
+	 *         working_days: int|null,
+	 *         working_hours: int|null,
+	 *         diets: array<'vege'|'meat'|'vegan'>,
+	 *         organizers: string,
+	 *         web_url: string,
+	 *         invitation_text_introduction: string,
+	 *         invitation_text_practical_information: string,
+	 *         invitation_text_work_description: string,
+	 *         invitation_text_about_us: string,
+	 *         contact_name: string,
+	 *         contact_phone: string,
+	 *         contact_email: string,
+	 *         images: array<array{image: array{small: string, medium: string, large: string, original: string}}>,
+	 *     },
+	 *     registration: array{
+	 *         is_registration_required: bool,
+	 *         is_event_full: bool,
+	 *     },
+	 * } $data
+	 */
+	public static function fromResponseData(array $data): self
 	{
 		// registration
-		$contactEmail = $data->contact_person_email;
-		$registrationCustomUrl = $data->entry_form_url;
-		$registrationQuestions = \array_filter([ // exclude all null items
-			$data->additional_question_1,
-			$data->additional_question_2,
-			$data->additional_question_3,
-		], fn($v, $k) => $v !== '', \ARRAY_FILTER_USE_BOTH);
+		$contactEmail = $data['propagation']['contact_email'];
+		$registrationCustomUrl = ''; // todo
+		$registrationQuestions = \array_filter([], fn($v, $k) => $v !== '', \ARRAY_FILTER_USE_BOTH); // todo remove
 		$registrationType = RegistrationType::from(
-			RegistrationTypeEnum::fromScalar($data->registration_method),
+//			RegistrationTypeEnum::fromScalar($data['registration_method']),
+			RegistrationTypeEnum::BRONTOWEB(), // todo
 			\array_map(fn(string $question) => RegistrationQuestion::from($question), $registrationQuestions),
 			$contactEmail,
 			$registrationCustomUrl,
 		);
 
 
-		// organizers
-		$organizationalUnitName = $data->administrative_unit_name !== '' ? $data->administrative_unit_name : null;
-		$organizationalUnitWebsite = $data->administrative_unit_web_url !== '' ? $data->administrative_unit_web_url : null;
-		$organizers = $data->looking_forward_to_you !== '' ? $data->looking_forward_to_you : null;
-		$responsiblePerson = $data->responsible_person !== '' ? $data->responsible_person : null;
-		$organizer = Organizer::from(
-			($organizationalUnitName !== null)
-				? OrganizerOrganizationalUnit::from($organizationalUnitName, $organizationalUnitWebsite)
-				: null,
-			$responsiblePerson,
-			$organizers,
-			ContactPerson::from(
-				$data->contact_person_name,
-				$contactEmail,
-				$data->contact_person_telephone,
-			),
-		);
-
-
 		// invitation
 
-		/** @var Photo[] $invitationPresentationPhotos */
-		$invitationPresentationPhotos = [];
-		for ($i = 1; $i <= 6; $i++) {
-			$photo = $data->{'additional_photo_' . $i};
-			if ($photo !== null) {
-				$invitationPresentationPhotos[] = Photo::from($photo);
-			}
-		}
+		$photos = \array_map(
+			static fn($photo) => Photo::from($photo['image']),
+			$data['propagation']['images'],
+		);
+		$mainPhoto = \array_shift($photos);
 
-		$invitationPresentationText = $data->invitation_text_4;
+		$invitationPresentationText = $data['propagation']['invitation_text_about_us'];
 		$invitation = Invitation::from(
-			$data->invitation_text_1,
-			$data->invitation_text_2,
-			$data->accommodation !== '' ? $data->accommodation : null,
-			\array_map(static fn($diet) => Food::fromScalar($diet), $data->diet),
-			$data->invitation_text_3,
-			$data->working_hours,
-			($invitationPresentationText !== null || \count($invitationPresentationPhotos) > 0)
-				? Presentation::from($invitationPresentationText, $invitationPresentationPhotos)
+			$data['propagation']['invitation_text_introduction'],
+			$data['propagation']['invitation_text_practical_information'],
+			$data['propagation']['accommodation'],
+			\array_map(static fn($diet) => Food::fromScalar($diet), $data['propagation']['diets']),
+			$data['propagation']['invitation_text_work_description'] !== '' ? $data['propagation']['invitation_text_work_description'] : null,
+			$data['propagation']['working_hours'],
+			($invitationPresentationText !== '' || \count($photos) > 0)
+				? Presentation::from($invitationPresentationText, $photos)
 				: null,
 		);
 
-
-		// related website
-		$relatedWebsite = $data->web_url;
-		$_relatedWebsite = null;
-		if ($relatedWebsite !== null) {
-			if ( ! self::startsWith($relatedWebsite, 'http')) { // count with no protocol typed URLs
-				$relatedWebsite = 'http://' . $relatedWebsite;
-			}
-
-			$_relatedWebsite = $relatedWebsite;
-		}
+		$endDate = \DateTimeImmutable::createFromFormat('Y-m-d', $data['end']);
+		if ($endDate === false) throw new RuntimeException(\sprintf("Unexpected format of end date '%s'", $data['start']));
 
 		return new self(
-			$data->id,
-			$data->name,
-			$data->main_photo,
-			$data->date_from === null
-				? \DateTimeImmutable::createFromFormat('Y-m-d', '1970-01-01') // todo temp, until there are nullable dates coming from API
-				: \DateTimeImmutable::createFromFormat('Y-m-d', $data->date_from),
-			$data->date_to === null
-				? \DateTimeImmutable::createFromFormat('Y-m-d', '1970-01-02') // todo temp, until there are nullable dates coming from API
-				: \DateTimeImmutable::createFromFormat('Y-m-d', $data->date_to),
-			Program::fromScalar($data->program),
-			$data->location === null
-				? Place::from('nezadáno', null) // todo temp, until there are nullable locations coming from API
-				: Place::from(
-				$data->location->name,
-				$data->location->gps_latitude !== null && $data->location->gps_longitude !== null
-					? Coordinates::from($data->location->gps_latitude, $data->location->gps_longitude)
+			$data['id'],
+			$data['name'],
+			$mainPhoto,
+			new \DateTimeImmutable($data['start']),
+			$endDate,
+			Program::fromScalar($data['program']['slug']),
+			Location::from(
+				$data['location']['name'],
+				$data['location']['gps_location'] !== null
+					? Coordinates::from($data['location']['gps_location']['coordinates'][1], $data['location']['gps_location']['coordinates'][0])
 					: null,
 			),
 			$registrationType,
-			$data->age_from,
-			$data->age_to,
-			$data->participation_fee !== null ? $data->participation_fee : null,
-			$organizer,
-			TargetGroup::fromScalar($data->indended_for),
+			$data['propagation']['minimum_age'],
+			$data['propagation']['maximum_age'],
+			$data['propagation']['cost'] !== null ? $data['propagation']['cost'] : null,
+			$data['propagation']['organizers'] !== '' ? $data['propagation']['organizers'] : null,
+			ContactPerson::from(
+				$data['propagation']['contact_name'],
+				$contactEmail,
+				$data['propagation']['contact_phone'],
+			),
+			TargetGroup::fromScalar($data['intended_for']['slug']),
 			$invitation,
-			$data->start_date,
-			$_relatedWebsite,
+			$data['propagation']['web_url'] !== '' ? $data['propagation']['web_url'] : null,
 		);
 	}
 
@@ -157,7 +192,7 @@ final class Event
 	}
 
 
-	public function getCoverPhotoPath(): ?string
+	public function getCoverPhotoPath(): ?Photo
 	{
 		return $this->coverPhotoPath;
 	}
@@ -181,9 +216,9 @@ final class Event
 	}
 
 
-	public function getPlace(): Place
+	public function getLocation(): Location
 	{
-		return $this->place;
+		return $this->location;
 	}
 
 
@@ -211,9 +246,15 @@ final class Event
 	}
 
 
-	public function getOrganizer(): Organizer
+	public function getOrganizers(): ?string
 	{
-		return $this->organizer;
+		return $this->organizers;
+	}
+
+
+	public function getContactPerson(): ContactPerson
+	{
+		return $this->contactPerson;
 	}
 
 
@@ -229,25 +270,9 @@ final class Event
 	}
 
 
-	public function getMeetingTime(): ?string
-	{
-		return $this->meetingTime;
-	}
-
-
 	public function getRelatedWebsite(): ?string
 	{
 		return $this->relatedWebsite;
-	}
-
-
-	/**
-	 * Extracted from \Nette\Utils\Strings (v2.3)
-	 * Starts the $haystack string with the prefix $needle?
-	 */
-	private static function startsWith(string $haystack, string $needle): bool
-	{
-		return \strncmp($haystack, $needle, \strlen($needle)) === 0;
 	}
 
 }

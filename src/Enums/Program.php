@@ -9,21 +9,23 @@ use Grifart\Enum\Enum;
 /**
  * @method static Program NONE()
  * @method static Program NATURE()
- * @method static Program SIGHTS()
+ * @method static Program MONUMENTS()
  * @method static Program BRDO()
  * @method static Program EKOSTAN()
  * @method static Program PSB()
  * @method static Program EDUCATION()
+ * @method static Program INTERNATIONAL()
  */
 final class Program extends Enum
 {
 	use AutoInstances;
 
-	protected const NONE = '';
+	protected const NONE = 'none';
 	protected const NATURE = 'nature';
-	protected const SIGHTS = 'monuments';
-	protected const BRDO = 'children_section';
-	protected const EKOSTAN = 'eco_consulting';
-	protected const PSB = 'PsB';
+	protected const MONUMENTS = 'monuments';
+	protected const BRDO = 'kids';
+	protected const EKOSTAN = 'eco_tent';
+	protected const PSB = 'holidays_with_brontosaurus';
 	protected const EDUCATION = 'education';
+	protected const INTERNATIONAL = 'international';
 }
