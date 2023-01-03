@@ -1,9 +1,13 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Response;
+namespace HnutiBrontosaurus\BisClient\Response\Opportunity;
 
 use HnutiBrontosaurus\BisClient\Enums\OpportunityCategory;
+use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use HnutiBrontosaurus\BisClient\Response\Event\ContactPerson;
+use HnutiBrontosaurus\BisClient\Response\Html;
+use HnutiBrontosaurus\BisClient\Response\Image;
+use HnutiBrontosaurus\BisClient\Response\Location;
 use HnutiBrontosaurus\BisClient\RuntimeException;
 
 
