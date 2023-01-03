@@ -28,7 +28,7 @@ final class EventParameters implements ToArray
 
 	private string $filter = '';
 
-	public function setFilter($filter): self
+	public function setFilter(string $filter): self
 	{
 		if ( ! \in_array($filter, [
 			self::FILTER_ACTIONS_ONLY,
