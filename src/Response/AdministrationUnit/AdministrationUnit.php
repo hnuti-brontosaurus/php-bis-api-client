@@ -2,6 +2,7 @@
 
 namespace HnutiBrontosaurus\BisClient\Response\AdministrationUnit;
 
+use HnutiBrontosaurus\BisClient\Enums\AdministrationUnitType;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
 
 
