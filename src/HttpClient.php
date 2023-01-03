@@ -16,7 +16,6 @@ final class HttpClient
 {
 
 	public function __construct(
-		private AuthorizationToken $authorizationToken,
 		private Client $client,
 	) {}
 
@@ -43,7 +42,6 @@ final class HttpClient
 				$method,
 				$endpoint . $queryString,
 				[
-					'Authorization' => 'Bearer ' . $this->authorizationToken->toString(),
 					'Content-Type' => 'application/json',
 				],
 				\json_encode($data !== null ? $data->toArray() : []),
