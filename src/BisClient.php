@@ -79,11 +79,4 @@ final class BisClient
 		return Opportunity::fromResponseData($data);
 	}
 
-
-	// adoption
-
-	// not yet implemented
-//	public function saveRequestForAdoption(Adoption $adoption): void
-//	{}
-
 }
