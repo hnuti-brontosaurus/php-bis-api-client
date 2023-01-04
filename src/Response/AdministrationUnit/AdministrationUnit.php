@@ -57,9 +57,10 @@ final class AdministrationUnit
 			$data['name'],
 			$data['is_for_kids'],
 			$data['address'],
-			$data['gps_latitude'] !== null && $data['gps_longitude'] !== null
+			null, // temporary not available
+			/* $data['gps_latitude'] !== null && $data['gps_longitude'] !== null
 				? Coordinates::from($data['gps_latitude'], $data['gps_longitude'])
-				: null,
+				: null,*/
 			$data['phone'] !== '' ? $data['phone'] : null,
 			$data['email'] !== '' ? $data['email'] : null,
 			$data['www'] !== '' ? $data['www'] : null,
