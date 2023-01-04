@@ -132,6 +132,7 @@ final class Event
 			$data['propagation']['accommodation'],
 			\array_map(static fn($diet) => Food::fromScalar($diet), $data['propagation']['diets']),
 			$data['propagation']['invitation_text_work_description'] !== '' ? $data['propagation']['invitation_text_work_description'] : null,
+			$data['propagation']['working_days'],
 			$data['propagation']['working_hours'],
 			($invitationPresentationText !== '' || \count($photos) > 0)
 				? Presentation::from($invitationPresentationText, $photos)

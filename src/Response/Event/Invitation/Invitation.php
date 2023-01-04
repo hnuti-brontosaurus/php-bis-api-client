@@ -15,6 +15,7 @@ final class Invitation
 		private string $accommodation,
 		private array $food,
 		private ?string $workDescription,
+		private ?int $workDays,
 		private ?int $workHoursPerDay,
 		private ?Presentation $presentation,
 	) {}
@@ -29,6 +30,7 @@ final class Invitation
 		string $accommodation,
 		array $food,
 		?string $workDescription,
+		?int $workDays,
 		?int $workHoursPerDay,
 		?Presentation $presentation,
 	): self
@@ -39,6 +41,7 @@ final class Invitation
 			$accommodation,
 			$food,
 			$workDescription,
+			$workDays,
 			$workHoursPerDay,
 			$presentation,
 		);
@@ -75,6 +78,12 @@ final class Invitation
 	public function getWorkDescription(): ?string
 	{
 		return $this->workDescription;
+	}
+
+
+	public function getWorkDays(): ?int
+	{
+		return $this->workDays;
 	}
 
 
