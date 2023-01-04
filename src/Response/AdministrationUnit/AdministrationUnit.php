@@ -15,8 +15,8 @@ final class AdministrationUnit
 		private bool $isForKids,
 		private string $address,
 		private ?Coordinates $coordinates,
-		private string $phone,
-		private string $email,
+		private ?string $phone,
+		private ?string $email,
 		private ?string $website,
 		private AdministrationUnitCategory $category,
 		private ?string $chairman,
@@ -60,9 +60,9 @@ final class AdministrationUnit
 			$data['gps_latitude'] !== null && $data['gps_longitude'] !== null
 				? Coordinates::from($data['gps_latitude'], $data['gps_longitude'])
 				: null,
-			$data['phone'],
-			$data['email'],
-			$data['www'],
+			$data['phone'] !== '' ? $data['phone'] : null,
+			$data['email'] !== '' ? $data['email'] : null,
+			$data['www'] !== '' ? $data['www'] : null,
 			AdministrationUnitCategory::fromScalar($data['category']['slug']),
 			$data['chairman'] !== null ? $data['chairman']['name'] : null,
 			$data['manager'] !== null ? $data['manager']['name'] : null,
@@ -100,13 +100,13 @@ final class AdministrationUnit
 	}
 
 
-	public function getPhone(): string
+	public function getPhone(): ?string
 	{
 		return $this->phone;
 	}
 
 
-	public function getEmail(): string
+	public function getEmail(): ?string
 	{
 		return $this->email;
 	}
