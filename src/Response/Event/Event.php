@@ -20,6 +20,9 @@ use HnutiBrontosaurus\BisClient\RuntimeException;
 final class Event
 {
 
+	/**
+	 * @param string[] $administrationUnits
+	 */
 	private function __construct(
 		private int $id,
 		private string $name,
@@ -33,6 +36,7 @@ final class Event
 		private ?int $ageUntil,
 		private ?string $price,
 		private ?string $organizers,
+		private array $administrationUnits,
 		private ContactPerson $contactPerson,
 		private IntendedFor $targetGroup,
 		private Invitation $invitation,
@@ -169,6 +173,7 @@ final class Event
 			$data['propagation']['maximum_age'],
 			$data['propagation']['cost'] !== null ? $data['propagation']['cost'] : null,
 			$data['propagation']['organizers'] !== '' ? $data['propagation']['organizers'] : null,
+			$data['administration_units'],
 			ContactPerson::from(
 				$data['propagation']['contact_name'],
 				$contactEmail,
@@ -250,6 +255,15 @@ final class Event
 	public function getOrganizers(): ?string
 	{
 		return $this->organizers;
+	}
+
+
+	/**
+	 * @return string[]
+	 */
+	public function getAdministrationUnits(): array
+	{
+		return $this->administrationUnits;
 	}
 
 
