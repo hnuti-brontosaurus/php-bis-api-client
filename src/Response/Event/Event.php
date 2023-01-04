@@ -10,9 +10,6 @@ use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Food;
 use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Invitation;
 use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Photo;
 use HnutiBrontosaurus\BisClient\Response\Event\Invitation\Presentation;
-use HnutiBrontosaurus\BisClient\Response\Event\Registration\RegistrationQuestion;
-use HnutiBrontosaurus\BisClient\Response\Event\Registration\RegistrationType;
-use HnutiBrontosaurus\BisClient\Response\Event\Registration\RegistrationTypeEnum;
 use HnutiBrontosaurus\BisClient\Response\Location;
 use HnutiBrontosaurus\BisClient\RuntimeException;
 
@@ -31,7 +28,8 @@ final class Event
 		private \DateTimeImmutable $dateUntil,
 		private Program $program,
 		private Location $location,
-		private RegistrationType $registrationType,
+		private bool $isRegistrationRequired,
+		private bool $isFull,
 		private ?int $ageFrom,
 		private ?int $ageUntil,
 		private ?string $price,
@@ -118,18 +116,6 @@ final class Event
 	 */
 	public static function fromResponseData(array $data): self
 	{
-		// registration
-		$contactEmail = $data['propagation']['contact_email'];
-		$registrationCustomUrl = ''; // todo
-		$registrationQuestions = \array_filter([], fn($v, $k) => $v !== '', \ARRAY_FILTER_USE_BOTH); // todo remove
-		$registrationType = RegistrationType::from(
-//			RegistrationTypeEnum::fromScalar($data['registration_method']),
-			RegistrationTypeEnum::BRONTOWEB(), // todo
-			\array_map(fn(string $question) => RegistrationQuestion::from($question), $registrationQuestions),
-			$contactEmail,
-			$registrationCustomUrl,
-		);
-
 
 		// invitation
 
@@ -168,7 +154,8 @@ final class Event
 					? Coordinates::from($data['location']['gps_location']['coordinates'][1], $data['location']['gps_location']['coordinates'][0])
 					: null,
 			),
-			$registrationType,
+			$data['registration']['is_registration_required'],
+			$data['registration']['is_event_full'],
 			$data['propagation']['minimum_age'],
 			$data['propagation']['maximum_age'],
 			$data['propagation']['cost'] !== null ? $data['propagation']['cost'] : null,
@@ -176,7 +163,7 @@ final class Event
 			$data['administration_units'],
 			ContactPerson::from(
 				$data['propagation']['contact_name'],
-				$contactEmail,
+				$data['propagation']['contact_email'],
 				$data['propagation']['contact_phone'],
 			),
 			IntendedFor::fromScalar($data['intended_for']['slug']),
@@ -228,9 +215,15 @@ final class Event
 	}
 
 
-	public function getRegistrationType(): RegistrationType
+	public function getIsRegistrationRequired(): bool
 	{
-		return $this->registrationType;
+		return $this->isRegistrationRequired;
+	}
+
+
+	public function getIsFull(): bool
+	{
+		return $this->isFull;
 	}
 
 
