@@ -101,6 +101,39 @@ final class EventParameters implements ToArray
 	}
 
 
+	// period (defaults to unlimited)
+
+	private \DateTimeImmutable $dateStartGreaterThanOrEqualTo;
+	private \DateTimeImmutable $dateStartLessThanOrEqualTo;
+	private \DateTimeImmutable $dateEndGreaterThanOrEqualTo;
+	private \DateTimeImmutable $dateEndLessThanOrEqualTo;
+
+	public function setPeriod(Period $period): self
+	{
+		$now = new \DateTimeImmutable();
+
+		if ($period->equals(Period::RUNNING_ONLY())) {
+			$this->dateStartLessThanOrEqualTo = $now;
+			$this->dateEndGreaterThanOrEqualTo = $now;
+
+		} elseif ($period->equals(Period::FUTURE_ONLY())) {
+			$this->dateStartGreaterThanOrEqualTo = $now;
+
+		} elseif ($period->equals(Period::PAST_ONLY())) {
+			$this->dateEndLessThanOrEqualTo = $now;
+
+		} elseif ($period->equals(Period::RUNNING_AND_FUTURE())) {
+			$this->dateEndGreaterThanOrEqualTo = $now;
+
+		} elseif ($period->equals(Period::RUNNING_AND_PAST())) {
+			$this->dateStartLessThanOrEqualTo = $now;
+
+		} else {} // Period::UNLIMITED() – default
+
+		return $this;
+	}
+
+
 	// getters
 
 	public function toArray(): array
@@ -118,6 +151,19 @@ final class EventParameters implements ToArray
 		}
 		if (\count($this->intendedFor) > 0) {
 			$array['intended_for'] = \implode(',', $this->intendedFor);
+		}
+
+		if (isset($this->dateStartLessThanOrEqualTo)) {
+			$array['start__lte'] = $this->dateStartLessThanOrEqualTo->format('Y-m-d');
+		}
+		if (isset($this->dateStartGreaterThanOrEqualTo)) {
+			$array['start__gte'] = $this->dateStartGreaterThanOrEqualTo->format('Y-m-d');
+		}
+		if (isset($this->dateEndLessThanOrEqualTo)) {
+			$array['end__lte'] = $this->dateEndLessThanOrEqualTo->format('Y-m-d');
+		}
+		if (isset($this->dateEndGreaterThanOrEqualTo)) {
+			$array['end__gte'] = $this->dateEndGreaterThanOrEqualTo->format('Y-m-d');
 		}
 
 		return $array;
