@@ -14,6 +14,9 @@ use HnutiBrontosaurus\BisClient\RuntimeException;
 final class Opportunity
 {
 
+	/**
+	 * @param array<mixed> $rawData
+	 */
 	private function __construct(
 		private int $id,
 		private string $name,
@@ -28,6 +31,7 @@ final class Opportunity
 		private Html $requirements,
 		private ContactPerson $contactPerson,
 		private Image $image,
+		private array $rawData,
 	) {}
 
 	/**
@@ -102,6 +106,7 @@ final class Opportunity
 				$data['contact_phone'], // todo nullability?
 			),
 			Image::from((array) $data['image']),
+			$data,
 		);
 	}
 
@@ -181,6 +186,17 @@ final class Opportunity
 	public function getImage(): Image
 	{
 		return $this->image;
+	}
+
+
+	/**
+	 * In case that methods provided by this client are not enough.
+	 * See fromResponseData() or consult BIS API docs for detailed array description.
+	 * @return array<mixed>
+	 */
+	public function getRawData(): array
+	{
+		return $this->rawData;
 	}
 
 }

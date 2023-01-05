@@ -19,6 +19,7 @@ final class Event
 
 	/**
 	 * @param string[] $administrationUnits
+	 * @param array<mixed> $rawData
 	 */
 	private function __construct(
 		private int $id,
@@ -39,6 +40,7 @@ final class Event
 		private IntendedFor $targetGroup,
 		private Invitation $invitation,
 		private ?string $relatedWebsite,
+		private array $rawData,
 	) {}
 
 
@@ -170,6 +172,7 @@ final class Event
 			IntendedFor::fromScalar($data['intended_for']['slug']),
 			$invitation,
 			$data['propagation']['web_url'] !== '' ? $data['propagation']['web_url'] : null,
+			$data,
 		);
 	}
 
@@ -282,6 +285,17 @@ final class Event
 	public function getRelatedWebsite(): ?string
 	{
 		return $this->relatedWebsite;
+	}
+
+
+	/**
+	 * In case that methods provided by this client are not enough.
+	 * See fromResponseData() or consult BIS API docs for detailed array description.
+	 * @return array<mixed>
+	 */
+	public function getRawData(): array
+	{
+		return $this->rawData;
 	}
 
 }

@@ -9,6 +9,9 @@ use HnutiBrontosaurus\BisClient\Response\Coordinates;
 final class AdministrationUnit
 {
 
+	/**
+	 * @param array<mixed> $rawData
+	 */
 	private function __construct(
 		private int $id,
 		private string $name,
@@ -21,6 +24,7 @@ final class AdministrationUnit
 		private AdministrationUnitCategory $category,
 		private ?string $chairman,
 		private ?string $manager,
+		private array $rawData,
 	) {}
 
 
@@ -67,6 +71,7 @@ final class AdministrationUnit
 			AdministrationUnitCategory::fromScalar($data['category']['slug']),
 			$data['chairman'] !== null ? $data['chairman']['name'] : null,
 			$data['manager'] !== null ? $data['manager']['name'] : null,
+			$data,
 		);
 	}
 
@@ -152,6 +157,17 @@ final class AdministrationUnit
 	public function isOffice(): bool
 	{
 		return $this->category->equals(AdministrationUnitCategory::HEADQUARTER());
+	}
+
+
+	/**
+	 * In case that methods provided by this client are not enough.
+	 * See fromResponseData() or consult BIS API docs for detailed array description.
+	 * @return array<mixed>
+	 */
+	public function getRawData(): array
+	{
+		return $this->rawData;
 	}
 
 }
