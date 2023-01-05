@@ -75,8 +75,11 @@ final class HttpClient
 
 		$this->lastRequestUrl = $response->hasHeader($this->lastRequestUrlHeaderKey) ? $response->getHeader($this->lastRequestUrlHeaderKey)[0] : null;
 
-		$decoded = \json_decode($response->getBody()->getContents(), flags: JSON_OBJECT_AS_ARRAY);
+		$content = $response->getBody()->getContents();
+		$this->lastResponseEncoded = $content;
+		$decoded = \json_decode($content, flags: JSON_OBJECT_AS_ARRAY);
 		\assert(\is_array($decoded));
+		$this->lastResponseDecoded = $decoded;
 		return $decoded;
 	}
 
@@ -85,6 +88,18 @@ final class HttpClient
 	public function getLastRequestUrl(): ?string
 	{
 		return $this->lastRequestUrl;
+	}
+
+	private ?string $lastResponseEncoded = null;
+	/** @var array<mixed>|null */
+	private ?array $lastResponseDecoded = null;
+
+	/** @return array<mixed>|string|null */
+	public function getLastResponse(): array|string|null
+	{
+		return $this->lastResponseDecoded !== null
+			? $this->lastResponseDecoded
+			: $this->lastResponseEncoded;
 	}
 
 }

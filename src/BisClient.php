@@ -93,4 +93,11 @@ final class BisClient
 		return $this->httpClient->getLastRequestUrl();
 	}
 
+
+	/** @return array<mixed>|string|null */
+	public function getLastResponse(): array|string|null
+	{
+		return $this->httpClient->getLastResponse();
+	}
+
 }
