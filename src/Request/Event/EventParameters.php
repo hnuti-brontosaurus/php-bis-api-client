@@ -12,8 +12,12 @@ use HnutiBrontosaurus\BisClient\Request\ToArray;
 final class EventParameters implements ToArray
 {
 
+	private Ordering $ordering;
+
 	public function __construct()
-	{}
+	{
+		$this->orderByDateTo();
+	}
 
 
 
@@ -134,11 +138,28 @@ final class EventParameters implements ToArray
 	}
 
 
+	// ordering
+
+	public function orderByDateFrom(bool $desc = false): self
+	{
+		$this->ordering = $desc ? Ordering::DATE_START_DESC() : Ordering::DATE_START_ASC();
+		return $this;
+	}
+
+	public function orderByDateTo(bool $desc = false): self
+	{
+		$this->ordering = $desc ? Ordering::DATE_END_DESC() : Ordering::DATE_END_ASC();
+		return $this;
+	}
+
+
 	// getters
 
 	public function toArray(): array
 	{
-		$array = [];
+		$array = [
+			'ordering' => $this->ordering,
+		];
 
 		if (\count($this->groups) > 0) {
 			$array['group'] = \implode(',', $this->groups);
