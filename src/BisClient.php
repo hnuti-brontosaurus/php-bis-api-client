@@ -85,4 +85,12 @@ final class BisClient
 		return Opportunity::fromResponseData($data);
 	}
 
+
+	// misc
+
+	public function getLastRequestUrl(): ?string
+	{
+		return $this->httpClient->getLastRequestUrl();
+	}
+
 }

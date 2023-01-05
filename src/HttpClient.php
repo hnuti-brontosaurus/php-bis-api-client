@@ -17,6 +17,7 @@ final class HttpClient
 
 	public function __construct(
 		private Client $client,
+		private string $lastRequestUrlHeaderKey,
 	) {}
 
 
@@ -72,9 +73,18 @@ final class HttpClient
 			throw ConnectionToBisFailed::withPrevious($e);
 		}
 
+		$this->lastRequestUrl = $response->hasHeader($this->lastRequestUrlHeaderKey) ? $response->getHeader($this->lastRequestUrlHeaderKey)[0] : null;
+
 		$decoded = \json_decode($response->getBody()->getContents(), flags: JSON_OBJECT_AS_ARRAY);
 		\assert(\is_array($decoded));
 		return $decoded;
+	}
+
+	private ?string $lastRequestUrl = null;
+
+	public function getLastRequestUrl(): ?string
+	{
+		return $this->lastRequestUrl;
 	}
 
 }
