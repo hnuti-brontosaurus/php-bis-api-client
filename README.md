@@ -28,7 +28,7 @@ Download latest version from [github](https://github.com/hnuti-brontosaurus/php-
 First you need to create client instance. The only parameter to pass is an API URL.
 
 ```php
-$client = (new BisClientFactory('apiUrl'))
+$client = (new BisClientFactory('https://bis.brontosaurus.cz'))
     ->create();
 ```
 
