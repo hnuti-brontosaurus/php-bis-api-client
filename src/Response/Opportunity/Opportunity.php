@@ -103,7 +103,7 @@ final class Opportunity
 			ContactPerson::from(
 				$data['contact_name'],
 				$data['contact_email'],
-				$data['contact_phone'], // todo nullability?
+				$data['contact_phone'] !== '' ? $data['contact_phone'] : null,
 			),
 			Image::from((array) $data['image']),
 			$data,

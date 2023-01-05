@@ -163,7 +163,7 @@ final class Event
 			ContactPerson::from(
 				$data['propagation']['contact_name'],
 				$data['propagation']['contact_email'],
-				$data['propagation']['contact_phone'],
+				$data['propagation']['contact_phone'] !== '' ? $data['propagation']['contact_phone'] : null,
 			),
 			IntendedFor::fromScalar($data['intended_for']['slug']),
 			$invitation,

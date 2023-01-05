@@ -9,7 +9,7 @@ final class ContactPerson
 	private function __construct(
 		private string $name,
 		private string $emailAddress,
-		private string $phoneNumber,
+		private ?string $phoneNumber,
 	)
 	{}
 
@@ -17,7 +17,7 @@ final class ContactPerson
 	public static function from(
 		string $name,
 		string $emailAddress,
-		string $phoneNumber,
+		?string $phoneNumber,
 	): self
 	{
 		return new self($name, $emailAddress, $phoneNumber);
@@ -36,7 +36,7 @@ final class ContactPerson
 	}
 
 
-	public function getPhoneNumber(): string
+	public function getPhoneNumber(): ?string
 	{
 		return $this->phoneNumber;
 	}
