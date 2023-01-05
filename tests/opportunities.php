@@ -12,6 +12,7 @@ echo '<h2>Opportunities</h2>';
 
 $params = new OpportunityParameters();
 //$params->setCategory(OpportunityCategory::ORGANIZING());
-foreach ($client->getOpportunities($params) as $event) {
-	dump($event);
+$opportunities = $client->getOpportunities($params);
+foreach ($opportunities as $opportunity) {
+	dump($opportunity);
 }
