@@ -16,6 +16,7 @@ final class EventParameters implements ToArray
 
 	public function __construct()
 	{
+		$this->setPeriod(Period::UNLIMITED());
 		$this->orderByDateTo();
 	}
 
