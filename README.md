@@ -66,6 +66,8 @@ foreach ($events as $event) {
 }
 ```
 
+> ⚠ Note that due to data integrity corruption (missing expected values in response) in data migration from old BIS, only events as of `2015-01-01` are listed. If you need to list older events, either you can use request part of this lib (`HnutiBrontosaurus\BisClient\HttpClient`) and process the response on your own, or cleanup in production database has to be made.
+
 #### Filters
 
 You can filter in many ways:
