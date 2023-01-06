@@ -132,9 +132,8 @@ final class Event
 			$data['propagation']['invitation_text_work_description'] !== '' ? $data['propagation']['invitation_text_work_description'] : null,
 			$data['propagation']['working_days'],
 			$data['propagation']['working_hours'],
-			($invitationPresentationText !== '' || \count($photos) > 0)
-				? Presentation::from($invitationPresentationText, $photos)
-				: null,
+			$invitationPresentationText !== '' ? $invitationPresentationText : null,
+			$photos,
 		);
 
 		$endDate = \DateTimeImmutable::createFromFormat('Y-m-d', $data['end']);

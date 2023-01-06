@@ -8,6 +8,7 @@ final class Invitation
 
 	/**
 	 * @param Food[] $food
+	 * @param Photo[] $photos
 	 */
 	private function __construct(
 		private string $introduction,
@@ -17,12 +18,14 @@ final class Invitation
 		private ?string $workDescription,
 		private ?int $workDays,
 		private ?int $workHoursPerDay,
-		private ?Presentation $presentation,
+		private ?string $aboutUs,
+		private array $photos,
 	) {}
 
 
 	/**
 	 * @param Food[] $food
+	 * @param Photo[] $photos
 	 */
 	public static function from(
 		string $introduction,
@@ -32,7 +35,8 @@ final class Invitation
 		?string $workDescription,
 		?int $workDays,
 		?int $workHoursPerDay,
-		?Presentation $presentation,
+		?string $text,
+		array $photos,
 	): self
 	{
 		return new self(
@@ -43,7 +47,8 @@ final class Invitation
 			$workDescription,
 			$workDays,
 			$workHoursPerDay,
-			$presentation,
+			$text,
+			$photos,
 		);
 	}
 
@@ -93,9 +98,18 @@ final class Invitation
 	}
 
 
-	public function getPresentation(): ?Presentation
+	public function getAboutUs(): ?string
 	{
-		return $this->presentation;
+		return $this->aboutUs;
+	}
+
+
+	/**
+	 * @return Photo[]
+	 */
+	public function getPhotos(): array
+	{
+		return $this->photos;
 	}
 
 }
