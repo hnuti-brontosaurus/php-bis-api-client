@@ -5,6 +5,7 @@ namespace HnutiBrontosaurus\BisClient;
 use HnutiBrontosaurus\BisClient\Request\AdministrationUnit\AdministrationUnitParameters;
 use HnutiBrontosaurus\BisClient\Request\Event\EventParameters;
 use HnutiBrontosaurus\BisClient\Request\Opportunity\OpportunityParameters;
+use HnutiBrontosaurus\BisClient\Request\QueryParameters;
 use HnutiBrontosaurus\BisClient\Response\AdministrationUnit\AdministrationUnit;
 use HnutiBrontosaurus\BisClient\Response\Event\Event;
 use HnutiBrontosaurus\BisClient\Response\Opportunity\Opportunity;
@@ -26,14 +27,9 @@ final class BisClient
 	 */
 	public function getEvents(?EventParameters $params = null): array
 	{
-		/** @var array{results: array<mixed>} $data */
-		$data = $this->httpClient->send(
-			'GET', Endpoint::EVENTS(),
-			$params !== null
-				? $params
-				: new EventParameters(),
-		);
-		return \array_map(static fn($result) => Event::fromResponseData($result), $data['results']);
+		$params = $params !== null ? $params : new EventParameters();
+		$events = $this->retrieve(Endpoint::EVENTS(), $params);
+		return \array_map(static fn($result) => Event::fromResponseData($result), $events);
 	}
 
 
@@ -56,9 +52,9 @@ final class BisClient
 	 */
 	public function getAdministrationUnits(?AdministrationUnitParameters $params = null): array
 	{
-		/** @var array{results: array<mixed>} $data */
-		$data = $this->httpClient->send('GET', Endpoint::ADMINISTRATION_UNITS(), $params !== null ? $params : new AdministrationUnitParameters());
-		return \array_map(static fn($result) => AdministrationUnit::fromResponseData($result), $data['results']);
+		$params = $params !== null ? $params : new AdministrationUnitParameters();
+		$administrationUnits = $this->retrieve(Endpoint::ADMINISTRATION_UNITS(), $params);
+		return \array_map(static fn($result) => AdministrationUnit::fromResponseData($result), $administrationUnits);
 	}
 
 
@@ -69,9 +65,9 @@ final class BisClient
 	 */
 	public function getOpportunities(?OpportunityParameters $params = null): array
 	{
-		/** @var array{results: array<mixed>} $data */
-		$data = $this->httpClient->send('GET', Endpoint::OPPORTUNITIES(), $params !== null ? $params : new OpportunityParameters());
-		return \array_map(static fn($result) => Opportunity::fromResponseData($result), $data['results']);
+		$params = $params !== null ? $params : new OpportunityParameters();
+		$opportunities = $this->retrieve(Endpoint::OPPORTUNITIES(), $params);
+		return \array_map(static fn($result) => Opportunity::fromResponseData($result), $opportunities);
 	}
 
 
@@ -83,6 +79,30 @@ final class BisClient
 	{
 		$data = $this->httpClient->send('GET', Endpoint::OPPORTUNITY($id));
 		return Opportunity::fromResponseData($data);
+	}
+
+
+	/**
+	 * Generic method for obtaining data regardless of API pagination
+	 * @return array<mixed> raw data
+	 * @throws ConnectionToBisFailed
+	 */
+	private function retrieve(string $endpoint, ?QueryParameters $params): array
+	{
+		/** @var array{count: int, next: ?string, previous: ?string, results: array<mixed>} $data */
+		$data = $this->httpClient->send('GET', $endpoint, $params);
+		$results = $data['results'];
+
+		// request more results
+		if ($data['next'] !== null) {
+			$moreResults = $this->retrieve(
+				endpoint: $data['next'],
+				params: null, // params are already included in next URL
+			);
+			$results = [...$results, ...$moreResults];
+		}
+
+		return $results;
 	}
 
 
