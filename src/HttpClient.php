@@ -31,7 +31,6 @@ final class HttpClient
 		string $method,
 		string $endpoint,
 		?ToArray $parameters = null,
-		?ToArray $data = null,
 	): array
 	{
 		$queryString = $parameters !== null
@@ -46,7 +45,6 @@ final class HttpClient
 				[
 					'Content-Type' => 'application/json',
 				],
-				\json_encode($data !== null ? $data->toArray() : [],\JSON_THROW_ON_ERROR),
 			));
 
 		} catch (ClientException $e) { // 4xx errors
