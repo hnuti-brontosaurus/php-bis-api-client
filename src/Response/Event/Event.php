@@ -15,6 +15,8 @@ final class Event
 
 	/**
 	 * @param string[] $administrationUnits
+	 * @param Food[] $food
+	 * @param Photo[] $photos
 	 * @param array<mixed> $rawData
 	 */
 	private function __construct(
@@ -34,7 +36,15 @@ final class Event
 		private array $administrationUnits,
 		private ContactPerson $contactPerson,
 		private IntendedFor $targetGroup,
-		private Invitation $invitation,
+		private string $introduction,
+		private string $practicalInformation,
+		private string $accommodation,
+		private array $food,
+		private ?string $workDescription,
+		private ?int $workDays,
+		private ?int $workHoursPerDay,
+		private ?string $aboutUs,
+		private array $photos,
 		private ?string $relatedWebsite,
 		private array $rawData,
 	) {}
@@ -114,27 +124,11 @@ final class Event
 	 */
 	public static function fromResponseData(array $data): self
 	{
-
-		// invitation
-
 		$photos = \array_map(
 			static fn($photo) => Photo::from($photo['image']),
 			$data['propagation']['images'],
 		);
 		$mainPhoto = \array_shift($photos);
-
-		$invitationPresentationText = $data['propagation']['invitation_text_about_us'];
-		$invitation = Invitation::from(
-			$data['propagation']['invitation_text_introduction'],
-			$data['propagation']['invitation_text_practical_information'],
-			$data['propagation']['accommodation'],
-			\array_map(static fn($diet) => Food::fromScalar($diet['slug']), $data['propagation']['diets']),
-			$data['propagation']['invitation_text_work_description'] !== '' ? $data['propagation']['invitation_text_work_description'] : null,
-			$data['propagation']['working_days'],
-			$data['propagation']['working_hours'],
-			$invitationPresentationText !== '' ? $invitationPresentationText : null,
-			$photos,
-		);
 
 		$endDate = \DateTimeImmutable::createFromFormat('Y-m-d', $data['end']);
 		if ($endDate === false) throw new RuntimeException(\sprintf("Unexpected format of end date '%s'", $data['start']));
@@ -165,7 +159,15 @@ final class Event
 				$data['propagation']['contact_phone'] !== null && $data['propagation']['contact_phone'] !== '' ? $data['propagation']['contact_phone'] : null,
 			),
 			IntendedFor::fromScalar($data['intended_for']['slug']),
-			$invitation,
+			$data['propagation']['invitation_text_introduction'],
+			$data['propagation']['invitation_text_practical_information'],
+			$data['propagation']['accommodation'],
+			\array_map(static fn($diet) => Food::fromScalar($diet['slug']), $data['propagation']['diets']),
+			$data['propagation']['invitation_text_work_description'] !== '' ? $data['propagation']['invitation_text_work_description'] : null,
+			$data['propagation']['working_days'],
+			$data['propagation']['working_hours'],
+			$data['propagation']['invitation_text_about_us'] !== '' ? $data['propagation']['invitation_text_about_us'] : null,
+			$photos,
 			$data['propagation']['web_url'] !== '' ? $data['propagation']['web_url'] : null,
 			$data,
 		);
@@ -271,9 +273,63 @@ final class Event
 	}
 
 
-	public function getInvitation(): Invitation
+	public function getIntroduction(): string
 	{
-		return $this->invitation;
+		return $this->introduction;
+	}
+
+
+	public function getPracticalInformation(): string
+	{
+		return $this->practicalInformation;
+	}
+
+
+	public function getAccommodation(): string
+	{
+		return $this->accommodation;
+	}
+
+
+	/**
+	 * @return Food[]
+	 */
+	public function getFood(): array
+	{
+		return $this->food;
+	}
+
+
+	public function getWorkDescription(): ?string
+	{
+		return $this->workDescription;
+	}
+
+
+	public function getWorkDays(): ?int
+	{
+		return $this->workDays;
+	}
+
+
+	public function getWorkHoursPerDay(): ?int
+	{
+		return $this->workHoursPerDay;
+	}
+
+
+	public function getAboutUs(): ?string
+	{
+		return $this->aboutUs;
+	}
+
+
+	/**
+	 * @return Photo[]
+	 */
+	public function getPhotos(): array
+	{
+		return $this->photos;
 	}
 
 
