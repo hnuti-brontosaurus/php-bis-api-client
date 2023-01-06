@@ -110,13 +110,19 @@ final class EventParameters implements QueryParameters
 
 	// period (defaults to unlimited)
 
-	private \DateTimeImmutable $dateStartGreaterThanOrEqualTo;
-	private \DateTimeImmutable $dateStartLessThanOrEqualTo;
-	private \DateTimeImmutable $dateEndGreaterThanOrEqualTo;
-	private \DateTimeImmutable $dateEndLessThanOrEqualTo;
+	private ?\DateTimeImmutable $dateStartGreaterThanOrEqualTo = null;
+	private ?\DateTimeImmutable $dateStartLessThanOrEqualTo = null;
+	private ?\DateTimeImmutable $dateEndGreaterThanOrEqualTo = null;
+	private ?\DateTimeImmutable $dateEndLessThanOrEqualTo = null;
 
 	public function setPeriod(Period $period): self
 	{
+		// reset all
+		$this->dateStartLessThanOrEqualTo = null;
+		$this->dateStartGreaterThanOrEqualTo = null;
+		$this->dateEndLessThanOrEqualTo = null;
+		$this->dateEndGreaterThanOrEqualTo = null;
+
 		$now = new \DateTimeImmutable();
 
 		if ($period->equals(Period::RUNNING_ONLY())) {
@@ -177,16 +183,16 @@ final class EventParameters implements QueryParameters
 			$array['intended_for'] = \implode(',', $this->intendedFor);
 		}
 
-		if (isset($this->dateStartLessThanOrEqualTo)) {
+		if ($this->dateStartLessThanOrEqualTo !== null) {
 			$array['start__lte'] = $this->dateStartLessThanOrEqualTo->format('Y-m-d');
 		}
-		if (isset($this->dateStartGreaterThanOrEqualTo)) {
+		if ($this->dateStartGreaterThanOrEqualTo !== null) {
 			$array['start__gte'] = $this->dateStartGreaterThanOrEqualTo->format('Y-m-d');
 		}
-		if (isset($this->dateEndLessThanOrEqualTo)) {
+		if ($this->dateEndLessThanOrEqualTo !== null) {
 			$array['end__lte'] = $this->dateEndLessThanOrEqualTo->format('Y-m-d');
 		}
-		if (isset($this->dateEndGreaterThanOrEqualTo)) {
+		if ($this->dateEndGreaterThanOrEqualTo !== null) {
 			$array['end__gte'] = $this->dateEndGreaterThanOrEqualTo->format('Y-m-d');
 		}
 
