@@ -62,6 +62,7 @@ final class BisClient
 
 	/**
 	 * @return Opportunity[]
+	 * @throws ConnectionToBisFailed
 	 */
 	public function getOpportunities(?OpportunityParameters $params = null): array
 	{
