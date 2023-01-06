@@ -8,9 +8,7 @@ use Grifart\Enum\Enum;
 
 /**
  * @method static EventCategory VOLUNTARY()
- * @method static EventCategory VOLUNTARY_WITH_EXPERIENCE()
  * @method static EventCategory EXPERIENCE()
- * @method static EventCategory SPORT()
  * @method static EventCategory EDUCATIONAL_LECTURE()
  * @method static EventCategory EDUCATIONAL_COURSE()
  * @method static EventCategory EDUCATIONAL_OHB()
@@ -29,10 +27,8 @@ final class EventCategory extends Enum
 {
 	use AutoInstances;
 
-	protected const VOLUNTARY = 'public__volunteering__only_volunteering';
-	protected const VOLUNTARY_WITH_EXPERIENCE = 'public__volunteering__with_experience';
+	protected const VOLUNTARY = 'public__volunteering';
 	protected const EXPERIENCE = 'public__only_experiential';
-	protected const SPORT = 'public__sports';
 
 	// vzdělávací / educational
 	protected const EDUCATIONAL_LECTURE = 'public__educational__lecture'; // přednáška

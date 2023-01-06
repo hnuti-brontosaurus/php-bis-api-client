@@ -93,8 +93,8 @@ $events = $client->getEvents($parameters);
 Note that each method call rewrites the previous one:
 ```php
 $parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTARY());
-$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::SPORT());
-// ⚠ result is only "sport"
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::EXPERIENCE());
+// ⚠ result is only "EXPERIENCE"
 ```
 
 You can set more values at once with method's plural complement:
@@ -104,7 +104,7 @@ $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
 
 $parameters->setCategories([
     \HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTARY(),
-    \HnutiBrontosaurus\BisClient\Enums\EventCategory::SPORT(),
+    \HnutiBrontosaurus\BisClient\Enums\EventCategory::EXPERIENCE(),
 ]);
 
 $events = $client->getEvents($parameters);
