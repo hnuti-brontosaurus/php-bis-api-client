@@ -8,7 +8,7 @@ use HnutiBrontosaurus\BisClient\Request\AdministrationUnit\AdministrationUnitPar
 /** @var BisClient $client */
 $client = require_once __DIR__ . '/bootstrap.php';
 
-echo '<h2>Organizational units</h2>';
+echo '<h2>Administration units</h2>';
 
 $params = new AdministrationUnitParameters();
 $params->setCategories([
