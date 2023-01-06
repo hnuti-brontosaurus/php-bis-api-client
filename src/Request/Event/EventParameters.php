@@ -119,13 +119,6 @@ final class EventParameters implements QueryParameters
 	{
 		$now = new \DateTimeImmutable();
 
-		/**
-		 * Older events have some missing data so typing on php level can not be enforced.
-		 * As listing of such old events is not expected, setting this minimum date should be safe.
-		 */
-		$min = \DateTimeImmutable::createFromFormat('Y-m-d', '2011-01-01');
-		\assert($min !== false);
-
 		if ($period->equals(Period::RUNNING_ONLY())) {
 			$this->dateStartLessThanOrEqualTo = $now;
 			$this->dateEndGreaterThanOrEqualTo = $now;
@@ -134,19 +127,15 @@ final class EventParameters implements QueryParameters
 			$this->dateStartGreaterThanOrEqualTo = $now;
 
 		} elseif ($period->equals(Period::PAST_ONLY())) {
-			$this->dateStartGreaterThanOrEqualTo = $min;
 			$this->dateEndLessThanOrEqualTo = $now;
 
 		} elseif ($period->equals(Period::RUNNING_AND_FUTURE())) {
 			$this->dateEndGreaterThanOrEqualTo = $now;
 
 		} elseif ($period->equals(Period::RUNNING_AND_PAST())) {
-			$this->dateStartGreaterThanOrEqualTo = $min;
 			$this->dateStartLessThanOrEqualTo = $now;
 
-		} else { // Period::UNLIMITED() – default
-			$this->dateStartGreaterThanOrEqualTo = $min;
-		}
+		} else {} // Period::UNLIMITED() – default
 
 		return $this;
 	}

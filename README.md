@@ -66,8 +66,6 @@ foreach ($events as $event) {
 }
 ```
 
-> ⚠ Note that due to corrupted contact information in data from old BIS, only events as of `2011-01-01` are listed. If you need to list older events, you can use request part of this lib (`HnutiBrontosaurus\BisClient\HttpClient`) and process the response on your own.
-
 #### Filters
 
 Events can be filtered by group, category, program or intended for:
