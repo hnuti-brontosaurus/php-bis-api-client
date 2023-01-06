@@ -3,11 +3,13 @@
 namespace HnutiBrontosaurus\BisClient\Request\AdministrationUnit;
 
 use HnutiBrontosaurus\BisClient\Enums\AdministrationUnitCategory;
+use HnutiBrontosaurus\BisClient\Request\LimitParameter;
 use HnutiBrontosaurus\BisClient\Request\QueryParameters;
 
 
 final class AdministrationUnitParameters implements QueryParameters
 {
+	use LimitParameter;
 
 	public function __construct()
 	{}

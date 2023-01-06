@@ -3,11 +3,13 @@
 namespace HnutiBrontosaurus\BisClient\Request\Opportunity;
 
 use HnutiBrontosaurus\BisClient\Enums\OpportunityCategory;
+use HnutiBrontosaurus\BisClient\Request\LimitParameter;
 use HnutiBrontosaurus\BisClient\Request\QueryParameters;
 
 
 final class OpportunityParameters implements QueryParameters
 {
+	use LimitParameter;
 
 	public function __construct()
 	{}

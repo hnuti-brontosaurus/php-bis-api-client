@@ -28,7 +28,7 @@ final class BisClient
 	public function getEvents(?EventParameters $params = null): array
 	{
 		$params = $params !== null ? $params : new EventParameters();
-		$events = $this->retrieve(Endpoint::EVENTS(), $params);
+		$events = $this->retrieve(Endpoint::EVENTS(), $params, $params->getLimit());
 		return \array_map(static fn($result) => Event::fromResponseData($result), $events);
 	}
 
@@ -53,7 +53,7 @@ final class BisClient
 	public function getAdministrationUnits(?AdministrationUnitParameters $params = null): array
 	{
 		$params = $params !== null ? $params : new AdministrationUnitParameters();
-		$administrationUnits = $this->retrieve(Endpoint::ADMINISTRATION_UNITS(), $params);
+		$administrationUnits = $this->retrieve(Endpoint::ADMINISTRATION_UNITS(), $params, $params->getLimit());
 		return \array_map(static fn($result) => AdministrationUnit::fromResponseData($result), $administrationUnits);
 	}
 
@@ -66,7 +66,7 @@ final class BisClient
 	public function getOpportunities(?OpportunityParameters $params = null): array
 	{
 		$params = $params !== null ? $params : new OpportunityParameters();
-		$opportunities = $this->retrieve(Endpoint::OPPORTUNITIES(), $params);
+		$opportunities = $this->retrieve(Endpoint::OPPORTUNITIES(), $params, $params->getLimit());
 		return \array_map(static fn($result) => Opportunity::fromResponseData($result), $opportunities);
 	}
 
@@ -84,22 +84,31 @@ final class BisClient
 
 	/**
 	 * Generic method for obtaining data regardless of API pagination
+	 * @param int $currentCount @internal
 	 * @return array<mixed> raw data
 	 * @throws ConnectionToBisFailed
 	 */
-	private function retrieve(string $endpoint, ?QueryParameters $params): array
+	private function retrieve(string $endpoint, ?QueryParameters $params, ?int $limit, int $currentCount = 0, bool $topLevel = true): array
 	{
 		/** @var array{count: int, next: ?string, previous: ?string, results: array<mixed>} $data */
 		$data = $this->httpClient->send('GET', $endpoint, $params);
 		$results = $data['results'];
 
-		// request more results
-		if ($data['next'] !== null) {
+		// request more results if limit is not reached yet
+		if (($limit === null xor $currentCount < $limit) && $data['next'] !== null) {
 			$moreResults = $this->retrieve(
 				endpoint: $data['next'],
 				params: null, // params are already included in next URL
+				limit: $limit,
+				currentCount: $currentCount + \count($results),
+				topLevel: false,
 			);
 			$results = [...$results, ...$moreResults];
+		}
+
+		// keep only given count of data
+		if ($topLevel && $limit !== null) {
+			$results = \array_slice($results, 0, $limit);
 		}
 
 		return $results;

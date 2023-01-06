@@ -6,6 +6,8 @@ namespace HnutiBrontosaurus\BisClient\Request;
 interface QueryParameters
 {
 
+	public function getLimit(): ?int;
+
 	/** @return array<scalar|\Stringable> */
 	public function toArray(): array;
 

@@ -6,11 +6,13 @@ use HnutiBrontosaurus\BisClient\Enums\EventCategory;
 use HnutiBrontosaurus\BisClient\Enums\EventGroup;
 use HnutiBrontosaurus\BisClient\Enums\Program;
 use HnutiBrontosaurus\BisClient\Enums\IntendedFor;
+use HnutiBrontosaurus\BisClient\Request\LimitParameter;
 use HnutiBrontosaurus\BisClient\Request\QueryParameters;
 
 
 final class EventParameters implements QueryParameters
 {
+	use LimitParameter;
 
 	private Ordering $ordering;
 
