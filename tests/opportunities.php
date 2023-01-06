@@ -11,7 +11,11 @@ $client = require_once __DIR__ . '/bootstrap.php';
 echo '<h2>Opportunities</h2>';
 
 $params = new OpportunityParameters();
-//$params->setCategory(OpportunityCategory::ORGANIZING());
+$params->setCategories([
+	OpportunityCategory::ORGANIZING(),
+	OpportunityCategory::COLLABORATION(),
+	OpportunityCategory::LOCATION_HELP(),
+]);
 $opportunities = $client->getOpportunities($params);
 foreach ($opportunities as $opportunity) {
 	dump($opportunity);
