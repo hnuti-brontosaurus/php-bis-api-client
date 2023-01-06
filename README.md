@@ -25,14 +25,14 @@ Download latest version from [github](https://github.com/hnuti-brontosaurus/php-
 
 # Usage
 
-First you need to create client instance. The only parameter to pass is an API URL.
+Create client instance with the only parameter – BIS API URL:
 
 ```php
 $client = (new BisClientFactory('https://bis.brontosaurus.cz'))
     ->create();
 ```
 
-Now you can perform any of available operations.
+On `$client`, you can basically retrieve any information from BIS and obtain debug information.
 
 ## Events
 
@@ -66,11 +66,11 @@ foreach ($events as $event) {
 }
 ```
 
-> ⚠ Note that due to data integrity corruption (missing expected values in response) in data migration from old BIS, only events as of `2015-01-01` are listed. If you need to list older events, either you can use request part of this lib (`HnutiBrontosaurus\BisClient\HttpClient`) and process the response on your own, or cleanup in production database has to be made.
+> ⚠ Note that due to corrupted contact information in data from old BIS, only events as of `2011-01-01` are listed. If you need to list older events, you can use request part of this lib (`HnutiBrontosaurus\BisClient\HttpClient`) and process the response on your own.
 
 #### Filters
 
-You can filter in many ways:
+Events can be filtered by group, category, program or intended for:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
@@ -85,12 +85,19 @@ $parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUN
 $parameters->setProgram(\HnutiBrontosaurus\BisClient\Enums\Program::PSB());
 
 // only events intended for first time participants
-$parameters->setTargetGroup(\HnutiBrontosaurus\BisClient\Enums\IntendedFor::FIRST_TIME_PARTICIPANT());
+$parameters->setIntendedFor(\HnutiBrontosaurus\BisClient\Enums\IntendedFor::FIRST_TIME_PARTICIPANT());
 
 $events = $client->getEvents($parameters);
 ```
 
-For group, category, program and intended for, you can set more values at once like so:
+Note that each method call rewrites the previous one:
+```php
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTARY());
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::SPORT());
+// ⚠ result is only "sport"
+```
+
+You can set more values at once with method's plural complement:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
@@ -103,22 +110,25 @@ $parameters->setCategories([
 $events = $client->getEvents($parameters);
 ```
 
-Note that each method call rewrites the previous one:
+#### Period
+
+Restrict retrieved events to be in given period:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
 
-// sets "voluntary" category
-$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTARY());
-// rewrites category to "sport"
-$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::SPORT());
+$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Request\Event\Period::RUNNING_AND_FUTURE()); // default
+$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Request\Event\Period::RUNNING_ONLY());
+$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Request\Event\Period::UNLIMITED());
 
 $events = $client->getEvents($parameters);
 ```
 
+> ⚠ Note that setting `PAST_ONLY`, `RUNNING_AND_PAST` or `UNLIMITED` retrieves thousands of events. It's good idea to narrow the amount with `->setLimit()` (see below)
+
 #### Sorting
 
-You can use some basic sorting options:
+Choose whether you want to sort by start or end date:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
@@ -129,6 +139,26 @@ $parameters->orderByDateTo(); // default
 
 $events = $client->getEvents($parameters);
 ```
+
+Both methods have optional parameter `bool $desc` which obviously sorts events in DESC order:
+
+```php
+$parameters->orderByDateFrom(desc: true);
+```
+
+#### Limit
+
+Limit the size of obtained events or remove the limit completely:
+
+```php
+$parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
+
+$parameters->setLimit(50);
+$parameters->removeLimit();
+
+$events = $client->getEvents($parameters);
+```
+
 
 ## Administration units
 
@@ -174,6 +204,14 @@ $opportunity->getLocation()->getCoordinates();
 ```
 
 
+## Debug information
+
+On `$client`, there are two debug methods:
+
+- `getLastRequestUrl()` – returns URL of last request; note that as HTTP client is internally call endpoint multiple times to avoid pagination, only the very last requested URL is returned
+- `getLastResponse()` – returns either parsed array or JSON string with last response
+
+
 # Development
 
 ## Installation
@@ -198,7 +236,7 @@ composer install
 
 ## Tests
 
-This library has just `tests/index.php` which – if run on a webserver – will
-pass or fail visually – no error and results output or an exception.
+This library has just visual tests, no automated. 
+Run `tests/index.php` on a local webserver and check if results are rendered or an error occurs.
 
-You need to copy `tests/config.template.php` to `tests/config.php` to be able to run it.
+Note that you need to copy `tests/config.template.php` to `tests/config.php` and update it first.
