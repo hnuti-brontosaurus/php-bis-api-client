@@ -125,6 +125,29 @@ $events = $client->getEvents($parameters);
 
 > ⚠ Note that setting `PAST_ONLY`, `RUNNING_AND_PAST` or `UNLIMITED` retrieves thousands of events. It's good idea to narrow the amount with `->setLimit()` (see below)
 
+For convenience, you can also set date start and/or end on low level:
+
+```php
+$date = \DateTimeImmutable::createFromFormat('Y-m-d', '2022-01-01');
+$parameters->setDateStartLessThanOrEqualTo($date);
+$parameters->setDateStartGreaterThanOrEqualTo($date);
+$parameters->setDateEndLessThanOrEqualTo($date);
+$parameters->setDateEndGreaterThanOrEqualTo($date);
+```
+
+If you need to reset default/previous setting:
+
+```php
+// either
+$date = \DateTimeImmutable::createFromFormat('Y-m-d', '2022-01-01');
+$parameters->resetDates();
+$parameters->setDateStartLessThanOrEqualTo($date);
+
+// or
+$date = \DateTimeImmutable::createFromFormat('Y-m-d', '2022-01-01');
+$parameters->setDateStartLessThanOrEqualTo($date, reset: true);
+```
+
 #### Ordering
 
 Choose whether you want to order by start or end date:

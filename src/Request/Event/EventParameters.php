@@ -118,10 +118,7 @@ final class EventParameters implements QueryParameters
 	public function setPeriod(Period $period): self
 	{
 		// reset all
-		$this->dateStartLessThanOrEqualTo = null;
-		$this->dateStartGreaterThanOrEqualTo = null;
-		$this->dateEndLessThanOrEqualTo = null;
-		$this->dateEndGreaterThanOrEqualTo = null;
+		$this->resetDates();
 
 		$now = new \DateTimeImmutable();
 
@@ -143,6 +140,43 @@ final class EventParameters implements QueryParameters
 
 		} else {} // Period::UNLIMITED() – default
 
+		return $this;
+	}
+
+	public function setDateStartLessThanOrEqualTo(?\DateTimeImmutable $date, bool $reset = false): self
+	{
+		if ($reset) $this->resetDates();
+		$this->dateStartLessThanOrEqualTo = $date;
+		return $this;
+	}
+
+	public function setDateStartGreaterThanOrEqualTo(?\DateTimeImmutable $date, bool $reset = false): self
+	{
+		if ($reset) $this->resetDates();
+		$this->dateStartGreaterThanOrEqualTo = $date;
+		return $this;
+	}
+
+	public function setDateEndLessThanOrEqualTo(?\DateTimeImmutable $date, bool $reset = false): self
+	{
+		if ($reset) $this->resetDates();
+		$this->dateEndLessThanOrEqualTo = $date;
+		return $this;
+	}
+
+	public function setDateEndGreaterThanOrEqualTo(?\DateTimeImmutable $date, bool $reset = false): self
+	{
+		if ($reset) $this->resetDates();
+		$this->dateEndGreaterThanOrEqualTo = $date;
+		return $this;
+	}
+
+	public function resetDates(): self
+	{
+		$this->dateStartLessThanOrEqualTo = null;
+		$this->dateStartGreaterThanOrEqualTo = null;
+		$this->dateEndLessThanOrEqualTo = null;
+		$this->dateEndGreaterThanOrEqualTo = null;
 		return $this;
 	}
 
