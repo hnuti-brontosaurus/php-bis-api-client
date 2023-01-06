@@ -18,7 +18,7 @@ final class EventParameters implements QueryParameters
 
 	public function __construct()
 	{
-		$this->setPeriod(Period::UNLIMITED());
+		$this->setPeriod(Period::RUNNING_AND_FUTURE()); // there are too many events in history
 		$this->orderByDateTo();
 	}
 
@@ -120,10 +120,10 @@ final class EventParameters implements QueryParameters
 		$now = new \DateTimeImmutable();
 
 		/**
-		 * Older events have some missing data so typing ono php level could not be enforced.
+		 * Older events have some missing data so typing on php level can not be enforced.
 		 * As listing of such old events is not expected, setting this minimum date should be safe.
 		 */
-		$min = \DateTimeImmutable::createFromFormat('Y-m-d', '2015-01-01');
+		$min = \DateTimeImmutable::createFromFormat('Y-m-d', '2011-01-01');
 		\assert($min !== false);
 
 		if ($period->equals(Period::RUNNING_ONLY())) {
