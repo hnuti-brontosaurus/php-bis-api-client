@@ -11,7 +11,7 @@ final class Invitation
 	 */
 	private function __construct(
 		private string $introduction,
-		private string $organizationalInformation,
+		private string $practicalInformation,
 		private string $accommodation,
 		private array $food,
 		private ?string $workDescription,
@@ -26,7 +26,7 @@ final class Invitation
 	 */
 	public static function from(
 		string $introduction,
-		string $organizationalInformation,
+		string $practicalInformation,
 		string $accommodation,
 		array $food,
 		?string $workDescription,
@@ -37,7 +37,7 @@ final class Invitation
 	{
 		return new self(
 			$introduction,
-			$organizationalInformation,
+			$practicalInformation,
 			$accommodation,
 			$food,
 			$workDescription,
@@ -54,9 +54,9 @@ final class Invitation
 	}
 
 
-	public function getOrganizationalInformation(): string
+	public function getPracticalInformation(): string
 	{
-		return $this->organizationalInformation;
+		return $this->practicalInformation;
 	}
 
 

@@ -10,9 +10,9 @@ use Grifart\Enum\Enum;
  * @method static Program NONE()
  * @method static Program NATURE()
  * @method static Program MONUMENTS()
- * @method static Program BRDO()
- * @method static Program EKOSTAN()
- * @method static Program PSB()
+ * @method static Program KIDS()
+ * @method static Program ECO_TENT()
+ * @method static Program HOLIDAYS_WITH_BRONTOSAURUS()
  * @method static Program EDUCATION()
  * @method static Program INTERNATIONAL()
  */
@@ -23,9 +23,9 @@ final class Program extends Enum
 	protected const NONE = 'none';
 	protected const NATURE = 'nature';
 	protected const MONUMENTS = 'monuments';
-	protected const BRDO = 'kids';
-	protected const EKOSTAN = 'eco_tent';
-	protected const PSB = 'holidays_with_brontosaurus';
+	protected const KIDS = 'kids';
+	protected const ECO_TENT = 'eco_tent';
+	protected const HOLIDAYS_WITH_BRONTOSAURUS = 'holidays_with_brontosaurus';
 	protected const EDUCATION = 'education';
 	protected const INTERNATIONAL = 'international';
 }

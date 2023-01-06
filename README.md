@@ -77,10 +77,10 @@ $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
 $parameters->setGroup(\HnutiBrontosaurus\BisClient\Enums\EventGroup::CAMP());
 
 // only events of "voluntary" category
-$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTARY());
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTEERING());
 
 // only events of "PsB" program
-$parameters->setProgram(\HnutiBrontosaurus\BisClient\Enums\Program::PSB());
+$parameters->setProgram(\HnutiBrontosaurus\BisClient\Enums\Program::HOLIDAYS_WITH_BRONTOSAURUS());
 
 // only events intended for first time participants
 $parameters->setIntendedFor(\HnutiBrontosaurus\BisClient\Enums\IntendedFor::FIRST_TIME_PARTICIPANT());
@@ -89,8 +89,9 @@ $events = $client->getEvents($parameters);
 ```
 
 Note that each method call rewrites the previous one:
+
 ```php
-$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTARY());
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTEERING());
 $parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::EXPERIENCE());
 // ⚠ result is only "EXPERIENCE"
 ```
@@ -101,7 +102,7 @@ You can set more values at once with method's plural complement:
 $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
 
 $parameters->setCategories([
-    \HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTARY(),
+    \HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTEERING(),
     \HnutiBrontosaurus\BisClient\Enums\EventCategory::EXPERIENCE(),
 ]);
 
@@ -124,16 +125,16 @@ $events = $client->getEvents($parameters);
 
 > ⚠ Note that setting `PAST_ONLY`, `RUNNING_AND_PAST` or `UNLIMITED` retrieves thousands of events. It's good idea to narrow the amount with `->setLimit()` (see below)
 
-#### Sorting
+#### Ordering
 
-Choose whether you want to sort by start or end date:
+Choose whether you want to order by start or end date:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
 
 // sort events by date from or date to
-$parameters->orderByDateFrom();
-$parameters->orderByDateTo(); // default
+$parameters->orderByDateStart();
+$parameters->orderByDateEnd(); // default
 
 $events = $client->getEvents($parameters);
 ```

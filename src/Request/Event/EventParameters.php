@@ -18,8 +18,8 @@ final class EventParameters implements QueryParameters
 
 	public function __construct()
 	{
-		$this->setPeriod(Period::RUNNING_AND_FUTURE()); // there are too many events in history
-		$this->orderByDateTo();
+		$this->setPeriod(Period::RUNNING_AND_FUTURE()); // no past because there are so many events in history
+		$this->orderByDateEnd();
 	}
 
 
@@ -108,7 +108,7 @@ final class EventParameters implements QueryParameters
 	}
 
 
-	// period (defaults to unlimited)
+	// period
 
 	private ?\DateTimeImmutable $dateStartGreaterThanOrEqualTo = null;
 	private ?\DateTimeImmutable $dateStartLessThanOrEqualTo = null;
@@ -149,13 +149,13 @@ final class EventParameters implements QueryParameters
 
 	// ordering
 
-	public function orderByDateFrom(bool $desc = false): self
+	public function orderByDateStart(bool $desc = false): self
 	{
 		$this->ordering = $desc ? Ordering::DATE_START_DESC() : Ordering::DATE_START_ASC();
 		return $this;
 	}
 
-	public function orderByDateTo(bool $desc = false): self
+	public function orderByDateEnd(bool $desc = false): self
 	{
 		$this->ordering = $desc ? Ordering::DATE_END_DESC() : Ordering::DATE_END_ASC();
 		return $this;
