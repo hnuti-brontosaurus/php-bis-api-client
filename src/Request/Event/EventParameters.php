@@ -6,10 +6,10 @@ use HnutiBrontosaurus\BisClient\Enums\EventCategory;
 use HnutiBrontosaurus\BisClient\Enums\EventGroup;
 use HnutiBrontosaurus\BisClient\Enums\Program;
 use HnutiBrontosaurus\BisClient\Enums\IntendedFor;
-use HnutiBrontosaurus\BisClient\Request\ToArray;
+use HnutiBrontosaurus\BisClient\Request\QueryParameters;
 
 
-final class EventParameters implements ToArray
+final class EventParameters implements QueryParameters
 {
 
 	private Ordering $ordering;

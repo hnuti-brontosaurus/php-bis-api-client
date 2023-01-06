@@ -3,10 +3,10 @@
 namespace HnutiBrontosaurus\BisClient\Request\Opportunity;
 
 use HnutiBrontosaurus\BisClient\Enums\OpportunityCategory;
-use HnutiBrontosaurus\BisClient\Request\ToArray;
+use HnutiBrontosaurus\BisClient\Request\QueryParameters;
 
 
-final class OpportunityParameters implements ToArray
+final class OpportunityParameters implements QueryParameters
 {
 
 	public function __construct()

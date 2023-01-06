@@ -3,10 +3,10 @@
 namespace HnutiBrontosaurus\BisClient\Request\AdministrationUnit;
 
 use HnutiBrontosaurus\BisClient\Enums\AdministrationUnitCategory;
-use HnutiBrontosaurus\BisClient\Request\ToArray;
+use HnutiBrontosaurus\BisClient\Request\QueryParameters;
 
 
-final class AdministrationUnitParameters implements ToArray
+final class AdministrationUnitParameters implements QueryParameters
 {
 
 	public function __construct()

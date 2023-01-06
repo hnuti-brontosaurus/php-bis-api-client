@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Exception\TooManyRedirectsException;
 use GuzzleHttp\Psr7\Request;
-use HnutiBrontosaurus\BisClient\Request\ToArray;
+use HnutiBrontosaurus\BisClient\Request\QueryParameters;
 use Psr\Http\Client\NetworkExceptionInterface;
 
 
@@ -30,11 +30,11 @@ final class HttpClient
 	public function send(
 		string $method,
 		string $endpoint,
-		?ToArray $parameters = null,
+		?QueryParameters $queryParameters = null,
 	): array
 	{
-		$queryString = $parameters !== null
-			? '?' . \http_build_query($parameters->toArray())
+		$queryString = $queryParameters !== null
+			? '?' . \http_build_query($queryParameters->toArray())
 			: '';
 
 		// see Guzzle exceptions docs: https://docs.guzzlephp.org/en/stable/quickstart.html#exceptions

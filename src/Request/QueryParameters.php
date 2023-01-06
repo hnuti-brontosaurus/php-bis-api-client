@@ -3,7 +3,7 @@
 namespace HnutiBrontosaurus\BisClient\Request;
 
 
-interface ToArray
+interface QueryParameters
 {
 
 	/** @return array<scalar|\Stringable> */
