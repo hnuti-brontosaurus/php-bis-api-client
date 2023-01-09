@@ -7,17 +7,17 @@ use Grifart\Enum\Enum;
 
 
 /**
- * @method static Ordering DATE_START_ASC()
- * @method static Ordering DATE_START_DESC()
- * @method static Ordering DATE_END_ASC()
- * @method static Ordering DATE_END_DESC()
+ * @method static Ordering START_DATE_ASC()
+ * @method static Ordering START_DATE_DESC()
+ * @method static Ordering END_DATE_ASC()
+ * @method static Ordering END_DATE_DESC()
  */
 final class Ordering extends Enum
 {
 	use AutoInstances;
 
-	protected const DATE_START_ASC = 'start';
-	protected const DATE_START_DESC = '-start';
-	protected const DATE_END_ASC = 'end';
-	protected const DATE_END_DESC = '-end';
+	protected const START_DATE_ASC = 'start';
+	protected const START_DATE_DESC = '-start';
+	protected const END_DATE_ASC = 'end';
+	protected const END_DATE_DESC = '-end';
 }

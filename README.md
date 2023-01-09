@@ -156,8 +156,8 @@ Choose whether you want to order by start or end date:
 $parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
 
 // sort events by date from or date to
-$parameters->orderByDateStart();
-$parameters->orderByDateEnd(); // default
+$parameters->orderByStartDate();
+$parameters->orderByEndDate(); // default
 
 $events = $client->getEvents($parameters);
 ```
