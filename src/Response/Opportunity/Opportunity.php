@@ -21,8 +21,8 @@ final class Opportunity
 		private int $id,
 		private string $name,
 		private OpportunityCategory $category,
-		private \DateTimeImmutable $dateStart,
-		private \DateTimeImmutable $dateEnd,
+		private \DateTimeImmutable $startDate,
+		private \DateTimeImmutable $endDate,
 		private Location $location,
 		private Html $introduction,
 		private Html $description,
@@ -129,15 +129,15 @@ final class Opportunity
 	}
 
 
-	public function getDateStart(): \DateTimeImmutable
+	public function getStartDate(): \DateTimeImmutable
 	{
-		return $this->dateStart;
+		return $this->startDate;
 	}
 
 
-	public function getDateEnd(): \DateTimeImmutable
+	public function getEndDate(): \DateTimeImmutable
 	{
-		return $this->dateEnd;
+		return $this->endDate;
 	}
 
 

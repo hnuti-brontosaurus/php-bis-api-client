@@ -23,8 +23,8 @@ final class Event
 		private int $id,
 		private string $name,
 		private ?Photo $coverPhotoPath,
-		private \DateTimeImmutable $dateFrom,
-		private \DateTimeImmutable $dateUntil,
+		private \DateTimeImmutable $startDate,
+		private \DateTimeImmutable $endDate,
 		private Program $program,
 		private Location $location,
 		private bool $isRegistrationRequired,
@@ -192,15 +192,15 @@ final class Event
 	}
 
 
-	public function getDateFrom(): \DateTimeImmutable
+	public function getStartDate(): \DateTimeImmutable
 	{
-		return $this->dateFrom;
+		return $this->startDate;
 	}
 
 
-	public function getDateUntil(): \DateTimeImmutable
+	public function getEndDate(): \DateTimeImmutable
 	{
-		return $this->dateUntil;
+		return $this->endDate;
 	}
 
 

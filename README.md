@@ -208,7 +208,7 @@ $opportunities = $client->getOpportunities($parameters); // $parameters is optio
 
 foreach ($opportunities as $opportunity) {
     $opportunity->getName();
-    $opportunity->getDateStart();
+    $opportunity->getStartDate();
     $opportunity->getIntroduction();
     $opportunity->getLocation()->getCoordinates();
 }
@@ -220,7 +220,7 @@ Or only single one:
 $opportunity = $client->getOpportunity(1234);
 
 $opportunity->getName();
-$opportunity->getDateStart();
+$opportunity->getStartDate();
 $opportunity->getIntroduction();
 $opportunity->getLocation()->getCoordinates();
 ```
