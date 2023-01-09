@@ -2,13 +2,13 @@
 
 namespace HnutiBrontosaurus\BisClient\Response\Opportunity;
 
+use Brick\DateTime\LocalDate;
 use HnutiBrontosaurus\BisClient\Enums\OpportunityCategory;
 use HnutiBrontosaurus\BisClient\Response\ContactPerson;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use HnutiBrontosaurus\BisClient\Response\Html;
 use HnutiBrontosaurus\BisClient\Response\Image;
 use HnutiBrontosaurus\BisClient\Response\Location;
-use HnutiBrontosaurus\BisClient\RuntimeException;
 
 
 final class Opportunity
@@ -21,8 +21,8 @@ final class Opportunity
 		private int $id,
 		private string $name,
 		private OpportunityCategory $category,
-		private \DateTimeImmutable $startDate,
-		private \DateTimeImmutable $endDate,
+		private LocalDate $startDate,
+		private LocalDate $endDate,
 		private Location $location,
 		private Html $introduction,
 		private Html $description,
@@ -79,16 +79,12 @@ final class Opportunity
 	 */
 	public static function fromResponseData(array $data): self
 	{
-		$startDate = \DateTimeImmutable::createFromFormat('Y-m-d', $data['start']);
-		if ($startDate === false) throw new RuntimeException(\sprintf("Unexpected format of start date '%s'", $data['start']));
-		$endDate = \DateTimeImmutable::createFromFormat('Y-m-d', $data['end']);
-		if ($endDate === false) throw new RuntimeException(\sprintf("Unexpected format of end date '%s'", $data['end']));
 		return new self(
 			$data['id'],
 			$data['name'],
 			OpportunityCategory::fromScalar($data['category']['slug']),
-			$startDate,
-			$endDate,
+			LocalDate::parse($data['start']),
+			LocalDate::parse($data['end']),
 			Location::from($data['location']['name'], $data['location']['gps_location'] !== null
 				? Coordinates::from(
 					$data['location']['gps_location']['coordinates'][1],
@@ -129,13 +125,13 @@ final class Opportunity
 	}
 
 
-	public function getStartDate(): \DateTimeImmutable
+	public function getStartDate(): LocalDate
 	{
 		return $this->startDate;
 	}
 
 
-	public function getEndDate(): \DateTimeImmutable
+	public function getEndDate(): LocalDate
 	{
 		return $this->endDate;
 	}
