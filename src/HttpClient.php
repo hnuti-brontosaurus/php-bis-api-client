@@ -8,7 +8,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Exception\TooManyRedirectsException;
 use GuzzleHttp\Psr7\Request;
-use HnutiBrontosaurus\BisClient\Request\QueryParameters;
 use Psr\Http\Client\NetworkExceptionInterface;
 
 

@@ -1,10 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Request\AdministrationUnit;
+namespace HnutiBrontosaurus\BisClient\AdministrationUnit\Request;
 
-use HnutiBrontosaurus\BisClient\Enums\AdministrationUnitCategory;
-use HnutiBrontosaurus\BisClient\Request\LimitParameter;
-use HnutiBrontosaurus\BisClient\Request\QueryParameters;
+use HnutiBrontosaurus\BisClient\AdministrationUnit\Category;
+use HnutiBrontosaurus\BisClient\LimitParameter;
+use HnutiBrontosaurus\BisClient\QueryParameters;
 
 
 final class AdministrationUnitParameters implements QueryParameters
@@ -17,17 +17,17 @@ final class AdministrationUnitParameters implements QueryParameters
 
 	// categories
 
-	/** @var AdministrationUnitCategory[] */
+	/** @var Category[] */
 	private array $categories = [];
 
-	public function setCategory(AdministrationUnitCategory $category): self
+	public function setCategory(Category $category): self
 	{
 		$this->categories = [$category];
 		return $this;
 	}
 
 	/**
-	 * @param AdministrationUnitCategory[] $categories
+	 * @param Category[] $categories
 	 */
 	public function setCategories(array $categories): self
 	{

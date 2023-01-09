@@ -1,17 +1,17 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Enums;
+namespace HnutiBrontosaurus\BisClient\Event;
 
 use Grifart\Enum\AutoInstances;
 use Grifart\Enum\Enum;
 
 
 /**
- * @method static EventGroup CAMP()
- * @method static EventGroup WEEKEND_EVENT()
- * @method static EventGroup OTHER()
+ * @method static Group CAMP()
+ * @method static Group WEEKEND_EVENT()
+ * @method static Group OTHER()
  */
-final class EventGroup extends Enum
+final class Group extends Enum
 {
 	use AutoInstances;
 

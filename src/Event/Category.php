@@ -1,29 +1,29 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Enums;
+namespace HnutiBrontosaurus\BisClient\Event;
 
 use Grifart\Enum\AutoInstances;
 use Grifart\Enum\Enum;
 
 
 /**
- * @method static EventCategory VOLUNTEERING()
- * @method static EventCategory EXPERIENCE()
- * @method static EventCategory EDUCATIONAL_LECTURE()
- * @method static EventCategory EDUCATIONAL_COURSE()
- * @method static EventCategory EDUCATIONAL_OHB()
- * @method static EventCategory EDUCATIONAL_EDUCATIONAL()
- * @method static EventCategory EDUCATIONAL_EDUCATIONAL_WITH_STAY()
- * @method static EventCategory CLUB_MEETING()
- * @method static EventCategory CLUB_LECTURE()
- * @method static EventCategory FOR_PUBLIC()
- * @method static EventCategory ECO_TENT()
- * @method static EventCategory EXHIBITION()
- * @method static EventCategory INTERNAL_VOLUNTEER_MEETING()
- * @method static EventCategory INTERNAL_GENERAL_MEETING()
- * @method static EventCategory INTERNAL_SECTION_MEETING()
+ * @method static Category VOLUNTEERING()
+ * @method static Category EXPERIENCE()
+ * @method static Category EDUCATIONAL_LECTURE()
+ * @method static Category EDUCATIONAL_COURSE()
+ * @method static Category EDUCATIONAL_OHB()
+ * @method static Category EDUCATIONAL_EDUCATIONAL()
+ * @method static Category EDUCATIONAL_EDUCATIONAL_WITH_STAY()
+ * @method static Category CLUB_MEETING()
+ * @method static Category CLUB_LECTURE()
+ * @method static Category FOR_PUBLIC()
+ * @method static Category ECO_TENT()
+ * @method static Category EXHIBITION()
+ * @method static Category INTERNAL_VOLUNTEER_MEETING()
+ * @method static Category INTERNAL_GENERAL_MEETING()
+ * @method static Category INTERNAL_SECTION_MEETING()
  */
-final class EventCategory extends Enum
+final class Category extends Enum
 {
 	use AutoInstances;
 

@@ -1,21 +1,19 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Request\Event;
+namespace HnutiBrontosaurus\BisClient\Event\Request;
 
 use Brick\DateTime\Clock;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\TimeZone;
-use HnutiBrontosaurus\BisClient\Enums\EventCategory;
-use HnutiBrontosaurus\BisClient\Enums\EventGroup;
-use HnutiBrontosaurus\BisClient\Enums\Program;
-use HnutiBrontosaurus\BisClient\Enums\IntendedFor;
-use HnutiBrontosaurus\BisClient\Request\LimitParameter;
-use HnutiBrontosaurus\BisClient\Request\QueryParameters;
+use HnutiBrontosaurus\BisClient\Event\Category;
+use HnutiBrontosaurus\BisClient\Event\Group;
+use HnutiBrontosaurus\BisClient\Event\IntendedFor;
+use HnutiBrontosaurus\BisClient\Event\Program;
 
 
-final class EventParameters implements QueryParameters
+final class EventParameters implements \HnutiBrontosaurus\BisClient\QueryParameters
 {
-	use LimitParameter;
+	use \HnutiBrontosaurus\BisClient\LimitParameter;
 
 	private Ordering $ordering;
 	private TimeZone $timeZone;
@@ -32,17 +30,17 @@ final class EventParameters implements QueryParameters
 
 	// groups
 
-	/** @var EventGroup[] */
+	/** @var \HnutiBrontosaurus\BisClient\Event\Group[] */
 	private array $groups = [];
 
-	public function setGroup(EventGroup $group): self
+	public function setGroup(Group $group): self
 	{
 		$this->groups = [$group];
 		return $this;
 	}
 
 	/**
-	 * @param EventGroup[] $groups
+	 * @param \HnutiBrontosaurus\BisClient\Event\Group[] $groups
 	 */
 	public function setGroups(array $groups): self
 	{
@@ -53,17 +51,17 @@ final class EventParameters implements QueryParameters
 
 	// category
 
-	/** @var EventCategory[] */
+	/** @var \HnutiBrontosaurus\BisClient\Event\Category[] */
 	private array $categories = [];
 
-	public function setCategory(EventCategory $category): self
+	public function setCategory(Category $category): self
 	{
 		$this->categories = [$category];
 		return $this;
 	}
 
 	/**
-	 * @param EventCategory[] $categories
+	 * @param Category[] $categories
 	 */
 	public function setCategories(array $categories): self
 	{
@@ -74,7 +72,7 @@ final class EventParameters implements QueryParameters
 
 	// program
 
-	/** @var Program[] */
+	/** @var \HnutiBrontosaurus\BisClient\Event\Program[] */
 	private array $programs = [];
 
 	public function setProgram(Program $program): self
@@ -105,7 +103,7 @@ final class EventParameters implements QueryParameters
 	}
 
 	/**
-	 * @param IntendedFor[] $intendedFor
+	 * @param \HnutiBrontosaurus\BisClient\Event\IntendedFor[] $intendedFor
 	 */
 	public function setMultipleIntendedFor(array $intendedFor): self
 	{

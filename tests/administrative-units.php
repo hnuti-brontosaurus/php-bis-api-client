@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
 
+use HnutiBrontosaurus\BisClient\AdministrationUnit\Category;
+use HnutiBrontosaurus\BisClient\AdministrationUnit\Request\AdministrationUnitParameters;
 use HnutiBrontosaurus\BisClient\BisClient;
-use HnutiBrontosaurus\BisClient\Enums\AdministrationUnitCategory;
-use HnutiBrontosaurus\BisClient\Request\AdministrationUnit\AdministrationUnitParameters;
 
 
 /** @var BisClient $client */
@@ -12,10 +12,10 @@ echo '<h2>Administration units</h2>';
 
 $params = new AdministrationUnitParameters();
 $params->setCategories([
-	AdministrationUnitCategory::CLUB(),
-	AdministrationUnitCategory::BASIC_SECTION(),
-	AdministrationUnitCategory::REGIONAL_CENTER(),
-	AdministrationUnitCategory::HEADQUARTER(),
+	Category::CLUB(),
+	Category::BASIC_SECTION(),
+	Category::REGIONAL_CENTER(),
+	Category::HEADQUARTER(),
 ]);
 $units = $client->getAdministrationUnits($params);
 foreach ($units as $unit) {

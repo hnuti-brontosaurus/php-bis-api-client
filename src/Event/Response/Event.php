@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Response\Event;
+namespace HnutiBrontosaurus\BisClient\Event\Response;
 
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
-use HnutiBrontosaurus\BisClient\Enums\IntendedFor;
-use HnutiBrontosaurus\BisClient\Enums\Program;
+use HnutiBrontosaurus\BisClient\Event\IntendedFor;
+use HnutiBrontosaurus\BisClient\Event\Program;
 use HnutiBrontosaurus\BisClient\Response\ContactPerson;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use HnutiBrontosaurus\BisClient\Response\Location;

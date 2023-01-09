@@ -1,13 +1,12 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Request\Opportunity;
+namespace HnutiBrontosaurus\BisClient\Opportunity\Request;
 
-use HnutiBrontosaurus\BisClient\Enums\OpportunityCategory;
-use HnutiBrontosaurus\BisClient\Request\LimitParameter;
-use HnutiBrontosaurus\BisClient\Request\QueryParameters;
+use HnutiBrontosaurus\BisClient\LimitParameter;
+use HnutiBrontosaurus\BisClient\Opportunity\Category;
 
 
-final class OpportunityParameters implements QueryParameters
+final class OpportunityParameters implements \HnutiBrontosaurus\BisClient\QueryParameters
 {
 	use LimitParameter;
 
@@ -17,17 +16,17 @@ final class OpportunityParameters implements QueryParameters
 
 	// categories
 
-	/** @var OpportunityCategory[] */
+	/** @var Category[] */
 	private array $categories = [];
 
-	public function setCategory(OpportunityCategory $category): self
+	public function setCategory(Category $category): self
 	{
 		$this->categories = [$category];
 		return $this;
 	}
 
 	/**
-	 * @param OpportunityCategory[] $categories
+	 * @param Category[] $categories
 	 */
 	public function setCategories(array $categories): self
 	{

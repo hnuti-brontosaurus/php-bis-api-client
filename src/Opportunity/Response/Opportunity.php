@@ -1,9 +1,9 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Response\Opportunity;
+namespace HnutiBrontosaurus\BisClient\Opportunity\Response;
 
 use Brick\DateTime\LocalDate;
-use HnutiBrontosaurus\BisClient\Enums\OpportunityCategory;
+use HnutiBrontosaurus\BisClient\Opportunity\Category;
 use HnutiBrontosaurus\BisClient\Response\ContactPerson;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use HnutiBrontosaurus\BisClient\Response\Html;
@@ -20,7 +20,7 @@ final class Opportunity
 	private function __construct(
 		private int $id,
 		private string $name,
-		private OpportunityCategory $category,
+		private Category $category,
 		private LocalDate $startDate,
 		private LocalDate $endDate,
 		private Location $location,
@@ -82,7 +82,7 @@ final class Opportunity
 		return new self(
 			$data['id'],
 			$data['name'],
-			OpportunityCategory::fromScalar($data['category']['slug']),
+			Category::fromScalar($data['category']['slug']),
 			LocalDate::parse($data['start']),
 			LocalDate::parse($data['end']),
 			Location::from($data['location']['name'], $data['location']['gps_location'] !== null
@@ -119,7 +119,7 @@ final class Opportunity
 	}
 
 
-	public function getCategory(): OpportunityCategory
+	public function getCategory(): Category
 	{
 		return $this->category;
 	}

@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Request\Event;
+namespace HnutiBrontosaurus\BisClient\Event\Request;
 
 use Grifart\Enum\AutoInstances;
 use Grifart\Enum\Enum;

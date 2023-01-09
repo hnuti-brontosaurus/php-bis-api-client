@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Response\AdministrationUnit;
+namespace HnutiBrontosaurus\BisClient\AdministrationUnit\Response;
 
-use HnutiBrontosaurus\BisClient\Enums\AdministrationUnitCategory;
+use HnutiBrontosaurus\BisClient\AdministrationUnit\Category;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
 
 
@@ -21,7 +21,7 @@ final class AdministrationUnit
 		private ?string $phone,
 		private ?string $email,
 		private ?string $website,
-		private AdministrationUnitCategory $category,
+		private Category $category,
 		private ?string $chairman,
 		private ?string $manager,
 		private array $rawData,
@@ -68,7 +68,7 @@ final class AdministrationUnit
 			$data['phone'] !== '' ? $data['phone'] : null,
 			$data['email'] !== '' ? $data['email'] : null,
 			$data['www'] !== '' ? $data['www'] : null,
-			AdministrationUnitCategory::fromScalar($data['category']['slug']),
+			Category::fromScalar($data['category']['slug']),
 			$data['chairman'] !== null ? $data['chairman']['name'] : null,
 			$data['manager'] !== null ? $data['manager']['name'] : null,
 			$data,
@@ -138,25 +138,25 @@ final class AdministrationUnit
 
 	public function isClub(): bool
 	{
-		return $this->category->equals(AdministrationUnitCategory::CLUB());
+		return $this->category->equals(Category::CLUB());
 	}
 
 
 	public function isBaseUnit(): bool
 	{
-		return $this->category->equals(AdministrationUnitCategory::BASIC_SECTION());
+		return $this->category->equals(Category::BASIC_SECTION());
 	}
 
 
 	public function isRegionalUnit(): bool
 	{
-		return $this->category->equals(AdministrationUnitCategory::REGIONAL_CENTER());
+		return $this->category->equals(Category::REGIONAL_CENTER());
 	}
 
 
 	public function isOffice(): bool
 	{
-		return $this->category->equals(AdministrationUnitCategory::HEADQUARTER());
+		return $this->category->equals(Category::HEADQUARTER());
 	}
 
 

@@ -1,8 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Request;
-
-use HnutiBrontosaurus\BisClient\UsageException;
+namespace HnutiBrontosaurus\BisClient;
 
 
 /**

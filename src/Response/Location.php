@@ -2,8 +2,6 @@
 
 namespace HnutiBrontosaurus\BisClient\Response;
 
-use HnutiBrontosaurus\BisClient\Response\Coordinates;
-
 
 final class Location
 {

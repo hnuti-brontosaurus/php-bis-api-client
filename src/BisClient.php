@@ -2,13 +2,12 @@
 
 namespace HnutiBrontosaurus\BisClient;
 
-use HnutiBrontosaurus\BisClient\Request\AdministrationUnit\AdministrationUnitParameters;
-use HnutiBrontosaurus\BisClient\Request\Event\EventParameters;
-use HnutiBrontosaurus\BisClient\Request\Opportunity\OpportunityParameters;
-use HnutiBrontosaurus\BisClient\Request\QueryParameters;
-use HnutiBrontosaurus\BisClient\Response\AdministrationUnit\AdministrationUnit;
-use HnutiBrontosaurus\BisClient\Response\Event\Event;
-use HnutiBrontosaurus\BisClient\Response\Opportunity\Opportunity;
+use HnutiBrontosaurus\BisClient\AdministrationUnit\Request\AdministrationUnitParameters as AdministrationUnitParameters;
+use HnutiBrontosaurus\BisClient\AdministrationUnit\Response\AdministrationUnit;
+use HnutiBrontosaurus\BisClient\Event\Request\EventParameters as EventParameters;
+use HnutiBrontosaurus\BisClient\Event\Response\Event;
+use HnutiBrontosaurus\BisClient\Opportunity\Request\OpportunityParameters as OpportunityParameters;
+use HnutiBrontosaurus\BisClient\Opportunity\Response\Opportunity;
 
 
 final class BisClient

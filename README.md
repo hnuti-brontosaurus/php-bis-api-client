@@ -57,7 +57,7 @@ Retrieve all information about multiple events.
 Basic usage:
 
 ```php
-$parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
+$parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
 $events = $client->getEvents($parameters); // $parameters are optional
 
 // example of reading data
@@ -71,19 +71,19 @@ foreach ($events as $event) {
 Events can be filtered by group, category, program or intended for:
 
 ```php
-$parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
+$parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
 
 // only camps
-$parameters->setGroup(\HnutiBrontosaurus\BisClient\Enums\EventGroup::CAMP());
+$parameters->setGroup(\HnutiBrontosaurus\BisClient\Event\Group::CAMP());
 
 // only events of "voluntary" category
-$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTEERING());
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::VOLUNTEERING());
 
 // only events of "PsB" program
-$parameters->setProgram(\HnutiBrontosaurus\BisClient\Enums\Program::HOLIDAYS_WITH_BRONTOSAURUS());
+$parameters->setProgram(\HnutiBrontosaurus\BisClient\Event\Program::HOLIDAYS_WITH_BRONTOSAURUS());
 
 // only events intended for first time participants
-$parameters->setIntendedFor(\HnutiBrontosaurus\BisClient\Enums\IntendedFor::FIRST_TIME_PARTICIPANT());
+$parameters->setIntendedFor(\HnutiBrontosaurus\BisClient\Event\IntendedFor::FIRST_TIME_PARTICIPANT());
 
 $events = $client->getEvents($parameters);
 ```
@@ -91,19 +91,19 @@ $events = $client->getEvents($parameters);
 Note that each method call rewrites the previous one:
 
 ```php
-$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTEERING());
-$parameters->setCategory(\HnutiBrontosaurus\BisClient\Enums\EventCategory::EXPERIENCE());
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::VOLUNTEERING());
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::EXPERIENCE());
 // ⚠ result is only "EXPERIENCE"
 ```
 
 You can set more values at once with method's plural complement:
 
 ```php
-$parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
+$parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
 
 $parameters->setCategories([
-    \HnutiBrontosaurus\BisClient\Enums\EventCategory::VOLUNTEERING(),
-    \HnutiBrontosaurus\BisClient\Enums\EventCategory::EXPERIENCE(),
+    \HnutiBrontosaurus\BisClient\Event\Category::VOLUNTEERING(),
+    \HnutiBrontosaurus\BisClient\Event\Category::EXPERIENCE(),
 ]);
 
 $events = $client->getEvents($parameters);
@@ -114,11 +114,11 @@ $events = $client->getEvents($parameters);
 Restrict retrieved events to be in given period:
 
 ```php
-$parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
+$parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
 
-$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Request\Event\Period::RUNNING_AND_FUTURE()); // default
-$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Request\Event\Period::RUNNING_ONLY());
-$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Request\Event\Period::UNLIMITED());
+$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Event\Request\Period::RUNNING_AND_FUTURE()); // default
+$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Event\Request\Period::RUNNING_ONLY());
+$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Event\Request\Period::UNLIMITED());
 
 $events = $client->getEvents($parameters);
 ```
@@ -135,7 +135,7 @@ $parameters->setDateEndLessThanOrEqualTo($date);
 $parameters->setDateEndGreaterThanOrEqualTo($date);
 ```
 
-If you need to reset default/previous setting:
+If you need to reset default/previous dates:
 
 ```php
 // either
@@ -155,7 +155,7 @@ $parameters->setDateStartLessThanOrEqualTo($date, reset: true);
 Choose whether you want to order by start or end date:
 
 ```php
-$parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
+$parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
 
 // sort events by date from or date to
 $parameters->orderByStartDate();
@@ -164,7 +164,7 @@ $parameters->orderByEndDate(); // default
 $events = $client->getEvents($parameters);
 ```
 
-Both methods have optional parameter `bool $desc` which obviously sorts events in DESC order:
+Both methods have optional parameter `$desc` which allows to sort events in DESC order:
 
 ```php
 $parameters->orderByDateFrom(desc: true);
@@ -175,7 +175,7 @@ $parameters->orderByDateFrom(desc: true);
 Limit the size of obtained events or remove the limit completely:
 
 ```php
-$parameters = new \HnutiBrontosaurus\BisClient\Request\Event\EventParameters();
+$parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
 
 $parameters->setLimit(50);
 $parameters->removeLimit();
@@ -189,7 +189,7 @@ $events = $client->getEvents($parameters);
 For retrieving information about all administration units:
 
 ```php
-$parameters = new \HnutiBrontosaurus\BisClient\Request\AdministrationUnit\AdministrationUnitParameters();
+$parameters = new \HnutiBrontosaurus\BisClient\AdministrationUnit\Request\AdministrationUnitParameters();
 $administrationUnits = $client->getAdministrationUnits($parameters); // $parameters is optional
 
 foreach ($administrationUnits as $administrationUnit) {
@@ -205,7 +205,7 @@ foreach ($administrationUnits as $administrationUnit) {
 Retrieving information about all opportunities:
 
 ```php
-$parameters = new \HnutiBrontosaurus\BisClient\Request\Opportunity\OpportunityParameters();
+$parameters = new \HnutiBrontosaurus\BisClient\Opportunity\Request\OpportunityParameters();
 $opportunities = $client->getOpportunities($parameters); // $parameters is optional
 
 foreach ($opportunities as $opportunity) {
@@ -283,9 +283,10 @@ composer install
 
 - `docs` – instruction on how connection between brontoweb and BIS works (todo: move to brontoweb repo)
 - `src` – source code
-    - `Enums` – basic enum types
-    - `Request` – request-related value objects
-    - `Response` – response-related value objects and exceptions
+    - `AdministrationUnit` – value objects related to administration units
+    - `Event` – value objects related to events
+    - `Opportunity` – value objects related to opportunities
+    - `Response` – response value objects common to all endpoints
     - `BisClient` – client itself, serves for making requests to BIS API
     - `BisClientFactory` – takes configuration and creates instance of `BisClient`
     - `HttpClient` – wrapper around Guzzle client which adds BIS API specific pieces into the request

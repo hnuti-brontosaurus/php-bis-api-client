@@ -1,17 +1,17 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisClient\Enums;
+namespace HnutiBrontosaurus\BisClient\Opportunity;
 
 use Grifart\Enum\AutoInstances;
 use Grifart\Enum\Enum;
 
 
 /**
- * @method static OpportunityCategory ORGANIZING()
- * @method static OpportunityCategory COLLABORATION()
- * @method static OpportunityCategory LOCATION_HELP()
+ * @method static Category ORGANIZING()
+ * @method static Category COLLABORATION()
+ * @method static Category LOCATION_HELP()
  */
-final class OpportunityCategory extends Enum
+final class Category extends Enum
 {
 	use AutoInstances;
 
