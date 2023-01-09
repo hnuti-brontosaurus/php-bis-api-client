@@ -24,6 +24,7 @@ final class Event
 		private string $name,
 		private ?Photo $coverPhotoPath,
 		private \DateTimeImmutable $startDate,
+		private ?\DateTimeImmutable $startTime,
 		private \DateTimeImmutable $endDate,
 		private Program $program,
 		private Location $location,
@@ -55,6 +56,7 @@ final class Event
 	 *     id: int,
 	 *     name: string,
 	 *     start: string,
+	 *     start_time: string|null,
 	 *     end: string,
 	 *     duration: int,
 	 *     location: array{
@@ -138,6 +140,7 @@ final class Event
 			$data['name'],
 			$mainPhoto,
 			new \DateTimeImmutable($data['start']),
+			$data['start_time'] !== null ? new \DateTimeImmutable($data['start_time']) : null,
 			$endDate,
 			Program::fromScalar($data['program']['slug']),
 			Location::from(
@@ -195,6 +198,12 @@ final class Event
 	public function getStartDate(): \DateTimeImmutable
 	{
 		return $this->startDate;
+	}
+
+
+	public function getStartTime(): ?\DateTimeImmutable
+	{
+		return $this->startTime;
 	}
 
 
