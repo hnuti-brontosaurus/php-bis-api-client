@@ -33,7 +33,7 @@ final class Event
 		private bool $isFull,
 		private ?int $ageFrom,
 		private ?int $ageUntil,
-		private ?string $price,
+		private string $price,
 		private ?string $organizers,
 		private array $administrationUnits,
 		private ContactPerson $contactPerson,
@@ -102,7 +102,7 @@ final class Event
 	 *     propagation: array{
 	 *         minimum_age: int|null,
 	 *         maximum_age:int|null,
-	 *         cost: string|null,
+	 *         cost: string,
 	 *         intended_for: array{id: int, name: string, slug: string},
 	 *         accommodation: string,
 	 *         working_days: int|null,
@@ -151,7 +151,7 @@ final class Event
 			$data['registration']['is_event_full'],
 			$data['propagation']['minimum_age'],
 			$data['propagation']['maximum_age'],
-			$data['propagation']['cost'] !== null ? $data['propagation']['cost'] : null,
+			$data['propagation']['cost'],
 			$data['propagation']['organizers'] !== '' ? $data['propagation']['organizers'] : null,
 			$data['administration_units'],
 			ContactPerson::from(
@@ -247,7 +247,7 @@ final class Event
 	}
 
 
-	public function getPrice(): ?string
+	public function getPrice(): string
 	{
 		return $this->price;
 	}
