@@ -155,7 +155,7 @@ final class Event
 			$data['administration_units'],
 			ContactPerson::from(
 				$data['propagation']['contact_name'] !== null ? $data['propagation']['contact_name'] : null,
-				$data['propagation']['contact_email'],
+				$data['propagation']['contact_email'] !== null ? $data['propagation']['contact_email'] : '', // todo temp unless BIS returns nulls for some old events
 				$data['propagation']['contact_phone'] !== null && $data['propagation']['contact_phone'] !== '' ? $data['propagation']['contact_phone'] : null,
 			),
 			IntendedFor::fromScalar($data['intended_for']['slug']),
