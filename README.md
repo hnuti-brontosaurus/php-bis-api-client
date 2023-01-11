@@ -128,7 +128,7 @@ $events = $client->getEvents($parameters);
 For convenience, you can also set date start and/or end on low level:
 
 ```php
-$date = \DateTimeImmutable::createFromFormat('Y-m-d', '2022-01-01');
+$date = \Brick\DateTime\LocalDate::parse('2022-01-01');
 $parameters->setDateStartLessThanOrEqualTo($date);
 $parameters->setDateStartGreaterThanOrEqualTo($date);
 $parameters->setDateEndLessThanOrEqualTo($date);
@@ -139,14 +139,16 @@ If you need to reset default/previous setting:
 
 ```php
 // either
-$date = \DateTimeImmutable::createFromFormat('Y-m-d', '2022-01-01');
+$date = \Brick\DateTime\LocalDate::parse('2022-01-01');
 $parameters->resetDates();
 $parameters->setDateStartLessThanOrEqualTo($date);
 
 // or
-$date = \DateTimeImmutable::createFromFormat('Y-m-d', '2022-01-01');
+$date = \Brick\DateTime\LocalDate::parse('2022-01-01');
 $parameters->setDateStartLessThanOrEqualTo($date, reset: true);
 ```
+
+> Note that semantic value objects from [`brick/date-time`](https://github.com/brick/date-time) are used instead of native `DateTime(Immutable)` class. More on why at [this blogpost](https://jiripudil.cz/blog/beyond-datetime-domain-driven-approach).
 
 #### Ordering
 

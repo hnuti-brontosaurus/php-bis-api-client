@@ -2,6 +2,9 @@
 
 namespace HnutiBrontosaurus\BisClient\Request\Event;
 
+use Brick\DateTime\Clock;
+use Brick\DateTime\LocalDate;
+use Brick\DateTime\TimeZone;
 use HnutiBrontosaurus\BisClient\Enums\EventCategory;
 use HnutiBrontosaurus\BisClient\Enums\EventGroup;
 use HnutiBrontosaurus\BisClient\Enums\Program;
@@ -15,9 +18,12 @@ final class EventParameters implements QueryParameters
 	use LimitParameter;
 
 	private Ordering $ordering;
+	private TimeZone $timeZone;
 
 	public function __construct()
 	{
+		$this->timeZone = TimeZone::parse('Europe/Prague'); // Hnutí Brontosaurus operates in Czechia
+
 		$this->setPeriod(Period::RUNNING_AND_FUTURE()); // no past because there are so many events in history
 		$this->orderByEndDate();
 	}
@@ -110,17 +116,17 @@ final class EventParameters implements QueryParameters
 
 	// period
 
-	private ?\DateTimeImmutable $dateStartGreaterThanOrEqualTo = null;
-	private ?\DateTimeImmutable $dateStartLessThanOrEqualTo = null;
-	private ?\DateTimeImmutable $dateEndGreaterThanOrEqualTo = null;
-	private ?\DateTimeImmutable $dateEndLessThanOrEqualTo = null;
+	private ?LocalDate $dateStartGreaterThanOrEqualTo = null;
+	private ?LocalDate $dateStartLessThanOrEqualTo = null;
+	private ?LocalDate $dateEndGreaterThanOrEqualTo = null;
+	private ?LocalDate $dateEndLessThanOrEqualTo = null;
 
-	public function setPeriod(Period $period): self
+	public function setPeriod(Period $period, ?Clock $clock = null): self
 	{
 		// reset all
 		$this->resetDates();
 
-		$now = new \DateTimeImmutable();
+		$now = LocalDate::now($this->timeZone, $clock);
 
 		if ($period->equals(Period::RUNNING_ONLY())) {
 			$this->dateStartLessThanOrEqualTo = $now;
@@ -143,28 +149,28 @@ final class EventParameters implements QueryParameters
 		return $this;
 	}
 
-	public function setDateStartLessThanOrEqualTo(?\DateTimeImmutable $date, bool $reset = false): self
+	public function setDateStartLessThanOrEqualTo(?LocalDate $date, bool $reset = false): self
 	{
 		if ($reset) $this->resetDates();
 		$this->dateStartLessThanOrEqualTo = $date;
 		return $this;
 	}
 
-	public function setDateStartGreaterThanOrEqualTo(?\DateTimeImmutable $date, bool $reset = false): self
+	public function setDateStartGreaterThanOrEqualTo(?LocalDate $date, bool $reset = false): self
 	{
 		if ($reset) $this->resetDates();
 		$this->dateStartGreaterThanOrEqualTo = $date;
 		return $this;
 	}
 
-	public function setDateEndLessThanOrEqualTo(?\DateTimeImmutable $date, bool $reset = false): self
+	public function setDateEndLessThanOrEqualTo(?LocalDate $date, bool $reset = false): self
 	{
 		if ($reset) $this->resetDates();
 		$this->dateEndLessThanOrEqualTo = $date;
 		return $this;
 	}
 
-	public function setDateEndGreaterThanOrEqualTo(?\DateTimeImmutable $date, bool $reset = false): self
+	public function setDateEndGreaterThanOrEqualTo(?LocalDate $date, bool $reset = false): self
 	{
 		if ($reset) $this->resetDates();
 		$this->dateEndGreaterThanOrEqualTo = $date;
@@ -218,16 +224,16 @@ final class EventParameters implements QueryParameters
 		}
 
 		if ($this->dateStartLessThanOrEqualTo !== null) {
-			$array['start__lte'] = $this->dateStartLessThanOrEqualTo->format('Y-m-d');
+			$array['start__lte'] = $this->dateStartLessThanOrEqualTo;
 		}
 		if ($this->dateStartGreaterThanOrEqualTo !== null) {
-			$array['start__gte'] = $this->dateStartGreaterThanOrEqualTo->format('Y-m-d');
+			$array['start__gte'] = $this->dateStartGreaterThanOrEqualTo;
 		}
 		if ($this->dateEndLessThanOrEqualTo !== null) {
-			$array['end__lte'] = $this->dateEndLessThanOrEqualTo->format('Y-m-d');
+			$array['end__lte'] = $this->dateEndLessThanOrEqualTo;
 		}
 		if ($this->dateEndGreaterThanOrEqualTo !== null) {
-			$array['end__gte'] = $this->dateEndGreaterThanOrEqualTo->format('Y-m-d');
+			$array['end__gte'] = $this->dateEndGreaterThanOrEqualTo;
 		}
 
 		return $array;
