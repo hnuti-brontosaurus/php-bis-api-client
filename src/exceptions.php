@@ -3,6 +3,8 @@
 namespace HnutiBrontosaurus\BisClient;
 
 
+// BIS client exceptions
+
 /**
  * Exception caused by bad usage by developer (preventable)
  * e.g. called method in a wrong moment
@@ -15,12 +17,21 @@ class UsageException extends \LogicException {}
  * e.g. file does not exist, external system not accessible etc.
  * This is generic exception to catch all possible cases from client.
  * To handle specific cases, catch specific exceptions from below.
- * You can also combine it by catching specific first and then the generic.
  */
-class ConnectionToBisFailed extends \RuntimeException {}
+class BisClientError extends \RuntimeException {}
+
+// general error
+final class ConnectionToBisFailed extends BisClientError {}
+
+// not founds
+final class EventNotFound extends BisClientError {}
+final class OpportunityNotFound extends BisClientError {}
 
 
-final class NotFound extends ConnectionToBisFailed
+
+// underlying HTTP client exceptions
+
+final class NotFound extends \RuntimeException
 {
 	public static function withPrevious(\Throwable $previous): self
 	{
@@ -28,10 +39,10 @@ final class NotFound extends ConnectionToBisFailed
 	}
 }
 
-final class GeneralError extends ConnectionToBisFailed
+final class ConnectionError extends \RuntimeException
 {
 	public static function withPrevious(\Throwable $previous): self
 	{
-		return new self($previous->getMessage(), 0, $previous);
+		return new self($previous->getMessage(), $previous->getCode(), $previous);
 	}
 }

@@ -34,12 +34,21 @@ final class BisClient
 
 
 	/**
-	 * @throws NotFound
+	 * @throws EventNotFound
 	 * @throws ConnectionToBisFailed
 	 */
 	public function getEvent(int $id): Event
 	{
-		$data = $this->httpClient->send('GET', Endpoint::EVENT($id));
+		try {
+			$data = $this->httpClient->send('GET', Endpoint::EVENT($id));
+
+		} catch (NotFound $e) {
+			throw new EventNotFound(previous: $e);
+
+		} catch (ConnectionError $e) {
+			throw new ConnectionToBisFailed(previous: $e);
+		}
+
 		return Event::fromResponseData($data);
 	}
 
@@ -73,12 +82,21 @@ final class BisClient
 
 
 	/**
-	 * @throws NotFound
+	 * @throws OpportunityNotFound
 	 * @throws ConnectionToBisFailed
 	 */
 	public function getOpportunity(int $id): Opportunity
 	{
-		$data = $this->httpClient->send('GET', Endpoint::OPPORTUNITY($id));
+		try {
+			$data = $this->httpClient->send('GET', Endpoint::OPPORTUNITY($id));
+
+		} catch (NotFound $e) {
+			throw new OpportunityNotFound(previous: $e);
+
+		} catch (ConnectionError $e) {
+			throw new ConnectionToBisFailed(previous: $e);
+		}
+
 		return Opportunity::fromResponseData($data);
 	}
 
@@ -91,9 +109,16 @@ final class BisClient
 	 */
 	private function retrieve(string $endpoint, ?QueryParameters $params, ?int $limit, int $currentCount = 0, bool $topLevel = true): array
 	{
-		/** @var array{count: int, next: ?string, previous: ?string, results: array<mixed>} $data */
-		$data = $this->httpClient->send('GET', $endpoint, $params);
-		$results = $data['results'];
+		try {
+			/** @var array{count: int, next: ?string, previous: ?string, results: array<mixed>} $data */
+			$data = $this->httpClient->send('GET', $endpoint, $params);
+			$results = $data['results'];
+
+		} catch (NotFound) {
+
+		} catch (ConnectionError $e) {
+			throw new ConnectionToBisFailed(previous: $e);
+		}
 
 		// request more results if limit is not reached yet
 		if (($limit === null xor $currentCount < $limit) && $data['next'] !== null) {

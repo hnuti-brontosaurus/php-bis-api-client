@@ -23,7 +23,8 @@ final class HttpClient
 
 	/**
 	 * @return array<mixed>
-	 * @throws ConnectionToBisFailed
+	 * @throws NotFound
+	 * @throws ConnectionError
 	 */
 	public function send(
 		string $method,
@@ -50,19 +51,19 @@ final class HttpClient
 				throw NotFound::withPrevious($e);
 			}
 
-			throw GeneralError::withPrevious($e);
+			throw ConnectionError::withPrevious($e);
 
 		} catch (ServerException $e) { // 5xx errors
-			throw GeneralError::withPrevious($e);
+			throw ConnectionError::withPrevious($e);
 
 		} catch (TooManyRedirectsException $e) {
-			throw GeneralError::withPrevious($e);
+			throw ConnectionError::withPrevious($e);
 
 		} catch (NetworkExceptionInterface $e) { // problem with connection
-			throw GeneralError::withPrevious($e);
+			throw ConnectionError::withPrevious($e);
 
 		} catch (GuzzleException $e) { // fallback catch-all exception
-			throw GeneralError::withPrevious($e);
+			throw ConnectionError::withPrevious($e);
 		}
 
 		$this->lastRequestUrl = $response->hasHeader($this->lastRequestUrlHeaderKey) ? $response->getHeader($this->lastRequestUrlHeaderKey)[0] : null;
