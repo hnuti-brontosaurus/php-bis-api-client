@@ -28,11 +28,13 @@ Download latest version from [github](https://github.com/hnuti-brontosaurus/php-
 Create client instance with the only parameter – BIS API URL:
 
 ```php
-$client = (new BisClientFactory('https://bis.brontosaurus.cz'))
-    ->create();
+use HnutiBrontosaurus\BisClient\BisClientFactory;
+
+$bisClientFactory = new BisClientFactory('https://bis.brontosaurus.cz/api');
+$bisClient = $bisClientFactory->create();
 ```
 
-On `$client`, you can basically retrieve any information from BIS and obtain debug information.
+Instance of `\HnutiBrontosaurus\BisClient\BisClient` is returned which is your toolset to retrieve any information from BIS.
 
 ## Events
 
@@ -265,7 +267,7 @@ try {
 
 ## Debug information
 
-On `$client`, there are two debug methods:
+On `\HnutiBrontosaurus\BisClient\BisClient`, there are two debug methods:
 
 - `getLastRequestUrl()` – returns URL of last request; note that as HTTP client is internally call endpoint multiple times to avoid pagination, only the very last requested URL is returned
 - `getLastResponse()` – returns either parsed array or JSON string with last response
