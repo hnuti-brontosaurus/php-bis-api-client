@@ -20,14 +20,6 @@ class UsageException extends \LogicException {}
 class ConnectionToBisFailed extends \RuntimeException {}
 
 
-final class UnableToProcessRequest extends ConnectionToBisFailed
-{
-	public static function withPrevious(\Throwable $previous): self
-	{
-		return new self($previous->getMessage(), 0, $previous);
-	}
-}
-
 final class NotFound extends ConnectionToBisFailed
 {
 	public static function withPrevious(\Throwable $previous): self

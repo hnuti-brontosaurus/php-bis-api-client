@@ -46,10 +46,6 @@ final class HttpClient
 			));
 
 		} catch (ClientException $e) { // 4xx errors
-			if ($e->getCode() === 400) {
-				throw UnableToProcessRequest::withPrevious($e);
-			}
-
 			if ($e->getCode() === 404) {
 				throw NotFound::withPrevious($e);
 			}
