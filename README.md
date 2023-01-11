@@ -228,6 +228,41 @@ $opportunity->getLocation()->getCoordinates();
 ```
 
 
+## Exceptions
+
+Client provides few exceptions to handle errors in communication with BIS.
+
+### Generic
+
+`ConnectionToBisFailed` is the most generic one and it covers all kind of problems in the communication.
+
+```php
+try {
+    $events = $bisClient->getEvents();
+
+} catch (\HnutiBrontosaurus\BisClient\ConnectionToBisFailed) {
+    // render something like "BIS is currently unavailable, please try again later or contact us at..."
+}
+```
+
+### Not found
+
+Every method which requests single resource throws also `*NotFound` exception in case the resource was not found. For event, it's `EventNotFound`:
+
+```php
+try {
+    $event = $bisClient->getEvent(123);
+
+} catch (\HnutiBrontosaurus\BisClient\EventNotFound) {
+    // render some 404 page
+
+} catch (\HnutiBrontosaurus\BisClient\ConnectionToBisFailed) {
+    // render something like "BIS is currently unavailable, please try again later or contact us at..."
+}
+```
+
+
+
 ## Debug information
 
 On `$client`, there are two debug methods:
