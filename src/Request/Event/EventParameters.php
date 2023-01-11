@@ -224,16 +224,16 @@ final class EventParameters implements QueryParameters
 		}
 
 		if ($this->dateStartLessThanOrEqualTo !== null) {
-			$array['start__lte'] = $this->dateStartLessThanOrEqualTo;
+			$array['start__lte'] = (string) $this->dateStartLessThanOrEqualTo; // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
 		}
 		if ($this->dateStartGreaterThanOrEqualTo !== null) {
-			$array['start__gte'] = $this->dateStartGreaterThanOrEqualTo;
+			$array['start__gte'] = (string) $this->dateStartGreaterThanOrEqualTo; // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
 		}
 		if ($this->dateEndLessThanOrEqualTo !== null) {
-			$array['end__lte'] = $this->dateEndLessThanOrEqualTo;
+			$array['end__lte'] = (string) $this->dateEndLessThanOrEqualTo; // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
 		}
 		if ($this->dateEndGreaterThanOrEqualTo !== null) {
-			$array['end__gte'] = $this->dateEndGreaterThanOrEqualTo;
+			$array['end__gte'] = (string) $this->dateEndGreaterThanOrEqualTo; // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
 		}
 
 		return $array;
