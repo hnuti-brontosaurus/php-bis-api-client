@@ -28,14 +28,6 @@ final class UnableToProcessRequest extends ConnectionToBisFailed
 	}
 }
 
-final class UnableToAuthorize extends ConnectionToBisFailed
-{
-	public static function withPrevious(\Throwable $previous): self
-	{
-		return new self("You are not authorized to make such request with given secrets.\nCheck that you passed correct secrets or that you have access to the resource you requested.", 0, $previous);
-	}
-}
-
 final class NotFound extends ConnectionToBisFailed
 {
 	public static function withPrevious(\Throwable $previous): self

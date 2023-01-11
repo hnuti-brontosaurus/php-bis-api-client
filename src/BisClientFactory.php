@@ -31,7 +31,6 @@ final class BisClientFactory
 
 
 	/**
-	 * @throws UnableToAuthorize
 	 * @throws ConnectionToBisFailed
 	 */
 	public function create(): BisClient
