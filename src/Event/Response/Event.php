@@ -28,18 +28,18 @@ final class Event
 		private LocalDate $startDate,
 		private ?LocalTime $startTime,
 		private LocalDate $endDate,
+		private Location $location,
 		private Group $group,
 		private Program $program,
-		private Location $location,
+		private IntendedFor $targetGroup,
+		private array $administrationUnits,
 		private bool $isRegistrationRequired,
 		private bool $isFull,
 		private ?int $ageFrom,
 		private ?int $ageUntil,
 		private string $price,
 		private ?string $organizers,
-		private array $administrationUnits,
 		private ContactPerson $contactPerson,
-		private IntendedFor $targetGroup,
 		private string $introduction,
 		private string $practicalInformation,
 		private string $accommodation,
@@ -142,27 +142,27 @@ final class Event
 			LocalDate::parse($data['start']),
 			$data['start_time'] !== null ? LocalTime::parse($data['start_time']) : null,
 			LocalDate::parse($data['end']),
-			Group::fromScalar($data['group']['slug']),
-			Program::fromScalar($data['program']['slug']),
 			Location::from(
 				$data['location']['name'],
 				$data['location']['gps_location'] !== null
 					? Coordinates::from($data['location']['gps_location']['coordinates'][1], $data['location']['gps_location']['coordinates'][0])
 					: null,
 			),
+			Group::fromScalar($data['group']['slug']),
+			Program::fromScalar($data['program']['slug']),
+			IntendedFor::fromScalar($data['intended_for']['slug']),
+			$data['administration_units'],
 			$data['registration']['is_registration_required'],
 			$data['registration']['is_event_full'],
 			$data['propagation']['minimum_age'],
 			$data['propagation']['maximum_age'],
 			$data['propagation']['cost'],
 			$data['propagation']['organizers'] !== '' ? $data['propagation']['organizers'] : null,
-			$data['administration_units'],
 			ContactPerson::from(
 				$data['propagation']['contact_name'] !== null ? $data['propagation']['contact_name'] : null,
 				$data['propagation']['contact_email'] !== null ? $data['propagation']['contact_email'] : '', // todo temp unless BIS returns nulls for some old events
 				$data['propagation']['contact_phone'] !== null && $data['propagation']['contact_phone'] !== '' ? $data['propagation']['contact_phone'] : null,
 			),
-			IntendedFor::fromScalar($data['intended_for']['slug']),
 			$data['propagation']['invitation_text_introduction'],
 			$data['propagation']['invitation_text_practical_information'],
 			$data['propagation']['accommodation'],
@@ -214,6 +214,12 @@ final class Event
 	}
 
 
+	public function getLocation(): Location
+	{
+		return $this->location;
+	}
+
+
 	public function getGroup(): Group
 	{
 		return $this->group;
@@ -226,9 +232,18 @@ final class Event
 	}
 
 
-	public function getLocation(): Location
+	public function getTargetGroup(): IntendedFor
 	{
-		return $this->location;
+		return $this->targetGroup;
+	}
+
+
+	/**
+	 * @return string[]
+	 */
+	public function getAdministrationUnits(): array
+	{
+		return $this->administrationUnits;
 	}
 
 
@@ -268,24 +283,9 @@ final class Event
 	}
 
 
-	/**
-	 * @return string[]
-	 */
-	public function getAdministrationUnits(): array
-	{
-		return $this->administrationUnits;
-	}
-
-
 	public function getContactPerson(): ContactPerson
 	{
 		return $this->contactPerson;
-	}
-
-
-	public function getTargetGroup(): IntendedFor
-	{
-		return $this->targetGroup;
 	}
 
 
