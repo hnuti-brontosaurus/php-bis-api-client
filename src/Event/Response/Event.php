@@ -350,11 +350,14 @@ final class Event
 
 	/**
 	 * @deprecated use getPropagation()->getDiets() instead
-	 * @return Diet[]
+	 * @return Food[]
 	 */
 	public function getFood(): array
 	{
-		return $this->getPropagation()->getDiets();
+		return \array_map(
+			static fn(Diet $diet): Food => Food::fromScalar($diet->toScalar()),
+			$this->getPropagation()->getDiets(),
+		);
 	}
 
 	/** @deprecated use getPropagation()->getInvitationTextWorkDescription() instead */
