@@ -4,6 +4,7 @@ namespace HnutiBrontosaurus\BisClient\Event\Response;
 
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
+use HnutiBrontosaurus\BisClient\Event\Group;
 use HnutiBrontosaurus\BisClient\Event\IntendedFor;
 use HnutiBrontosaurus\BisClient\Event\Program;
 use HnutiBrontosaurus\BisClient\Response\ContactPerson;
@@ -27,6 +28,7 @@ final class Event
 		private LocalDate $startDate,
 		private ?LocalTime $startTime,
 		private LocalDate $endDate,
+		private Group $group,
 		private Program $program,
 		private Location $location,
 		private bool $isRegistrationRequired,
@@ -140,6 +142,7 @@ final class Event
 			LocalDate::parse($data['start']),
 			$data['start_time'] !== null ? LocalTime::parse($data['start_time']) : null,
 			LocalDate::parse($data['end']),
+			Group::fromScalar($data['group']['slug']),
 			Program::fromScalar($data['program']['slug']),
 			Location::from(
 				$data['location']['name'],
@@ -208,6 +211,12 @@ final class Event
 	public function getEndDate(): LocalDate
 	{
 		return $this->endDate;
+	}
+
+
+	public function getGroup(): Group
+	{
+		return $this->group;
 	}
 
 
