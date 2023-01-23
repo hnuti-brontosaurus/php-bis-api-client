@@ -113,8 +113,6 @@ final class BisClient
 			$data = $this->httpClient->send('GET', $endpoint, $params);
 			$results = $data['results'];
 
-		} catch (NotFound) {
-
 		} catch (ConnectionError $e) {
 			throw new ConnectionToBisFailed(previous: $e);
 		}
