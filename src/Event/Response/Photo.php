@@ -3,7 +3,8 @@
 namespace HnutiBrontosaurus\BisClient\Event\Response;
 
 
-final class Photo
+/** @deprecated use Image instead */
+class Photo
 {
 
 	private function __construct(

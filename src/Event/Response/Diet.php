@@ -7,16 +7,15 @@ use Grifart\Enum\Enum;
 
 
 /**
- * @deprecated use Diet instead
- * @method static Food VEGETARIAN()
- * @method static Food MEAT()
- * @method static Food VEGAN()
+ * @method static Diet MEAT()
+ * @method static Diet VEGAN()
+ * @method static Diet VEGETARIAN()
  */
-class Food extends Enum
+final class Diet extends Food
 {
 	use AutoInstances;
 
-	protected const VEGETARIAN = 'vege';
 	protected const MEAT = 'meat';
 	protected const VEGAN = 'vegan';
+	protected const VEGETARIAN = 'vege';
 }

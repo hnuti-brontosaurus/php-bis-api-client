@@ -18,7 +18,6 @@ final class Event
 
 	/**
 	 * @param string[] $administrationUnits
-	 * @param Food[] $food
 	 * @param Photo[] $photos
 	 * @param array<mixed> $rawData
 	 */
@@ -36,22 +35,9 @@ final class Event
 		private Program $program,
 		private IntendedFor $intendedFor,
 		private array $administrationUnits,
-		private ?int $ageFrom,
-		private ?int $ageUntil,
-		private string $price,
-		private ?string $organizers,
-		private ContactPerson $contactPerson,
-		private string $introduction,
-		private string $practicalInformation,
-		private string $accommodation,
-		private array $food,
-		private ?string $workDescription,
-		private ?int $workDays,
-		private ?int $workHoursPerDay,
-		private ?string $aboutUs,
-		private array $photos,
-		private ?string $relatedWebsite,
+		private Propagation $propagation,
 		private Registration $registration,
+		private array $photos,
 		private array $rawData,
 	) {}
 
@@ -156,29 +142,35 @@ final class Event
 			Program::fromScalar($data['program']['slug']),
 			IntendedFor::fromScalar($data['intended_for']['slug']),
 			$data['administration_units'],
-			$data['propagation']['minimum_age'],
-			$data['propagation']['maximum_age'],
-			$data['propagation']['cost'],
-			$data['propagation']['organizers'] !== '' ? $data['propagation']['organizers'] : null,
-			ContactPerson::from(
-				$data['propagation']['contact_name'] !== null ? $data['propagation']['contact_name'] : null,
-				$data['propagation']['contact_email'] !== null ? $data['propagation']['contact_email'] : '', // todo temp unless BIS returns nulls for some old events
-				$data['propagation']['contact_phone'] !== null && $data['propagation']['contact_phone'] !== '' ? $data['propagation']['contact_phone'] : null,
+			Propagation::from(
+				$data['propagation']['minimum_age'],
+				$data['propagation']['maximum_age'],
+				$data['propagation']['cost'],
+				$data['propagation']['accommodation'],
+				$data['propagation']['working_days'],
+				$data['propagation']['working_hours'],
+				\array_map(static fn($diet) => Diet::fromScalar($diet['slug']), $data['propagation']['diets']),
+				$data['propagation']['organizers'] !== '' ? $data['propagation']['organizers'] : null,
+				$data['propagation']['web_url'] !== '' ? $data['propagation']['web_url'] : null,
+				$data['propagation']['invitation_text_introduction'],
+				$data['propagation']['invitation_text_practical_information'],
+				$data['propagation']['invitation_text_work_description'] !== '' ? $data['propagation']['invitation_text_work_description'] : null,
+				$data['propagation']['invitation_text_about_us'] !== '' ? $data['propagation']['invitation_text_about_us'] : null,
+				ContactPerson::from(
+					$data['propagation']['contact_name'] !== null ? $data['propagation']['contact_name'] : null,
+					$data['propagation']['contact_email'] !== null ? $data['propagation']['contact_email'] : '', // todo temp unless BIS returns nulls for some old events
+					$data['propagation']['contact_phone'] !== null && $data['propagation']['contact_phone'] !== '' ? $data['propagation']['contact_phone'] : null,
+				),
+				\array_map(
+					static fn($photo) => Image::from($photo['image']),
+					$data['propagation']['images'],
+				),
 			),
-			$data['propagation']['invitation_text_introduction'],
-			$data['propagation']['invitation_text_practical_information'],
-			$data['propagation']['accommodation'],
-			\array_map(static fn($diet) => Food::fromScalar($diet['slug']), $data['propagation']['diets']),
-			$data['propagation']['invitation_text_work_description'] !== '' ? $data['propagation']['invitation_text_work_description'] : null,
-			$data['propagation']['working_days'],
-			$data['propagation']['working_hours'],
-			$data['propagation']['invitation_text_about_us'] !== '' ? $data['propagation']['invitation_text_about_us'] : null,
-			$photos,
-			$data['propagation']['web_url'] !== '' ? $data['propagation']['web_url'] : null,
 			Registration::from(
 				$data['registration']['is_registration_required'],
 				$data['registration']['is_event_full'],
 			),
+			$photos,
 			$data,
 		);
 	}
@@ -271,99 +263,9 @@ final class Event
 	}
 
 
-	public function getAgeFrom(): ?int
+	public function getPropagation(): Propagation
 	{
-		return $this->ageFrom;
-	}
-
-
-	public function getAgeUntil(): ?int
-	{
-		return $this->ageUntil;
-	}
-
-
-	public function getPrice(): string
-	{
-		return $this->price;
-	}
-
-
-	public function getOrganizers(): ?string
-	{
-		return $this->organizers;
-	}
-
-
-	public function getContactPerson(): ContactPerson
-	{
-		return $this->contactPerson;
-	}
-
-
-	public function getIntroduction(): string
-	{
-		return $this->introduction;
-	}
-
-
-	public function getPracticalInformation(): string
-	{
-		return $this->practicalInformation;
-	}
-
-
-	public function getAccommodation(): string
-	{
-		return $this->accommodation;
-	}
-
-
-	/**
-	 * @return Food[]
-	 */
-	public function getFood(): array
-	{
-		return $this->food;
-	}
-
-
-	public function getWorkDescription(): ?string
-	{
-		return $this->workDescription;
-	}
-
-
-	public function getWorkDays(): ?int
-	{
-		return $this->workDays;
-	}
-
-
-	public function getWorkHoursPerDay(): ?int
-	{
-		return $this->workHoursPerDay;
-	}
-
-
-	public function getAboutUs(): ?string
-	{
-		return $this->aboutUs;
-	}
-
-
-	/**
-	 * @return Photo[]
-	 */
-	public function getPhotos(): array
-	{
-		return $this->photos;
-	}
-
-
-	public function getRelatedWebsite(): ?string
-	{
-		return $this->relatedWebsite;
+		return $this->propagation;
 	}
 
 
@@ -396,6 +298,103 @@ final class Event
 	public function getIsFull(): bool
 	{
 		return $this->getRegistration()->getIsEventFull();
+	}
+
+	/** @deprecated use getPropagation()->getMinimumAge() instead */
+	public function getAgeFrom(): ?int
+	{
+		return $this->getPropagation()->getMinimumAge();
+	}
+
+	/** @deprecated use getPropagation()->getMaximumAge() instead */
+	public function getAgeUntil(): ?int
+	{
+		return $this->getPropagation()->getMaximumAge();
+	}
+
+	/** @deprecated use getPropagation()->getCost() instead */
+	public function getPrice(): string
+	{
+		return $this->getPropagation()->getCost();
+	}
+
+	/** @deprecated use getPropagation()->getOrganizers() instead */
+	public function getOrganizers(): ?string
+	{
+		return $this->getPropagation()->getOrganizers();
+	}
+
+	/** @deprecated use getPropagation()->getContactPerson() instead */
+	public function getContactPerson(): ContactPerson
+	{
+		return $this->getPropagation()->getContactPerson();
+	}
+
+	/** @deprecated use getPropagation()->getInvitationTextIntroduction() instead */
+	public function getIntroduction(): string
+	{
+		return $this->getPropagation()->getInvitationTextIntroduction();
+	}
+
+	/** @deprecated use getPropagation()->getInvitationTextPracticalInformation() instead */
+	public function getPracticalInformation(): string
+	{
+		return $this->getPropagation()->getInvitationTextPracticalInformation();
+	}
+
+	/** @deprecated use getPropagation()->getAccommodation() instead */
+	public function getAccommodation(): string
+	{
+		return $this->getPropagation()->getAccommodation();
+	}
+
+	/**
+	 * @deprecated use getPropagation()->getDiets() instead
+	 * @return Diet[]
+	 */
+	public function getFood(): array
+	{
+		return $this->getPropagation()->getDiets();
+	}
+
+	/** @deprecated use getPropagation()->getInvitationTextWorkDescription() instead */
+	public function getWorkDescription(): ?string
+	{
+		return $this->getPropagation()->getInvitationTextWorkDescription();
+	}
+
+	/** @deprecated use getPropagation()->getWorkingDays() instead */
+	public function getWorkDays(): ?int
+	{
+		return $this->getPropagation()->getWorkingDays();
+	}
+
+	/** @deprecated use getPropagation()->getWorkingHours() instead */
+	public function getWorkHoursPerDay(): ?int
+	{
+		return $this->getPropagation()->getWorkingHours();
+	}
+
+	/** @deprecated use getPropagation()->getInvitationTextAboutUs() instead */
+	public function getAboutUs(): ?string
+	{
+		return $this->getPropagation()->getInvitationTextAboutUs();
+	}
+
+	/** @deprecated use getPropagation()->getWebUrl() instead */
+	public function getRelatedWebsite(): ?string
+	{
+		return $this->getPropagation()->getWebUrl();
+	}
+
+	/**
+	 * Returns all photos except for the first one which is accessible with getCoverPhotoPath()
+	 * @deprecated use getPropagation()->getImages() instead which return all images and don't exclude the first one
+	 * @return Photo[]
+	 */
+	public function getPhotos(): array
+	{
+		return $this->photos;
 	}
 
 }
