@@ -31,7 +31,7 @@ final class Event
 		private Location $location,
 		private Group $group,
 		private Program $program,
-		private IntendedFor $targetGroup,
+		private IntendedFor $intendedFor,
 		private array $administrationUnits,
 		private bool $isRegistrationRequired,
 		private bool $isFull,
@@ -232,9 +232,15 @@ final class Event
 	}
 
 
+	public function getIntendedFor(): IntendedFor
+	{
+		return $this->intendedFor;
+	}
+
+	/** @deprecated use getIntendedFor() instead */
 	public function getTargetGroup(): IntendedFor
 	{
-		return $this->targetGroup;
+		return $this->getIntendedFor();
 	}
 
 
