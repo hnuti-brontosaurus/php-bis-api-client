@@ -12,7 +12,7 @@ use Grifart\Enum\Enum;
  * @method static Food MEAT()
  * @method static Food VEGAN()
  */
-class Food extends Enum
+abstract class Food extends Enum
 {
 	use AutoInstances;
 
