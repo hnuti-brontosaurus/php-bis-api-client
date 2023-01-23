@@ -29,6 +29,7 @@ final class Event
 		private LocalDate $startDate,
 		private ?LocalTime $startTime,
 		private LocalDate $endDate,
+		private int $duration,
 		private Location $location,
 		private Group $group,
 		private Category $category,
@@ -143,6 +144,7 @@ final class Event
 			LocalDate::parse($data['start']),
 			$data['start_time'] !== null ? LocalTime::parse($data['start_time']) : null,
 			LocalDate::parse($data['end']),
+			$data['duration'],
 			Location::from(
 				$data['location']['name'],
 				$data['location']['gps_location'] !== null
@@ -215,6 +217,12 @@ final class Event
 	public function getEndDate(): LocalDate
 	{
 		return $this->endDate;
+	}
+
+
+	public function getDuration(): int
+	{
+		return $this->duration;
 	}
 
 
