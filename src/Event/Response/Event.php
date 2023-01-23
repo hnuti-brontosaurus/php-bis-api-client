@@ -4,6 +4,7 @@ namespace HnutiBrontosaurus\BisClient\Event\Response;
 
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
+use HnutiBrontosaurus\BisClient\Event\Category;
 use HnutiBrontosaurus\BisClient\Event\Group;
 use HnutiBrontosaurus\BisClient\Event\IntendedFor;
 use HnutiBrontosaurus\BisClient\Event\Program;
@@ -30,6 +31,7 @@ final class Event
 		private LocalDate $endDate,
 		private Location $location,
 		private Group $group,
+		private Category $category,
 		private Program $program,
 		private IntendedFor $intendedFor,
 		private array $administrationUnits,
@@ -148,6 +150,7 @@ final class Event
 					: null,
 			),
 			Group::fromScalar($data['group']['slug']),
+			Category::fromScalar($data['category']['slug']),
 			Program::fromScalar($data['program']['slug']),
 			IntendedFor::fromScalar($data['intended_for']['slug']),
 			$data['administration_units'],
@@ -224,6 +227,12 @@ final class Event
 	public function getGroup(): Group
 	{
 		return $this->group;
+	}
+
+
+	public function getCategory(): Category
+	{
+		return $this->category;
 	}
 
 
