@@ -33,8 +33,6 @@ final class Event
 		private Program $program,
 		private IntendedFor $intendedFor,
 		private array $administrationUnits,
-		private bool $isRegistrationRequired,
-		private bool $isFull,
 		private ?int $ageFrom,
 		private ?int $ageUntil,
 		private string $price,
@@ -50,6 +48,7 @@ final class Event
 		private ?string $aboutUs,
 		private array $photos,
 		private ?string $relatedWebsite,
+		private Registration $registration,
 		private array $rawData,
 	) {}
 
@@ -152,8 +151,6 @@ final class Event
 			Program::fromScalar($data['program']['slug']),
 			IntendedFor::fromScalar($data['intended_for']['slug']),
 			$data['administration_units'],
-			$data['registration']['is_registration_required'],
-			$data['registration']['is_event_full'],
 			$data['propagation']['minimum_age'],
 			$data['propagation']['maximum_age'],
 			$data['propagation']['cost'],
@@ -173,6 +170,10 @@ final class Event
 			$data['propagation']['invitation_text_about_us'] !== '' ? $data['propagation']['invitation_text_about_us'] : null,
 			$photos,
 			$data['propagation']['web_url'] !== '' ? $data['propagation']['web_url'] : null,
+			Registration::from(
+				$data['registration']['is_registration_required'],
+				$data['registration']['is_event_full'],
+			),
 			$data,
 		);
 	}
@@ -250,18 +251,6 @@ final class Event
 	public function getAdministrationUnits(): array
 	{
 		return $this->administrationUnits;
-	}
-
-
-	public function getIsRegistrationRequired(): bool
-	{
-		return $this->isRegistrationRequired;
-	}
-
-
-	public function getIsFull(): bool
-	{
-		return $this->isFull;
 	}
 
 
@@ -361,6 +350,12 @@ final class Event
 	}
 
 
+	public function getRegistration(): Registration
+	{
+		return $this->registration;
+	}
+
+
 	/**
 	 * In case that methods provided by this client are not enough.
 	 * See fromResponseData() or consult BIS API docs for detailed array description.
@@ -369,6 +364,21 @@ final class Event
 	public function getRawData(): array
 	{
 		return $this->rawData;
+	}
+
+
+	// DEPRECATED METHODS
+
+	/** @deprecated use getRegistration()->getIsRegistrationRequired() */
+	public function getIsRegistrationRequired(): bool
+	{
+		return $this->getRegistration()->getIsRegistrationRequired();
+	}
+
+	/** @deprecated use getRegistration()->getIsEventFull() */
+	public function getIsFull(): bool
+	{
+		return $this->getRegistration()->getIsEventFull();
 	}
 
 }
