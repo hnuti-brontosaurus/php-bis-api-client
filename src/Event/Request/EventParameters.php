@@ -28,6 +28,27 @@ final class EventParameters implements \HnutiBrontosaurus\BisClient\QueryParamet
 
 
 
+	// administration unit
+
+	/** @var int[] */
+	private array $administrationUnits = [];
+
+	public function setAdministrationUnit(int $id): self
+	{
+		$this->administrationUnits = [$id];
+		return $this;
+	}
+
+	/**
+	 * @param int[] $ids
+	 */
+	public function setAdministrationUnits(array $ids): self
+	{
+		$this->administrationUnits = $ids;
+		return $this;
+	}
+
+
 	// groups
 
 	/** @var \HnutiBrontosaurus\BisClient\Event\Group[] */
@@ -208,6 +229,9 @@ final class EventParameters implements \HnutiBrontosaurus\BisClient\QueryParamet
 			'ordering' => $this->ordering,
 		];
 
+		if (\count($this->administrationUnits) > 0) {
+			$array['administration_unit'] = \implode(',', $this->administrationUnits);
+		}
 		if (\count($this->groups) > 0) {
 			$array['group'] = \implode(',', $this->groups);
 		}

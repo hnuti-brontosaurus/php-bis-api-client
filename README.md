@@ -87,6 +87,9 @@ $parameters->setProgram(\HnutiBrontosaurus\BisClient\Event\Program::HOLIDAYS_WIT
 // only events intended for first time participants
 $parameters->setIntendedFor(\HnutiBrontosaurus\BisClient\Event\IntendedFor::FIRST_TIME_PARTICIPANT());
 
+// only for some administration units
+$parameters->setAdministrationUnit(5);
+
 $events = $client->getEvents($parameters);
 ```
 
