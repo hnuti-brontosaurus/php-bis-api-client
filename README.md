@@ -153,7 +153,16 @@ $date = \Brick\DateTime\LocalDate::parse('2022-01-01');
 $parameters->setDateStartLessThanOrEqualTo($date, reset: true);
 ```
 
-> Note that semantic value objects from [`brick/date-time`](https://github.com/brick/date-time) are used instead of native `DateTime(Immutable)` class. More on why at [this blogpost](https://jiripudil.cz/blog/beyond-datetime-domain-driven-approach).
+> Note that semantic value objects from [`brick/date-time`](https://github.com/brick/date-time) are used instead of native `DateTime(Immutable)` class. More on why at [this blogpost](https://jiripudil.cz/blog/beyond-datetime-domain-driven-approach).  
+> If you need to render it in human-readable form, you can either use getter or convert it to native object:
+> ```php
+> /** @var \Brick\DateTime\LocalDate $localDate */
+> // using getter
+> $localDate->getYear();
+> // conversion to native
+> $nativeDateTime = $localDate->toNativeDateTimeImmutable();
+> $nativeDateTime->format("j. n. Y"); // $nativeDateTime is instance of DateTimeImmutable
+> ```
 
 #### Ordering
 
