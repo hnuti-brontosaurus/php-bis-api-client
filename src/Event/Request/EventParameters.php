@@ -226,7 +226,7 @@ final class EventParameters implements \HnutiBrontosaurus\BisClient\QueryParamet
 	public function toArray(): array
 	{
 		$array = [
-			'ordering' => $this->ordering,
+			'ordering' => $this->ordering->toScalar(),
 		];
 
 		if (\count($this->administrationUnits) > 0) {
