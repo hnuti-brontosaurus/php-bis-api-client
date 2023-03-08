@@ -343,7 +343,7 @@ final class Event
 	}
 
 	/** @deprecated use getPropagation()->getAccommodation() instead */
-	public function getAccommodation(): string
+	public function getAccommodation(): ?string
 	{
 		return $this->getPropagation()->getAccommodation();
 	}

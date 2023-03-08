@@ -16,7 +16,7 @@ final class Propagation
 		private ?int $minimumAge,
 		private ?int $maximumAge,
 		private string $cost,
-		private string $accommodation,
+		private ?string $accommodation,
 		private ?int $workingDays,
 		private ?int $workingHours,
 		private array $diets,
@@ -39,7 +39,7 @@ final class Propagation
 		?int $minimumAge,
 		?int $maximumAge,
 		string $cost,
-		string $accommodation,
+		?string $accommodation,
 		?int $workingDays,
 		?int $workingHours,
 		array $diets,
@@ -91,7 +91,7 @@ final class Propagation
 	}
 
 
-	public function getAccommodation(): string
+	public function getAccommodation(): ?string
 	{
 		return $this->accommodation;
 	}
