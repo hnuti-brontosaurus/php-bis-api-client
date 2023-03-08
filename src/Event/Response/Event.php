@@ -146,7 +146,7 @@ final class Event
 				$data['propagation']['minimum_age'],
 				$data['propagation']['maximum_age'],
 				$data['propagation']['cost'],
-				$data['propagation']['accommodation'],
+				$data['propagation']['accommodation'] !== '' ? $data['propagation']['accommodation'] : null,
 				$data['propagation']['working_days'],
 				$data['propagation']['working_hours'],
 				\array_map(static fn($diet) => Diet::fromScalar($diet['slug']), $data['propagation']['diets']),
