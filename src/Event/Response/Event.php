@@ -167,8 +167,12 @@ final class Event
 				),
 			),
 			Registration::from(
-				$data['registration']['is_registration_required'],
-				$data['registration']['is_event_full'],
+			/**
+			 * Currently, administration unit chairmen can access BIS backend and remove there registration object data
+			 * by mistake which then lead $data['registration'] being null. To prevent it, we set default values.
+			 */
+				$data['registration']['is_registration_required'] ?? false,
+				$data['registration']['is_event_full'] ?? false,
 			),
 			$photos,
 			$data,
