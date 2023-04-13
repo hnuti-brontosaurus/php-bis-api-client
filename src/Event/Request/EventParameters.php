@@ -9,11 +9,15 @@ use HnutiBrontosaurus\BisClient\Event\Category;
 use HnutiBrontosaurus\BisClient\Event\Group;
 use HnutiBrontosaurus\BisClient\Event\IntendedFor;
 use HnutiBrontosaurus\BisClient\Event\Program;
+use HnutiBrontosaurus\BisClient\LimitParameter;
+use HnutiBrontosaurus\BisClient\QueryParameters;
+use function count;
+use function implode;
 
 
-final class EventParameters implements \HnutiBrontosaurus\BisClient\QueryParameters
+final class EventParameters implements QueryParameters
 {
-	use \HnutiBrontosaurus\BisClient\LimitParameter;
+	use LimitParameter;
 
 	private Ordering $ordering;
 	private TimeZone $timeZone;
@@ -51,7 +55,7 @@ final class EventParameters implements \HnutiBrontosaurus\BisClient\QueryParamet
 
 	// groups
 
-	/** @var \HnutiBrontosaurus\BisClient\Event\Group[] */
+	/** @var Group[] */
 	private array $groups = [];
 
 	public function setGroup(Group $group): self
@@ -61,7 +65,7 @@ final class EventParameters implements \HnutiBrontosaurus\BisClient\QueryParamet
 	}
 
 	/**
-	 * @param \HnutiBrontosaurus\BisClient\Event\Group[] $groups
+	 * @param Group[] $groups
 	 */
 	public function setGroups(array $groups): self
 	{
@@ -72,7 +76,7 @@ final class EventParameters implements \HnutiBrontosaurus\BisClient\QueryParamet
 
 	// category
 
-	/** @var \HnutiBrontosaurus\BisClient\Event\Category[] */
+	/** @var Category[] */
 	private array $categories = [];
 
 	public function setCategory(Category $category): self
@@ -93,7 +97,7 @@ final class EventParameters implements \HnutiBrontosaurus\BisClient\QueryParamet
 
 	// program
 
-	/** @var \HnutiBrontosaurus\BisClient\Event\Program[] */
+	/** @var Program[] */
 	private array $programs = [];
 
 	public function setProgram(Program $program): self
@@ -124,7 +128,7 @@ final class EventParameters implements \HnutiBrontosaurus\BisClient\QueryParamet
 	}
 
 	/**
-	 * @param \HnutiBrontosaurus\BisClient\Event\IntendedFor[] $intendedFor
+	 * @param IntendedFor[] $intendedFor
 	 */
 	public function setMultipleIntendedFor(array $intendedFor): self
 	{
@@ -229,20 +233,20 @@ final class EventParameters implements \HnutiBrontosaurus\BisClient\QueryParamet
 			'ordering' => $this->ordering->toScalar(),
 		];
 
-		if (\count($this->administrationUnits) > 0) {
-			$array['administration_unit'] = \implode(',', $this->administrationUnits);
+		if (count($this->administrationUnits) > 0) {
+			$array['administration_unit'] = implode(',', $this->administrationUnits);
 		}
-		if (\count($this->groups) > 0) {
-			$array['group'] = \implode(',', $this->groups);
+		if (count($this->groups) > 0) {
+			$array['group'] = implode(',', $this->groups);
 		}
-		if (\count($this->categories) > 0) {
-			$array['category'] = \implode(',', $this->categories);
+		if (count($this->categories) > 0) {
+			$array['category'] = implode(',', $this->categories);
 		}
-		if (\count($this->programs) > 0) {
-			$array['program'] = \implode(',', $this->programs);
+		if (count($this->programs) > 0) {
+			$array['program'] = implode(',', $this->programs);
 		}
-		if (\count($this->intendedFor) > 0) {
-			$array['intended_for'] = \implode(',', $this->intendedFor);
+		if (count($this->intendedFor) > 0) {
+			$array['intended_for'] = implode(',', $this->intendedFor);
 		}
 
 		if ($this->dateStartLessThanOrEqualTo !== null) {

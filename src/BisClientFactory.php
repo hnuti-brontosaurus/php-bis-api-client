@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use function rtrim;
 
 
 /*
@@ -24,7 +25,7 @@ final class BisClientFactory
 		$stack = HandlerStack::create();
 		$stack->push(self::lastRequestUrlIntoHeaderMiddleware());
 		$this->underlyingHttpClient = new Client([
-			'base_uri' => \rtrim($apiUrl, '/') . '/',
+			'base_uri' => rtrim($apiUrl, '/') . '/',
 			'handler' => $stack,
 		]);
 	}

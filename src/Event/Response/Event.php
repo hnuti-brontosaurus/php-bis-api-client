@@ -11,6 +11,8 @@ use HnutiBrontosaurus\BisClient\Event\Program;
 use HnutiBrontosaurus\BisClient\Response\ContactPerson;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use HnutiBrontosaurus\BisClient\Response\Location;
+use function array_map;
+use function array_shift;
 
 
 final class Event
@@ -117,11 +119,11 @@ final class Event
 	 */
 	public static function fromResponseData(array $data): self
 	{
-		$photos = \array_map(
+		$photos = array_map(
 			static fn($photo) => Photo::from($photo['image']),
 			$data['propagation']['images'],
 		);
-		$mainPhoto = \array_shift($photos);
+		$mainPhoto = array_shift($photos);
 
 		return new self(
 			$data['id'],
@@ -149,7 +151,7 @@ final class Event
 				$data['propagation']['accommodation'] !== '' ? $data['propagation']['accommodation'] : null,
 				$data['propagation']['working_days'],
 				$data['propagation']['working_hours'],
-				\array_map(static fn($diet) => Diet::fromScalar($diet['slug']), $data['propagation']['diets']),
+				array_map(static fn($diet) => Diet::fromScalar($diet['slug']), $data['propagation']['diets']),
 				$data['propagation']['organizers'] !== '' ? $data['propagation']['organizers'] : null,
 				$data['propagation']['web_url'] !== '' ? $data['propagation']['web_url'] : null,
 				$data['propagation']['invitation_text_introduction'],
@@ -161,7 +163,7 @@ final class Event
 					$data['propagation']['contact_email'] !== null ? $data['propagation']['contact_email'] : '', // todo temp unless BIS returns nulls for some old events
 					$data['propagation']['contact_phone'] !== null && $data['propagation']['contact_phone'] !== '' ? $data['propagation']['contact_phone'] : null,
 				),
-				\array_map(
+				array_map(
 					static fn($photo) => Image::from($photo['image']),
 					$data['propagation']['images'],
 				),
@@ -358,7 +360,7 @@ final class Event
 	 */
 	public function getFood(): array
 	{
-		return \array_map(
+		return array_map(
 			static fn(Diet $diet): Food => Food::fromScalar($diet->toScalar()),
 			$this->getPropagation()->getDiets(),
 		);

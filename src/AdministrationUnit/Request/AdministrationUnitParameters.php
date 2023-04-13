@@ -5,6 +5,8 @@ namespace HnutiBrontosaurus\BisClient\AdministrationUnit\Request;
 use HnutiBrontosaurus\BisClient\AdministrationUnit\Category;
 use HnutiBrontosaurus\BisClient\LimitParameter;
 use HnutiBrontosaurus\BisClient\QueryParameters;
+use function count;
+use function implode;
 
 
 final class AdministrationUnitParameters implements QueryParameters
@@ -42,8 +44,8 @@ final class AdministrationUnitParameters implements QueryParameters
 	{
 		$array = [];
 
-		if (\count($this->categories) > 0) {
-			$array['category'] = \implode(',', $this->categories);
+		if (count($this->categories) > 0) {
+			$array['category'] = implode(',', $this->categories);
 		}
 
 		return $array;

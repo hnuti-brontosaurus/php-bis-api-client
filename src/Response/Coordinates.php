@@ -3,6 +3,9 @@
 namespace HnutiBrontosaurus\BisClient\Response;
 
 
+use function sprintf;
+
+
 final class Coordinates
 {
 
@@ -32,7 +35,7 @@ final class Coordinates
 
 	public function __toString(): string
 	{
-		return \sprintf('%s,%s', $this->latitude, $this->longitude);
+		return sprintf('%s,%s', $this->latitude, $this->longitude);
 	}
 
 }

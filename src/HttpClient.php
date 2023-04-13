@@ -9,6 +9,10 @@ use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Exception\TooManyRedirectsException;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Client\NetworkExceptionInterface;
+use function assert;
+use function http_build_query;
+use function is_array;
+use function json_decode;
 
 
 final class HttpClient
@@ -32,7 +36,7 @@ final class HttpClient
 	): array
 	{
 		$queryString = $queryParameters !== null
-			? '?' . \http_build_query($queryParameters->toArray())
+			? '?' . http_build_query($queryParameters->toArray())
 			: '';
 
 		// see Guzzle exceptions docs: https://docs.guzzlephp.org/en/stable/quickstart.html#exceptions
@@ -69,8 +73,8 @@ final class HttpClient
 
 		$content = $response->getBody()->getContents();
 		$this->lastResponseEncoded = $content;
-		$decoded = \json_decode($content, flags: JSON_OBJECT_AS_ARRAY);
-		\assert(\is_array($decoded));
+		$decoded = json_decode($content, flags: JSON_OBJECT_AS_ARRAY);
+		assert(is_array($decoded));
 		$this->lastResponseDecoded = $decoded;
 		return $decoded;
 	}

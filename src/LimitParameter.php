@@ -2,6 +2,8 @@
 
 namespace HnutiBrontosaurus\BisClient;
 
+use function sprintf;
+
 
 /**
  * Limit parameter is not appended to request as API doesn't support it.
@@ -19,7 +21,7 @@ trait LimitParameter
 				throw new UsageException("Limit must be at least 1. If you want to remove limit, use 'removeLimit()' method");
 
 			} elseif ($limit < 1) {
-				throw new UsageException(\sprintf("Limit must be at least 1, '%d' given", $limit));
+				throw new UsageException(sprintf("Limit must be at least 1, '%d' given", $limit));
 			}
 		}
 

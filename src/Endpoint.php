@@ -2,13 +2,15 @@
 
 namespace HnutiBrontosaurus\BisClient;
 
+use function sprintf;
+
 
 final class Endpoint
 {
 
 	public static function EVENT(int $id): string
 	{
-		return \sprintf('web/events/%d/', $id);
+		return sprintf('web/events/%d/', $id);
 	}
 
 	public static function EVENTS(): string
@@ -28,7 +30,7 @@ final class Endpoint
 
 	public static function OPPORTUNITY(int $id): string
 	{
-		return \sprintf('web/opportunities/%d/', $id);
+		return sprintf('web/opportunities/%d/', $id);
 	}
 
 }

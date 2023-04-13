@@ -8,6 +8,9 @@ use HnutiBrontosaurus\BisClient\Event\Request\EventParameters as EventParameters
 use HnutiBrontosaurus\BisClient\Event\Response\Event;
 use HnutiBrontosaurus\BisClient\Opportunity\Request\OpportunityParameters as OpportunityParameters;
 use HnutiBrontosaurus\BisClient\Opportunity\Response\Opportunity;
+use function array_map;
+use function array_slice;
+use function count;
 
 
 final class BisClient
@@ -28,7 +31,7 @@ final class BisClient
 	{
 		$params = $params !== null ? $params : new EventParameters();
 		$events = $this->retrieve(Endpoint::EVENTS(), $params, $params->getLimit());
-		return \array_map(static fn($result) => Event::fromResponseData($result), $events);
+		return array_map(static fn($result) => Event::fromResponseData($result), $events);
 	}
 
 
@@ -62,7 +65,7 @@ final class BisClient
 	{
 		$params = $params !== null ? $params : new AdministrationUnitParameters();
 		$administrationUnits = $this->retrieve(Endpoint::ADMINISTRATION_UNITS(), $params, $params->getLimit());
-		return \array_map(static fn($result) => AdministrationUnit::fromResponseData($result), $administrationUnits);
+		return array_map(static fn($result) => AdministrationUnit::fromResponseData($result), $administrationUnits);
 	}
 
 
@@ -76,7 +79,7 @@ final class BisClient
 	{
 		$params = $params !== null ? $params : new OpportunityParameters();
 		$opportunities = $this->retrieve(Endpoint::OPPORTUNITIES(), $params, $params->getLimit());
-		return \array_map(static fn($result) => Opportunity::fromResponseData($result), $opportunities);
+		return array_map(static fn($result) => Opportunity::fromResponseData($result), $opportunities);
 	}
 
 
@@ -123,7 +126,7 @@ final class BisClient
 				endpoint: $data['next'],
 				params: null, // params are already included in next URL
 				limit: $limit,
-				currentCount: $currentCount + \count($results),
+				currentCount: $currentCount + count($results),
 				topLevel: false,
 			);
 			$results = [...$results, ...$moreResults];
@@ -131,7 +134,7 @@ final class BisClient
 
 		// keep only given count of data
 		if ($topLevel && $limit !== null) {
-			$results = \array_slice($results, 0, $limit);
+			$results = array_slice($results, 0, $limit);
 		}
 
 		return $results;

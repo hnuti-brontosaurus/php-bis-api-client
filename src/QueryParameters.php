@@ -2,13 +2,15 @@
 
 namespace HnutiBrontosaurus\BisClient;
 
+use Stringable;
+
 
 interface QueryParameters
 {
 
 	public function getLimit(): ?int;
 
-	/** @return array<scalar|\Stringable> */
+	/** @return array<scalar|Stringable> */
 	public function toArray(): array;
 
 }

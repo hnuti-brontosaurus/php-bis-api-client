@@ -4,9 +4,12 @@ namespace HnutiBrontosaurus\BisClient\Opportunity\Request;
 
 use HnutiBrontosaurus\BisClient\LimitParameter;
 use HnutiBrontosaurus\BisClient\Opportunity\Category;
+use HnutiBrontosaurus\BisClient\QueryParameters;
+use function count;
+use function implode;
 
 
-final class OpportunityParameters implements \HnutiBrontosaurus\BisClient\QueryParameters
+final class OpportunityParameters implements QueryParameters
 {
 	use LimitParameter;
 
@@ -41,8 +44,8 @@ final class OpportunityParameters implements \HnutiBrontosaurus\BisClient\QueryP
 	{
 		$array = [];
 
-		if (\count($this->categories) > 0) {
-			$array['category'] = \implode(',', $this->categories);
+		if (count($this->categories) > 0) {
+			$array['category'] = implode(',', $this->categories);
 		}
 
 		return $array;
