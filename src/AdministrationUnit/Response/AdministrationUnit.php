@@ -43,6 +43,10 @@ final class AdministrationUnit
 	 *     bank_account_number: string,
 	 *     existed_since: string|null,
 	 *     existed_till: string|null,
+	 *     gps_location: array{
+	 *         type: string,
+	 *         coordinates: array{0: float, 1: float},
+	 *     }|null,
 	 *     category: array{
 	 *         id: int,
 	 *         name: string,
@@ -61,10 +65,12 @@ final class AdministrationUnit
 			$data['name'],
 			$data['is_for_kids'],
 			$data['address'],
-			null, // temporary not available
-			/* $data['gps_latitude'] !== null && $data['gps_longitude'] !== null
-				? Coordinates::from($data['gps_latitude'], $data['gps_longitude'])
-				: null,*/
+			$data['gps_location'] !== null
+				? Coordinates::from(
+					$data['gps_location']['coordinates'][1],
+					$data['gps_location']['coordinates'][0],
+				)
+				: null,
 			$data['phone'] !== '' ? $data['phone'] : null,
 			$data['email'] !== '' ? $data['email'] : null,
 			$data['www'] !== '' ? $data['www'] : null,
