@@ -4,6 +4,7 @@ namespace HnutiBrontosaurus\BisClient\AdministrationUnit\Response;
 
 use HnutiBrontosaurus\BisClient\AdministrationUnit\Category;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
+use function str_starts_with;
 
 
 final class AdministrationUnit
@@ -73,12 +74,21 @@ final class AdministrationUnit
 				: null,
 			$data['phone'] !== '' ? $data['phone'] : null,
 			$data['email'] !== '' ? $data['email'] : null,
-			$data['www'] !== '' ? $data['www'] : null,
+			$data['www'] !== '' ? self::fixUrl($data['www']) : null,
 			Category::fromScalar($data['category']['slug']),
 			$data['chairman'] !== null ? $data['chairman']['name'] : null,
 			$data['manager'] !== null ? $data['manager']['name'] : null,
 			$data,
 		);
+	}
+
+	private static function fixUrl(string $url): string
+	{
+		if (str_starts_with($url, 'http')) {
+			return $url;
+		}
+
+		return 'http://' . $url;
 	}
 
 
