@@ -10,6 +10,7 @@ use HnutiBrontosaurus\BisClient\Event\IntendedFor;
 use HnutiBrontosaurus\BisClient\Event\Program;
 use HnutiBrontosaurus\BisClient\Response\ContactPerson;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
+use HnutiBrontosaurus\BisClient\Response\Image;
 use HnutiBrontosaurus\BisClient\Response\Location;
 use function array_map;
 use function array_shift;
@@ -26,7 +27,7 @@ final class Event
 	private function __construct(
 		private int $id,
 		private string $name,
-		private ?Photo $coverPhotoPath,
+		private ?Image $coverPhotoPath,
 		private LocalDate $startDate,
 		private ?LocalTime $startTime,
 		private LocalDate $endDate,
@@ -127,7 +128,7 @@ final class Event
 	public static function fromResponseData(array $data): self
 	{
 		$photos = array_map(
-			static fn($photo) => Photo::from($photo['image']),
+			static fn($photo) => Image::from($photo['image']),
 			$data['propagation']['images'],
 		);
 		$mainPhoto = array_shift($photos);
@@ -201,7 +202,7 @@ final class Event
 	}
 
 
-	public function getCoverPhotoPath(): ?Photo
+	public function getCoverPhotoPath(): ?Image
 	{
 		return $this->coverPhotoPath;
 	}
