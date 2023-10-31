@@ -13,7 +13,7 @@ use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use HnutiBrontosaurus\BisClient\Response\Image;
 use HnutiBrontosaurus\BisClient\Response\Location;
 use function array_map;
-use function array_shift;
+use function reset;
 
 
 final class Event
@@ -118,16 +118,11 @@ final class Event
 	 */
 	public static function fromResponseData(array $data): self
 	{
-		$photos = array_map(
-			static fn($photo) => Image::from($photo['image']),
-			$data['propagation']['images'],
-		);
-		$mainPhoto = array_shift($photos);
-
+		$cover = reset($data['propagation']['images']);
 		return new self(
 			$data['id'],
 			$data['name'],
-			$mainPhoto,
+			Image::from($cover),
 			LocalDate::parse($data['start']),
 			$data['start_time'] !== null ? LocalTime::parse($data['start_time']) : null,
 			LocalDate::parse($data['end']),
