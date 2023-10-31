@@ -4,6 +4,7 @@ namespace HnutiBrontosaurus\BisClient\AdministrationUnit\Response;
 
 use HnutiBrontosaurus\BisClient\AdministrationUnit\Category;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
+use HnutiBrontosaurus\BisClient\Response\Image;
 use function str_starts_with;
 
 
@@ -16,6 +17,8 @@ final class AdministrationUnit
 	private function __construct(
 		private int $id,
 		private string $name,
+		private ?string $description,
+		private ?Image $image,
 		private bool $isForKids,
 		private string $address,
 		private ?Coordinates $coordinates,
@@ -34,6 +37,8 @@ final class AdministrationUnit
 	 *     id: int,
 	 *     name: string,
 	 *     abbreviation: string,
+	 *     description: string,
+	 *     image: array{small: string, medium: string, large: string, original: string}|null,
 	 *     is_for_kids: bool,
 	 *     phone: string,
 	 *     email: string,
@@ -64,6 +69,8 @@ final class AdministrationUnit
 		return new self(
 			$data['id'],
 			$data['name'],
+			$data['description'] !== '' ? $data['description'] : null,
+			$data['image'] !== null ? Image::from($data['image']) : null,
 			$data['is_for_kids'],
 			$data['address'],
 			$data['gps_location'] !== null
@@ -101,6 +108,21 @@ final class AdministrationUnit
 	public function getName(): string
 	{
 		return $this->name;
+	}
+
+
+	public function getDescription(): ?string
+	{
+		return $this->description;
+	}
+
+
+	/**
+	 * @return array{small: string, medium: string, large: string, original: string}|null
+	 */
+	public function getImage(): ?array
+	{
+		return $this->image;
 	}
 
 
