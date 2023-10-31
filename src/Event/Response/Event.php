@@ -20,7 +20,6 @@ final class Event
 
 	/**
 	 * @param string[] $administrationUnits
-	 * @param Photo[] $photos
 	 * @param array<mixed> $rawData
 	 */
 	private function __construct(
@@ -39,7 +38,6 @@ final class Event
 		private array $administrationUnits,
 		private Propagation $propagation,
 		private Registration $registration,
-		private array $photos,
 		private array $rawData,
 	) {}
 
@@ -176,7 +174,6 @@ final class Event
 				$data['registration']['is_registration_required'] ?? false,
 				$data['registration']['is_event_full'] ?? false,
 			),
-			$photos,
 			$data,
 		);
 	}
@@ -253,12 +250,6 @@ final class Event
 		return $this->intendedFor;
 	}
 
-	/** @deprecated use getIntendedFor() instead */
-	public function getTargetGroup(): IntendedFor
-	{
-		return $this->getIntendedFor();
-	}
-
 
 	/**
 	 * @return string[]
@@ -289,121 +280,6 @@ final class Event
 	public function getRawData(): array
 	{
 		return $this->rawData;
-	}
-
-
-	// DEPRECATED METHODS
-
-	/** @deprecated use getRegistration()->getIsRegistrationRequired() */
-	public function getIsRegistrationRequired(): bool
-	{
-		return $this->getRegistration()->getIsRegistrationRequired();
-	}
-
-	/** @deprecated use getRegistration()->getIsEventFull() */
-	public function getIsFull(): bool
-	{
-		return $this->getRegistration()->getIsEventFull();
-	}
-
-	/** @deprecated use getPropagation()->getMinimumAge() instead */
-	public function getAgeFrom(): ?int
-	{
-		return $this->getPropagation()->getMinimumAge();
-	}
-
-	/** @deprecated use getPropagation()->getMaximumAge() instead */
-	public function getAgeUntil(): ?int
-	{
-		return $this->getPropagation()->getMaximumAge();
-	}
-
-	/** @deprecated use getPropagation()->getCost() instead */
-	public function getPrice(): string
-	{
-		return $this->getPropagation()->getCost();
-	}
-
-	/** @deprecated use getPropagation()->getOrganizers() instead */
-	public function getOrganizers(): ?string
-	{
-		return $this->getPropagation()->getOrganizers();
-	}
-
-	/** @deprecated use getPropagation()->getContactPerson() instead */
-	public function getContactPerson(): ContactPerson
-	{
-		return $this->getPropagation()->getContactPerson();
-	}
-
-	/** @deprecated use getPropagation()->getInvitationTextIntroduction() instead */
-	public function getIntroduction(): string
-	{
-		return $this->getPropagation()->getInvitationTextIntroduction();
-	}
-
-	/** @deprecated use getPropagation()->getInvitationTextPracticalInformation() instead */
-	public function getPracticalInformation(): string
-	{
-		return $this->getPropagation()->getInvitationTextPracticalInformation();
-	}
-
-	/** @deprecated use getPropagation()->getAccommodation() instead */
-	public function getAccommodation(): ?string
-	{
-		return $this->getPropagation()->getAccommodation();
-	}
-
-	/**
-	 * @deprecated use getPropagation()->getDiets() instead
-	 * @return Food[]
-	 */
-	public function getFood(): array
-	{
-		return array_map(
-			static fn(Diet $diet): Food => Food::fromScalar($diet->toScalar()),
-			$this->getPropagation()->getDiets(),
-		);
-	}
-
-	/** @deprecated use getPropagation()->getInvitationTextWorkDescription() instead */
-	public function getWorkDescription(): ?string
-	{
-		return $this->getPropagation()->getInvitationTextWorkDescription();
-	}
-
-	/** @deprecated use getPropagation()->getWorkingDays() instead */
-	public function getWorkDays(): ?int
-	{
-		return $this->getPropagation()->getWorkingDays();
-	}
-
-	/** @deprecated use getPropagation()->getWorkingHours() instead */
-	public function getWorkHoursPerDay(): ?int
-	{
-		return $this->getPropagation()->getWorkingHours();
-	}
-
-	/** @deprecated use getPropagation()->getInvitationTextAboutUs() instead */
-	public function getAboutUs(): ?string
-	{
-		return $this->getPropagation()->getInvitationTextAboutUs();
-	}
-
-	/** @deprecated use getPropagation()->getWebUrl() instead */
-	public function getRelatedWebsite(): ?string
-	{
-		return $this->getPropagation()->getWebUrl();
-	}
-
-	/**
-	 * Returns all photos except for the first one which is accessible with getCoverPhotoPath()
-	 * @deprecated use getPropagation()->getImages() instead which return all images and don't exclude the first one
-	 * @return Photo[]
-	 */
-	public function getPhotos(): array
-	{
-		return $this->photos;
 	}
 
 }
