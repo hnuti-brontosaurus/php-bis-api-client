@@ -19,6 +19,7 @@ final class Event
 {
 
 	/**
+	 * @param Tag[] $tags
 	 * @param string[] $administrationUnits
 	 * @param Photo[] $photos
 	 * @param array<mixed> $rawData
@@ -34,6 +35,7 @@ final class Event
 		private Location $location,
 		private Group $group,
 		private Category $category,
+		private array $tags,
 		private Program $program,
 		private IntendedFor $intendedFor,
 		private array $administrationUnits,
@@ -80,6 +82,13 @@ final class Event
 	 *         name: string,
 	 *         slug: string,
 	 *     },
+	 *     tags: array<array{
+	 *         id: int,
+	 *         name: string,
+	 *         slug: string,
+	 *         description: string,
+	 *         is_active: bool,
+	 *     }>,
 	 *     program: array{
 	 *         id: int,
 	 *         name: string,
@@ -141,6 +150,7 @@ final class Event
 			),
 			Group::fromScalar($data['group']['slug']),
 			Category::fromScalar($data['category']['slug']),
+			array_map(static fn(array $tag) => Tag::fromPayload($tag), $data['tags']),
 			Program::fromScalar($data['program']['slug']),
 			IntendedFor::fromScalar($data['intended_for']['slug']),
 			$data['administration_units'],
@@ -239,6 +249,15 @@ final class Event
 	public function getCategory(): Category
 	{
 		return $this->category;
+	}
+
+
+	/**
+	 * @return Tag[]
+	 */
+	public function getTags(): array
+	{
+		return $this->tags;
 	}
 
 
