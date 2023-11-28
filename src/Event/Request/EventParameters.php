@@ -9,6 +9,7 @@ use HnutiBrontosaurus\BisClient\Event\Category;
 use HnutiBrontosaurus\BisClient\Event\Group;
 use HnutiBrontosaurus\BisClient\Event\IntendedFor;
 use HnutiBrontosaurus\BisClient\Event\Program;
+use HnutiBrontosaurus\BisClient\Event\Tag;
 use HnutiBrontosaurus\BisClient\LimitParameter;
 use HnutiBrontosaurus\BisClient\QueryParameters;
 use function count;
@@ -91,6 +92,27 @@ final class EventParameters implements QueryParameters
 	public function setCategories(array $categories): self
 	{
 		$this->categories = $categories;
+		return $this;
+	}
+
+
+	// tag
+
+	/** @var Tag[] */
+	private array $tags = [];
+
+	public function setTag(Tag $tag): self
+	{
+		$this->tags = [$tag];
+		return $this;
+	}
+
+	/**
+	 * @param Tag[] $tags
+	 */
+	public function setTags(array $tags): self
+	{
+		$this->tags = $tags;
 		return $this;
 	}
 
@@ -241,6 +263,9 @@ final class EventParameters implements QueryParameters
 		}
 		if (count($this->categories) > 0) {
 			$array['category'] = implode(',', $this->categories);
+		}
+		if (count($this->tags) > 0) {
+			$array['tags'] = implode(',', $this->tags);
 		}
 		if (count($this->programs) > 0) {
 			$array['program'] = implode(',', $this->programs);

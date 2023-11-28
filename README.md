@@ -81,6 +81,9 @@ $parameters->setGroup(\HnutiBrontosaurus\BisClient\Event\Group::CAMP());
 // only events of "voluntary" category
 $parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::VOLUNTEERING());
 
+// only events of "region_event" tag
+$parameters->setTag(\HnutiBrontosaurus\BisClient\Event\Tag::REGION_EVENT());
+
 // only events of "PsB" program
 $parameters->setProgram(\HnutiBrontosaurus\BisClient\Event\Program::HOLIDAYS_WITH_BRONTOSAURUS());
 
