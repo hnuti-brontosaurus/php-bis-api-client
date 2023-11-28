@@ -284,7 +284,7 @@ try {
 
 On `\HnutiBrontosaurus\BisClient\BisClient`, there are two debug methods:
 
-- `getLastRequestUrl()` – returns URL of last request; note that as HTTP client is internally call endpoint multiple times to avoid pagination, only the very last requested URL is returned
+- `getLastRequestUrl()` – returns URL of last request; note that as HTTP client internally calls endpoint multiple times to avoid pagination, only the very last requested URL is returned
 - `getLastResponse()` – returns either parsed array or JSON string with last response
 
 
