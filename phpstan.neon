@@ -9,7 +9,7 @@ parameters:
 		# don't repeat whole array shape when passing response from client to value objects
 
 		-
-			message: "#^Parameter \\#1 \\$data of static method HnutiBrontosaurus\\\\BisClient\\\\AdministrationUnit\\\\Response\\\\AdministrationUnit\\:\\:fromResponseData\\(\\) expects array\\{id\\: int, name\\: string, abbreviation\\: string, is_for_kids\\: bool, phone\\: string, email\\: string, www\\: string, ic\\: string, \\.\\.\\.\\}, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$data of static method HnutiBrontosaurus\\\\BisClient\\\\AdministrationUnit\\\\Response\\\\AdministrationUnit\\:\\:fromResponseData\\(\\) expects array\\{id\\: int, name\\: string, abbreviation\\: string, description\\: string, image\\: array\\{small\\: string, medium\\: string, large\\: string, original\\: string\\}\\|null, is_for_kids\\: bool, phone\\: string, email\\: string, \\.\\.\\.\\}, mixed given\\.$#"
 			count: 1
 			path: src/BisClient.php
 
@@ -36,5 +36,16 @@ parameters:
 		# temporary unless BIS returns nulls for some old events
 		-
 			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			count: 1
+			path: src/Event/Response/Event.php
+
+
+		# see explanation in static constructor
+		-
+			message: "#^Offset 'is_event_full' on array\\{is_registration_required\\: bool, is_event_full\\: bool\\} on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: src/Event/Response/Event.php
+		-
+			message: "#^Offset 'is_registration…' on array\\{is_registration_required\\: bool, is_event_full\\: bool\\} on left side of \\?\\? always exists and is not nullable\\.$#"
 			count: 1
 			path: src/Event/Response/Event.php
