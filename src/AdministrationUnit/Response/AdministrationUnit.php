@@ -171,24 +171,34 @@ final class AdministrationUnit
 	}
 
 
+	public function getCategory(): Category
+	{
+		return $this->category;
+	}
+
+
+	/** @deprecated use {@see self::getCategory()} instead */
 	public function isClub(): bool
 	{
 		return $this->category->equals(Category::CLUB());
 	}
 
 
+	/** @deprecated use {@see self::getCategory()} instead */
 	public function isBaseUnit(): bool
 	{
 		return $this->category->equals(Category::BASIC_SECTION());
 	}
 
 
+	/** @deprecated use {@see self::getCategory()} instead */
 	public function isRegionalUnit(): bool
 	{
 		return $this->category->equals(Category::REGIONAL_CENTER());
 	}
 
 
+	/** @deprecated use {@see self::getCategory()} instead */
 	public function isOffice(): bool
 	{
 		return $this->category->equals(Category::HEADQUARTER());
