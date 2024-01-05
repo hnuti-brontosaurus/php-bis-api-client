@@ -117,10 +117,7 @@ final class AdministrationUnit
 	}
 
 
-	/**
-	 * @return array{small: string, medium: string, large: string, original: string}|null
-	 */
-	public function getImage(): ?array
+	public function getImage(): ?Image
 	{
 		return $this->image;
 	}
