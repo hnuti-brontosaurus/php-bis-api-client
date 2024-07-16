@@ -70,7 +70,7 @@ foreach ($events as $event) {
 
 #### Filters
 
-Events can be filtered by group, category, program or intended for:
+Events can be filtered by group, category, program, intended for and other options:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
@@ -92,6 +92,9 @@ $parameters->setIntendedFor(\HnutiBrontosaurus\BisClient\Event\IntendedFor::FIRS
 
 // only for some administration units
 $parameters->setAdministrationUnit(5);
+
+// only in "Vysočina" region
+$parameters->setRegion(\HnutiBrontosaurus\BisClient\Event\Request\Region::VYSOCINA());
 
 $events = $client->getEvents($parameters);
 ```

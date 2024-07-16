@@ -54,6 +54,27 @@ final class EventParameters implements QueryParameters
 	}
 
 
+	// region
+
+	/** @var Region[] */
+	private array $regions = [];
+
+	public function setRegion(Region $region): self
+	{
+		$this->regions = [$region];
+		return $this;
+	}
+
+	/**
+	 * @param Region[] $regions
+	 */
+	public function setRegions(array $regions): self
+	{
+		$this->regions = $regions;
+		return $this;
+	}
+
+
 	// groups
 
 	/** @var Group[] */
@@ -257,6 +278,9 @@ final class EventParameters implements QueryParameters
 
 		if (count($this->administrationUnits) > 0) {
 			$array['administration_unit'] = implode(',', $this->administrationUnits);
+		}
+		if (count($this->regions) > 0) {
+			$array['region'] = implode(',', $this->regions);
 		}
 		if (count($this->groups) > 0) {
 			$array['group'] = implode(',', $this->groups);
