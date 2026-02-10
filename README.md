@@ -103,7 +103,7 @@ Note that each method call rewrites the previous one:
 
 ```php
 $parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::VOLUNTEERING());
-$parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::EXPERIENCE());
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::EXPERIENTAL());
 // ⚠ result is only "EXPERIENCE"
 ```
 
@@ -114,7 +114,7 @@ $parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
 
 $parameters->setCategories([
     \HnutiBrontosaurus\BisClient\Event\Category::VOLUNTEERING(),
-    \HnutiBrontosaurus\BisClient\Event\Category::EXPERIENCE(),
+    \HnutiBrontosaurus\BisClient\Event\Category::EXPERIENTAL(),
 ]);
 
 $events = $client->getEvents($parameters);
