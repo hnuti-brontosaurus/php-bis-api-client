@@ -3,6 +3,7 @@
 namespace HnutiBrontosaurus\BisClient\Event\Response;
 
 use HnutiBrontosaurus\BisClient\Response\ContactPerson;
+use HnutiBrontosaurus\BisClient\Response\Image;
 
 
 final class Propagation
