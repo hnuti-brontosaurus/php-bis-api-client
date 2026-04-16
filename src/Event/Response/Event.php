@@ -148,11 +148,11 @@ final class Event
 					? Coordinates::from($data['location']['gps_location']['coordinates'][1], $data['location']['gps_location']['coordinates'][0])
 					: null,
 			),
-			Group::fromScalar($data['group']['slug']),
-			Category::fromScalar($data['category']['slug']),
+			Group::from($data['group']['slug']),
+			Category::from($data['category']['slug']),
 			array_map(static fn(array $tag) => Tag::fromPayload($tag), $data['tags']),
-			Program::fromScalar($data['program']['slug']),
-			IntendedFor::fromScalar($data['intended_for']['slug']),
+			Program::from($data['program']['slug']),
+			IntendedFor::from($data['intended_for']['slug']),
 			$data['administration_units'],
 			Propagation::from(
 				$data['propagation']['minimum_age'],
@@ -161,7 +161,7 @@ final class Event
 				$data['propagation']['accommodation'] !== '' ? $data['propagation']['accommodation'] : null,
 				$data['propagation']['working_days'],
 				$data['propagation']['working_hours'],
-				array_map(static fn($diet) => Diet::fromScalar($diet['slug']), $data['propagation']['diets']),
+				array_map(static fn($diet) => Diet::from($diet['slug']), $data['propagation']['diets']),
 				$data['propagation']['organizers'] !== '' ? $data['propagation']['organizers'] : null,
 				$data['propagation']['web_url'] !== '' ? $data['propagation']['web_url'] : null,
 				$data['propagation']['invitation_text_introduction'],
@@ -380,7 +380,7 @@ final class Event
 	public function getFood(): array
 	{
 		return array_map(
-			static fn(Diet $diet): Food => Food::fromScalar($diet->toScalar()),
+			static fn(Diet $diet): Food => Food::from($diet->value),
 			$this->getPropagation()->getDiets(),
 		);
 	}

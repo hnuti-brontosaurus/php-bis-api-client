@@ -82,7 +82,7 @@ final class AdministrationUnit
 			$data['phone'] !== '' ? $data['phone'] : null,
 			$data['email'] !== '' ? $data['email'] : null,
 			$data['www'] !== '' ? self::fixUrl($data['www']) : null,
-			Category::fromScalar($data['category']['slug']),
+			Category::from($data['category']['slug']),
 			$data['chairman'] !== null ? $data['chairman']['name'] : null,
 			$data['manager'] !== null ? $data['manager']['name'] : null,
 			$data,
@@ -180,28 +180,28 @@ final class AdministrationUnit
 	/** @deprecated use {@see self::getCategory()} instead */
 	public function isClub(): bool
 	{
-		return $this->category->equals(Category::CLUB());
+		return $this->category === Category::CLUB;
 	}
 
 
 	/** @deprecated use {@see self::getCategory()} instead */
 	public function isBaseUnit(): bool
 	{
-		return $this->category->equals(Category::BASIC_SECTION());
+		return $this->category === Category::BASIC_SECTION;
 	}
 
 
 	/** @deprecated use {@see self::getCategory()} instead */
 	public function isRegionalUnit(): bool
 	{
-		return $this->category->equals(Category::REGIONAL_CENTER());
+		return $this->category === Category::REGIONAL_CENTER;
 	}
 
 
 	/** @deprecated use {@see self::getCategory()} instead */
 	public function isOffice(): bool
 	{
-		return $this->category->equals(Category::HEADQUARTER());
+		return $this->category === Category::HEADQUARTER;
 	}
 
 

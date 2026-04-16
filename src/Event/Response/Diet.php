@@ -2,20 +2,9 @@
 
 namespace HnutiBrontosaurus\BisClient\Event\Response;
 
-use Grifart\Enum\AutoInstances;
-use Grifart\Enum\Enum;
-
-
-/**
- * @method static Diet MEAT()
- * @method static Diet VEGAN()
- * @method static Diet VEGETARIAN()
- */
-final class Diet extends Enum
+enum Diet: string
 {
-	use AutoInstances;
-
-	protected const MEAT = 'meat';
-	protected const VEGAN = 'vegan';
-	protected const VEGETARIAN = 'vege';
+	case MEAT = 'meat';
+	case VEGAN = 'vegan';
+	case VEGETARIAN = 'vege';
 }

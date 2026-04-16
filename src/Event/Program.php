@@ -2,30 +2,14 @@
 
 namespace HnutiBrontosaurus\BisClient\Event;
 
-use Grifart\Enum\AutoInstances;
-use Grifart\Enum\Enum;
-
-
-/**
- * @method static Program NONE()
- * @method static Program NATURE()
- * @method static Program MONUMENTS()
- * @method static Program KIDS()
- * @method static Program ECO_TENT()
- * @method static Program HOLIDAYS_WITH_BRONTOSAURUS()
- * @method static Program EDUCATION()
- * @method static Program INTERNATIONAL()
- */
-final class Program extends Enum
+enum Program: string
 {
-	use AutoInstances;
-
-	protected const NONE = 'none';
-	protected const NATURE = 'nature';
-	protected const MONUMENTS = 'monuments';
-	protected const KIDS = 'kids';
-	protected const ECO_TENT = 'eco_tent';
-	protected const HOLIDAYS_WITH_BRONTOSAURUS = 'holidays_with_brontosaurus';
-	protected const EDUCATION = 'education';
-	protected const INTERNATIONAL = 'international';
+	case NONE = 'none';
+	case NATURE = 'nature';
+	case MONUMENTS = 'monuments';
+	case KIDS = 'kids';
+	case ECO_TENT = 'eco_tent';
+	case HOLIDAYS_WITH_BRONTOSAURUS = 'holidays_with_brontosaurus';
+	case EDUCATION = 'education';
+	case INTERNATIONAL = 'international';
 }

@@ -27,7 +27,7 @@ final class EventParameters implements QueryParameters
 	{
 		$this->timeZone = TimeZone::parse('Europe/Prague'); // Hnutí Brontosaurus operates in Czechia
 
-		$this->setPeriod(Period::RUNNING_AND_FUTURE()); // no past because there are so many events in history
+		$this->setPeriod(Period::RUNNING_AND_FUTURE); // no past because there are so many events in history
 		$this->orderByEndDate();
 	}
 
@@ -194,23 +194,23 @@ final class EventParameters implements QueryParameters
 
 		$now = LocalDate::now($this->timeZone, $clock);
 
-		if ($period->equals(Period::RUNNING_ONLY())) {
+		if ($period === Period::RUNNING_ONLY) {
 			$this->dateStartLessThanOrEqualTo = $now;
 			$this->dateEndGreaterThanOrEqualTo = $now;
 
-		} elseif ($period->equals(Period::FUTURE_ONLY())) {
+		} elseif ($period === Period::FUTURE_ONLY) {
 			$this->dateStartGreaterThanOrEqualTo = $now;
 
-		} elseif ($period->equals(Period::PAST_ONLY())) {
+		} elseif ($period === Period::PAST_ONLY) {
 			$this->dateEndLessThanOrEqualTo = $now;
 
-		} elseif ($period->equals(Period::RUNNING_AND_FUTURE())) {
+		} elseif ($period === Period::RUNNING_AND_FUTURE) {
 			$this->dateEndGreaterThanOrEqualTo = $now;
 
-		} elseif ($period->equals(Period::RUNNING_AND_PAST())) {
+		} elseif ($period === Period::RUNNING_AND_PAST) {
 			$this->dateStartLessThanOrEqualTo = $now;
 
-		} else {} // Period::UNLIMITED() – default
+		} else {} // Period::UNLIMITED – default
 
 		return $this;
 	}
@@ -257,13 +257,13 @@ final class EventParameters implements QueryParameters
 
 	public function orderByStartDate(bool $desc = false): self
 	{
-		$this->ordering = $desc ? Ordering::START_DATE_DESC() : Ordering::START_DATE_ASC();
+		$this->ordering = $desc ? Ordering::START_DATE_DESC : Ordering::START_DATE_ASC;
 		return $this;
 	}
 
 	public function orderByEndDate(bool $desc = false): self
 	{
-		$this->ordering = $desc ? Ordering::END_DATE_DESC() : Ordering::END_DATE_ASC();
+		$this->ordering = $desc ? Ordering::END_DATE_DESC : Ordering::END_DATE_ASC;
 		return $this;
 	}
 

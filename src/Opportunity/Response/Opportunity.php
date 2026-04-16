@@ -82,7 +82,7 @@ final class Opportunity
 		return new self(
 			$data['id'],
 			$data['name'],
-			Category::fromScalar($data['category']['slug']),
+			Category::from($data['category']['slug']),
 			LocalDate::parse($data['start']),
 			LocalDate::parse($data['end']),
 			Location::from($data['location']['name'], $data['location']['gps_location'] !== null

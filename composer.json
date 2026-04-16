@@ -13,9 +13,8 @@
 		"phpstan": "phpstan analyze --no-progress --no-interaction -c phpstan.neon"
 	},
 	"require": {
-		"php": ">=8.0",
+		"php": ">=8.1",
 		"brick/date-time": "^0.4.0",
-		"grifart/enum": "^0.2.1",
 		"guzzlehttp/guzzle": "^7.3"
 	},
 	"require-dev": {
@@ -33,7 +32,7 @@
 	"config": {
 		"sort-packages": true,
 		"platform": {
-			"php": "8.0.25"
+			"php": "8.1"
 		}
 	}
 }

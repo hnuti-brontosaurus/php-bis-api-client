@@ -2,20 +2,9 @@
 
 namespace HnutiBrontosaurus\BisClient\Opportunity;
 
-use Grifart\Enum\AutoInstances;
-use Grifart\Enum\Enum;
-
-
-/**
- * @method static Category ORGANIZING()
- * @method static Category COLLABORATION()
- * @method static Category LOCATION_HELP()
- */
-final class Category extends Enum
+enum Category: string
 {
-	use AutoInstances;
-
-	protected const ORGANIZING = 'organizing'; // organizování akcí
-	protected const COLLABORATION = 'collaboration'; // spolupráce
-	protected const LOCATION_HELP = 'location_help'; // pomoc lokalitě
+	case ORGANIZING = 'organizing'; // organizování akcí
+	case COLLABORATION = 'collaboration'; // spolupráce
+	case LOCATION_HELP = 'location_help'; // pomoc lokalitě
 }

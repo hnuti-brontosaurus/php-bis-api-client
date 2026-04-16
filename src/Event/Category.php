@@ -2,33 +2,15 @@
 
 namespace HnutiBrontosaurus\BisClient\Event;
 
-use Grifart\Enum\AutoInstances;
-use Grifart\Enum\Enum;
-
-
-/**
- * @method static Category EVP()
- * @method static Category EXPERIENTAL()
- * @method static Category INTERNAL()
- * @method static Category INTERNAL_EDUCATIONAL()
- * @method static Category PRESENTATION()
- * @method static Category PUBLIC_EDUCATIONAL()
- * @method static Category SECTION_EVENT()
- * @method static Category SECTION_MEETING()
- * @method static Category VOLUNTEERING()
- */
-final class Category extends Enum
+enum Category: string
 {
-	use AutoInstances;
-
-	protected const EVP = 'evp'; // výukový program (EVP)
-	protected const EXPERIENTAL = 'experiential'; // zážitková akce
-	protected const INTERNAL = 'internal'; // interní akce
-	protected const INTERNAL_EDUCATIONAL = 'internal_educational'; // vzdělávací pro organizátory HB
-	protected const PRESENTATION = 'presentation'; // prezentační akce
-	protected const PUBLIC_EDUCATIONAL = 'public_educational'; // vzdělávací pro veřejnost
-	protected const SECTION_EVENT = 'section_event'; // oddílová akce
-	protected const SECTION_MEETING = 'section_meeting'; // oddílová schůzka
-	protected const VOLUNTEERING = 'volunteering'; // dobrovolnická akce
-
+	case EVP = 'evp'; // výukový program (EVP)
+	case EXPERIENTAL = 'experiential'; // zážitková akce
+	case INTERNAL = 'internal'; // interní akce
+	case INTERNAL_EDUCATIONAL = 'internal_educational'; // vzdělávací pro organizátory HB
+	case PRESENTATION = 'presentation'; // prezentační akce
+	case PUBLIC_EDUCATIONAL = 'public_educational'; // vzdělávací pro veřejnost
+	case SECTION_EVENT = 'section_event'; // oddílová akce
+	case SECTION_MEETING = 'section_meeting'; // oddílová schůzka
+	case VOLUNTEERING = 'volunteering'; // dobrovolnická akce
 }
