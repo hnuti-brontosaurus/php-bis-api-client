@@ -45,7 +45,7 @@ final class AdministrationUnitParameters implements QueryParameters
 		$array = [];
 
 		if (count($this->categories) > 0) {
-			$array['category'] = implode(',', $this->categories);
+			$array['category'] = implode(',', array_map(static fn($category) => $category->value, $this->categories));
 		}
 
 		return $array;

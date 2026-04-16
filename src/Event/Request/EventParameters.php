@@ -273,29 +273,29 @@ final class EventParameters implements QueryParameters
 	public function toArray(): array
 	{
 		$array = [
-			'ordering' => $this->ordering->toScalar(),
+			'ordering' => $this->ordering->value,
 		];
 
 		if (count($this->administrationUnits) > 0) {
 			$array['administration_unit'] = implode(',', $this->administrationUnits);
 		}
 		if (count($this->regions) > 0) {
-			$array['region'] = implode(',', $this->regions);
+			$array['region'] = implode(',', array_map(static fn($region) => $region->value, $this->regions));
 		}
 		if (count($this->groups) > 0) {
-			$array['group'] = implode(',', $this->groups);
+			$array['group'] = implode(',', array_map(static fn($group) => $group->value, $this->groups));
 		}
 		if (count($this->categories) > 0) {
-			$array['category'] = implode(',', $this->categories);
+			$array['category'] = implode(',', array_map(static fn($category) => $category->value, $this->categories));
 		}
 		if (count($this->tags) > 0) {
-			$array['tags'] = implode(',', $this->tags);
+			$array['tags'] = implode(',', array_map(static fn($tag) => $tag->value, $this->tags));
 		}
 		if (count($this->programs) > 0) {
-			$array['program'] = implode(',', $this->programs);
+			$array['program'] = implode(',', array_map(static fn($program) => $program->value, $this->programs));
 		}
 		if (count($this->intendedFor) > 0) {
-			$array['intended_for'] = implode(',', $this->intendedFor);
+			$array['intended_for'] = implode(',', array_map(static fn($intendedFor) => $intendedFor->value, $this->intendedFor));
 		}
 
 		if ($this->dateStartLessThanOrEqualTo !== null) {
