@@ -12,10 +12,10 @@ echo '<h2>Administration units</h2>';
 
 $params = new AdministrationUnitParameters();
 $params->setCategories([
-	Category::CLUB(),
-	Category::BASIC_SECTION(),
-	Category::REGIONAL_CENTER(),
-	Category::HEADQUARTER(),
+	Category::CLUB,
+	Category::BASIC_SECTION,
+	Category::REGIONAL_CENTER,
+	Category::HEADQUARTER,
 ]);
 $units = $client->getAdministrationUnits($params);
 foreach ($units as $unit) {

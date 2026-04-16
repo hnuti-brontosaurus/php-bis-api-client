@@ -12,9 +12,9 @@ echo '<h2>Opportunities</h2>';
 
 $params = new OpportunityParameters();
 $params->setCategories([
-	Category::ORGANIZING(),
-	Category::COLLABORATION(),
-	Category::LOCATION_HELP(),
+	Category::ORGANIZING,
+	Category::COLLABORATION,
+	Category::LOCATION_HELP,
 ]);
 $opportunities = $client->getOpportunities($params);
 foreach ($opportunities as $opportunity) {
