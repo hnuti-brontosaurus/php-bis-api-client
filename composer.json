@@ -4,8 +4,8 @@
 	"description": "API client for Hnutí Brontosaurus IS written in PHP.",
 	"authors": [
 		{
-			"name": "GRIFART, spol. s r.o.",
-			"email": "grifart@grifart.cz"
+			"name": "dakur",
+			"email": "dev@kurowsti.cz"
 		}
 	],
 	"minimum-stability": "stable",
