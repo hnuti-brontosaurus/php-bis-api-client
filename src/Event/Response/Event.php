@@ -131,7 +131,7 @@ final class Event
 		return new self(
 			$data['id'],
 			$data['name'],
-			Image::from($cover),
+			Image::from($cover['image']),
 			LocalDate::parse($data['start']),
 			$data['start_time'] !== null ? LocalTime::parse($data['start_time']) : null,
 			LocalDate::parse($data['end']),
