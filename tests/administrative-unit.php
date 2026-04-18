@@ -24,7 +24,7 @@ $id = (int) $_GET['id'];
 $units = $client->getAdministrationUnits();
 foreach ($units as $unit) {
 	if ($unit->getId() === $id) {
-		dump($unit);
+		expanded_dump($unit);
 		exit;
 	}
 }

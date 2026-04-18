@@ -50,5 +50,5 @@ $params->setMultipleIntendedFor([
 ]);
 $events = $client->getEvents($params);
 foreach ($events as $event) {
-	dump($event);
+	expanded_dump($event);
 }

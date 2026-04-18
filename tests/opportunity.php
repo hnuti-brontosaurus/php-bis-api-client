@@ -21,7 +21,7 @@ if (empty($_GET['id'])) {
 }
 
 try {
-	dump($client->getOpportunity((int) $_GET['id']));
+	expanded_dump($client->getOpportunity((int) $_GET['id']));
 
 } catch (NotFound) {
 	echo 'not found';

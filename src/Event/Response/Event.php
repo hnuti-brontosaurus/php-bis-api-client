@@ -128,6 +128,7 @@ final class Event
 	 */
 	public static function fromResponseData(array $data): self
 	{
+		echo "c";
 		$photos = array_map(
 			static fn($photo) => Photo::from($photo['image']),
 			$data['propagation']['images'],

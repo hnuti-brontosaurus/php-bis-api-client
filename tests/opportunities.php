@@ -18,5 +18,5 @@ $params->setCategories([
 ]);
 $opportunities = $client->getOpportunities($params);
 foreach ($opportunities as $opportunity) {
-	dump($opportunity);
+	expanded_dump($opportunity);
 }

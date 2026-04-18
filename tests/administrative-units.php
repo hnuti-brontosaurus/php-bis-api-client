@@ -19,5 +19,5 @@ $params->setCategories([
 ]);
 $units = $client->getAdministrationUnits($params);
 foreach ($units as $unit) {
-	dump($unit);
+	expanded_dump($unit);
 }
