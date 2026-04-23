@@ -8,6 +8,7 @@ enum Category: string
 	case EXPERIENTAL = 'experiential'; // zážitková akce
 	case INTERNAL = 'internal'; // interní akce
 	case INTERNAL_EDUCATIONAL = 'internal_educational'; // vzdělávací pro organizátory HB
+	case INTERNAL_EDUCATIONAL_FULL = 'internal_educational_full'; // OHB, Cestičky
 	case PRESENTATION = 'presentation'; // prezentační akce
 	case PUBLIC_EDUCATIONAL = 'public_educational'; // vzdělávací pro veřejnost
 	case SECTION_EVENT = 'section_event'; // oddílová akce
