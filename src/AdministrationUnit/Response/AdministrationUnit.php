@@ -177,34 +177,6 @@ final class AdministrationUnit
 	}
 
 
-	/** @deprecated use {@see self::getCategory()} instead */
-	public function isClub(): bool
-	{
-		return $this->category === Category::CLUB;
-	}
-
-
-	/** @deprecated use {@see self::getCategory()} instead */
-	public function isBaseUnit(): bool
-	{
-		return $this->category === Category::BASIC_SECTION;
-	}
-
-
-	/** @deprecated use {@see self::getCategory()} instead */
-	public function isRegionalUnit(): bool
-	{
-		return $this->category === Category::REGIONAL_CENTER;
-	}
-
-
-	/** @deprecated use {@see self::getCategory()} instead */
-	public function isOffice(): bool
-	{
-		return $this->category === Category::HEADQUARTER;
-	}
-
-
 	/**
 	 * In case that methods provided by this client are not enough.
 	 * See fromResponseData() or consult BIS API docs for detailed array description.
