@@ -9,7 +9,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 Debugger::enable(Debugger::Development);
 Debugger::$showBar = false;
 
-function expanded_dump($variable) {
+function expanded_dump(mixed $variable): void
+{
 	echo Tracy\Dumper::toHtml($variable, [
 		Tracy\Dumper::DEPTH => 5,
 		Tracy\Dumper::COLLAPSE => false,
