@@ -143,7 +143,7 @@ final class Event
 					: null,
 			),
 			Group::from($data['group']['slug']),
-			Category::from($data['category']['slug']),
+			Category::bcCompatibleFrom($data['category']['slug']),
 			array_map(static fn(array $tag) => Tag::fromPayload($tag), $data['tags']),
 			Program::from($data['program']['slug']),
 			IntendedFor::from($data['intended_for']['slug']),
