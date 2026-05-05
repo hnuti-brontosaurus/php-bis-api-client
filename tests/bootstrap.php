@@ -13,6 +13,7 @@ function expanded_dump(mixed $variable): void
 {
 	echo Tracy\Dumper::toHtml($variable, [
 		Tracy\Dumper::DEPTH => 5,
+		Tracy\Dumper::COLLAPSE_COUNT => 50,
 		Tracy\Dumper::COLLAPSE => false,
 	]);
 }
