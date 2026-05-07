@@ -17,7 +17,6 @@ final class SubUnit
 		private string $name,
 		private ?string $description,
 		private bool $isForKids,
-		private bool $isActive,
 		private ?string $phone,
 		private ?string $email,
 		private ?string $website,
@@ -57,7 +56,6 @@ final class SubUnit
 			$data['name'],
 			$data['description'] !== '' ? $data['description'] : null,
 			$data['is_for_kids'],
-			$data['is_active'],
 			$data['phone'] !== '' ? $data['phone'] : null,
 			$data['email'] !== '' ? $data['email'] : null,
 			$data['www'] !== '' ? self::fixUrl($data['www']) : null,
@@ -102,11 +100,6 @@ final class SubUnit
 	public function isForKids(): bool
 	{
 		return $this->isForKids;
-	}
-
-	public function isActive(): bool
-	{
-		return $this->isActive;
 	}
 
 	public function getPhone(): ?string

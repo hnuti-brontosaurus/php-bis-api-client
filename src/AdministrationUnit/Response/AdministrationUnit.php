@@ -89,6 +89,9 @@ final class AdministrationUnit
 	 */
 	public static function fromResponseData(array $data): self
 	{
+		$subUnits = array_filter($data['sub_units'], fn($subUnit) => $subUnit['is_active']);
+		$subUnits = array_map(fn($subUnitData) => SubUnit::fromResponseData($subUnitData), $subUnits);
+
 		return new self(
 			$data['id'],
 			$data['name'],
@@ -106,7 +109,7 @@ final class AdministrationUnit
 			Category::from($data['category']['slug']),
 			$data['chairman'] !== null ? $data['chairman']['name'] : null,
 			$data['manager'] !== null ? $data['manager']['name'] : null,
-			array_map(fn($subUnitData) => SubUnit::fromResponseData($subUnitData), $data['sub_units']),
+			$subUnits,
 			$data,
 		);
 	}
