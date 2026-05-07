@@ -22,7 +22,7 @@ final class AdministrationUnit
 		private ?Image $image,
 		private bool $isForKids,
 		private string $address,
-		private ?Coordinates $coordinates,
+		private Coordinates $coordinates,
 		private ?string $phone,
 		private ?string $email,
 		private ?string $website,
@@ -56,7 +56,7 @@ final class AdministrationUnit
 	 *     gps_location: array{
 	 *         type: string,
 	 *         coordinates: array{0: float, 1: float},
-	 *     }|null,
+	 *     },
 	 *     category: array{
 	 *         id: int,
 	 *         name: string,
@@ -96,12 +96,10 @@ final class AdministrationUnit
 			$data['image'] !== null ? Image::from($data['image']) : null,
 			$data['is_for_kids'],
 			$data['address'],
-			$data['gps_location'] !== null
-				? Coordinates::from(
-					$data['gps_location']['coordinates'][1],
-					$data['gps_location']['coordinates'][0],
-				)
-				: null,
+			Coordinates::from(
+				$data['gps_location']['coordinates'][1],
+				$data['gps_location']['coordinates'][0],
+			),
 			$data['phone'] !== '' ? $data['phone'] : null,
 			$data['email'] !== '' ? $data['email'] : null,
 			$data['www'] !== '' ? self::fixUrl($data['www']) : null,
@@ -159,7 +157,7 @@ final class AdministrationUnit
 	}
 
 
-	public function getCoordinates(): ?Coordinates
+	public function getCoordinates(): Coordinates
 	{
 		return $this->coordinates;
 	}
