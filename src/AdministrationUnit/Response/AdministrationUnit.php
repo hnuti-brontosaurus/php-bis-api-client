@@ -12,6 +12,7 @@ final class AdministrationUnit
 {
 
 	/**
+	 * @param array<SubUnit> $subUnits
 	 * @param array<mixed> $rawData
 	 */
 	private function __construct(
@@ -28,6 +29,7 @@ final class AdministrationUnit
 		private Category $category,
 		private ?string $chairman,
 		private ?string $manager,
+		private array $subUnits,
 		private array $rawData,
 	) {}
 
@@ -64,6 +66,25 @@ final class AdministrationUnit
 	 *     vice_chairman: array{id: int, name: string, email: string, phone: string}|null,
 	 *     manager: array{id: int, name: string, email: string, phone: string}|null,
 	 *     board_members: array<array{id: int, name: string, email: string, phone: string}>,
+	 *     sub_units: array<array{
+	 *         id: int,
+	 *         name: string,
+	 *         description: string,
+	 *         is_for_kids: bool,
+	 *         is_active: bool,
+	 *         phone: string,
+	 *         email: string,
+	 *         www: string,
+	 *         facebook: string,
+	 *         instagram: string,
+	 *         address: string,
+	 *         gps_location: array{
+	 *             type: string,
+	 *             coordinates: array{0: float, 1: float}
+	 *         },
+	 *         main_leader: array{id: int, name: string, email: string, phone: string},
+	 *         sub_leaders: array<array{id: int, name: string, email: string, phone: string}>,
+	 *     }>
 	 * } $data
 	 */
 	public static function fromResponseData(array $data): self
@@ -87,6 +108,7 @@ final class AdministrationUnit
 			Category::from($data['category']['slug']),
 			$data['chairman'] !== null ? $data['chairman']['name'] : null,
 			$data['manager'] !== null ? $data['manager']['name'] : null,
+			array_map(fn($subUnitData) => SubUnit::fromResponseData($subUnitData), $data['sub_units']),
 			$data,
 		);
 	}
@@ -176,6 +198,15 @@ final class AdministrationUnit
 	public function getCategory(): Category
 	{
 		return $this->category;
+	}
+
+
+	/**
+	 * @return SubUnit[]
+	 */
+	public function getSubUnits(): array
+	{
+		return $this->subUnits;
 	}
 
 
