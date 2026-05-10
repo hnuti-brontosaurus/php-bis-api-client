@@ -117,7 +117,7 @@ final class SubUnit
 		return $this->website;
 	}
 
-	public function getAddress(): string
+	public function getAddress(): ?string
 	{
 		return $this->address;
 	}
