@@ -2,8 +2,8 @@
 
 namespace HnutiBrontosaurus\BisClient\Event\Response;
 
-use Brick\DateTime\LocalDate;
-use Brick\DateTime\LocalTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use HnutiBrontosaurus\BisClient\Event\Category;
 use HnutiBrontosaurus\BisClient\Event\Group;
 use HnutiBrontosaurus\BisClient\Event\IntendedFor;
@@ -28,9 +28,9 @@ final class Event
 		private int $id,
 		private string $name,
 		private ?Image $coverPhotoPath,
-		private LocalDate $startDate,
-		private ?LocalTime $startTime,
-		private LocalDate $endDate,
+		private DateTimeInterface $startDate,
+		private ?string $startTime,
+		private DateTimeInterface $endDate,
 		private int $duration,
 		private Location $location,
 		private Group $group,
@@ -132,9 +132,9 @@ final class Event
 			$data['id'],
 			$data['name'],
 			$cover ? Image::from($cover['image']) : null,
-			LocalDate::parse($data['start']),
-			$data['start_time'] !== null ? LocalTime::parse($data['start_time']) : null,
-			LocalDate::parse($data['end']),
+			DateTimeImmutable::createFromFormat('Y-m-d', $data['start']),
+			$data['start_time'] !== null ? $data['start_time'] : null,
+			DateTimeImmutable::createFromFormat('Y-m-d', $data['end']),
 			$data['duration'],
 			Location::from(
 				$data['location']['name'],
@@ -203,19 +203,19 @@ final class Event
 	}
 
 
-	public function getStartDate(): LocalDate
+	public function getStartDate(): DateTimeInterface
 	{
 		return $this->startDate;
 	}
 
 
-	public function getStartTime(): ?LocalTime
+	public function getStartTime(): ?string
 	{
 		return $this->startTime;
 	}
 
 
-	public function getEndDate(): LocalDate
+	public function getEndDate(): DateTimeInterface
 	{
 		return $this->endDate;
 	}

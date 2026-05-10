@@ -139,7 +139,7 @@ $events = $client->getEvents($parameters);
 For convenience, you can also set date start and/or end on low level:
 
 ```php
-$date = \Brick\DateTime\LocalDate::parse('2022-01-01');
+$date = new DateTimeImmutable('2022-01-01');
 $parameters->setDateStartLessThanOrEqualTo($date);
 $parameters->setDateStartGreaterThanOrEqualTo($date);
 $parameters->setDateEndLessThanOrEqualTo($date);
@@ -150,25 +150,14 @@ If you need to reset default/previous dates:
 
 ```php
 // either
-$date = \Brick\DateTime\LocalDate::parse('2022-01-01');
+$date = new DateTimeImmutable('2022-01-01');
 $parameters->resetDates();
 $parameters->setDateStartLessThanOrEqualTo($date);
 
 // or
-$date = \Brick\DateTime\LocalDate::parse('2022-01-01');
+$date = new DateTimeImmutable('2022-01-01');
 $parameters->setDateStartLessThanOrEqualTo($date, reset: true);
 ```
-
-> Note that semantic value objects from [`brick/date-time`](https://github.com/brick/date-time) are used instead of native `DateTime(Immutable)` class. More on why at [this blogpost](https://jiripudil.cz/blog/beyond-datetime-domain-driven-approach).  
-> If you need to render it in human-readable form, you can either use getter or convert it to native object:
-> ```php
-> /** @var \Brick\DateTime\LocalDate $localDate */
-> // using getter
-> $localDate->getYear();
-> // conversion to native
-> $nativeDateTime = $localDate->toNativeDateTimeImmutable();
-> $nativeDateTime->format("j. n. Y"); // $nativeDateTime is instance of DateTimeImmutable
-> ```
 
 #### Ordering
 

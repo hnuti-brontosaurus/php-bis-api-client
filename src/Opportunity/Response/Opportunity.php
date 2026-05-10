@@ -2,7 +2,8 @@
 
 namespace HnutiBrontosaurus\BisClient\Opportunity\Response;
 
-use Brick\DateTime\LocalDate;
+use DateTimeImmutable;
+use DateTimeInterface;
 use HnutiBrontosaurus\BisClient\Opportunity\Category;
 use HnutiBrontosaurus\BisClient\Response\ContactPerson;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
@@ -21,8 +22,8 @@ final class Opportunity
 		private int $id,
 		private string $name,
 		private Category $category,
-		private LocalDate $startDate,
-		private LocalDate $endDate,
+		private DateTimeInterface $startDate,
+		private DateTimeInterface $endDate,
 		private Location $location,
 		private Html $introduction,
 		private Html $description,
@@ -83,8 +84,8 @@ final class Opportunity
 			$data['id'],
 			$data['name'],
 			Category::from($data['category']['slug']),
-			LocalDate::parse($data['start']),
-			LocalDate::parse($data['end']),
+			DateTimeImmutable::createFromFormat('Y-m-d', $data['start']),
+			DateTimeImmutable::createFromFormat('Y-m-d', $data['end']),
 			Location::from($data['location']['name'], $data['location']['gps_location'] !== null
 				? Coordinates::from(
 					$data['location']['gps_location']['coordinates'][1],
@@ -125,13 +126,13 @@ final class Opportunity
 	}
 
 
-	public function getStartDate(): LocalDate
+	public function getStartDate(): DateTimeInterface
 	{
 		return $this->startDate;
 	}
 
 
-	public function getEndDate(): LocalDate
+	public function getEndDate(): DateTimeInterface
 	{
 		return $this->endDate;
 	}
