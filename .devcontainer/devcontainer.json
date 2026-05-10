@@ -3,5 +3,7 @@
   "image": "mcr.microsoft.com/devcontainers/php:1-8.1",
   "forwardPorts": [8000],
   "postStartCommand": "php -S 0.0.0.0:8000 -t tests/",
-  "remoteUser": "vscode"
+  "remoteUser": "vscode",
+  "locale": "en_US.UTF-8",
+  "extensions": ["GitHub.copilot-chat"]
 }
