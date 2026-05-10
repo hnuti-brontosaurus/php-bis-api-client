@@ -6,7 +6,7 @@ use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use function str_starts_with;
 
 
-final class SubUnit
+final readonly class SubUnit
 {
 
 	/**
@@ -14,17 +14,17 @@ final class SubUnit
 	 * @param array<mixed> $rawData
 	 */
 	private function __construct(
-		private int $id,
-		private string $name,
-		private ?string $description,
-		private bool $isForKids,
-		private ?string $phone,
-		private ?string $email,
-		private ?string $website,
-		private ?string $address,
-		private Coordinates $coordinates,
-		private ?string $mainLeader,
-		private ?array $subLeaders,
+		public int $id,
+		public string $name,
+		public ?string $description,
+		public bool $isForKids,
+		public ?string $phone,
+		public ?string $email,
+		public ?string $website,
+		public ?string $address,
+		public Coordinates $coordinates,
+		public ?string $mainLeader,
+		public ?array $subLeaders,
 		private array $rawData,
 	) {}
 
@@ -78,63 +78,6 @@ final class SubUnit
 		}
 
 		return 'http://' . $url;
-	}
-
-
-	public function getId(): int
-	{
-		return $this->id;
-	}
-
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-	public function getDescription(): ?string
-	{
-		return $this->description;
-	}
-
-	public function isForKids(): bool
-	{
-		return $this->isForKids;
-	}
-
-	public function getPhone(): ?string
-	{
-		return $this->phone;
-	}
-
-	public function getEmail(): ?string
-	{
-		return $this->email;
-	}
-
-	public function getWebsite(): ?string
-	{
-		return $this->website;
-	}
-
-	public function getAddress(): ?string
-	{
-		return $this->address;
-	}
-
-	public function getCoordinates(): Coordinates
-	{
-		return $this->coordinates;
-	}
-
-	public function getMainLeader(): ?string
-	{
-		return $this->mainLeader;
-	}
-
-	/** @return string[]|null */
-	public function getSubLeaders(): ?array
-	{
-		return $this->subLeaders;
 	}
 
 	/**

@@ -8,7 +8,7 @@ use HnutiBrontosaurus\BisClient\Response\Image;
 use function str_starts_with;
 
 
-final class AdministrationUnit
+final readonly class AdministrationUnit
 {
 
 	/**
@@ -16,20 +16,20 @@ final class AdministrationUnit
 	 * @param array<mixed> $rawData
 	 */
 	private function __construct(
-		private int $id,
-		private string $name,
-		private ?string $description,
-		private ?Image $image,
-		private bool $isForKids,
-		private ?string $address,
-		private Coordinates $coordinates,
-		private ?string $phone,
-		private ?string $email,
-		private ?string $website,
-		private Category $category,
-		private ?string $chairman,
-		private ?string $manager,
-		private array $subUnits,
+		public int $id,
+		public string $name,
+		public ?string $description,
+		public ?Image $image,
+		public bool $isForKids,
+		public ?string $address,
+		public Coordinates $coordinates,
+		public ?string $phone,
+		public ?string $email,
+		public ?string $website,
+		public Category $category,
+		public ?string $chairman,
+		public ?string $manager,
+		public array $subUnits,
 		private array $rawData,
 	) {}
 
@@ -122,94 +122,6 @@ final class AdministrationUnit
 
 		return 'http://' . $url;
 	}
-
-
-	public function getId(): int
-	{
-		return $this->id;
-	}
-
-
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-
-	public function getDescription(): ?string
-	{
-		return $this->description;
-	}
-
-
-	public function getImage(): ?Image
-	{
-		return $this->image;
-	}
-
-
-	public function getIsForKids(): bool
-	{
-		return $this->isForKids;
-	}
-
-
-	public function getAddress(): ?string
-	{
-		return $this->address;
-	}
-
-
-	public function getCoordinates(): Coordinates
-	{
-		return $this->coordinates;
-	}
-
-
-	public function getPhone(): ?string
-	{
-		return $this->phone;
-	}
-
-
-	public function getEmail(): ?string
-	{
-		return $this->email;
-	}
-
-
-	public function getWebsite(): ?string
-	{
-		return $this->website;
-	}
-
-
-	public function getChairman(): ?string
-	{
-		return $this->chairman;
-	}
-
-
-	public function getManager(): ?string
-	{
-		return $this->manager;
-	}
-
-
-	public function getCategory(): Category
-	{
-		return $this->category;
-	}
-
-
-	/**
-	 * @return SubUnit[]
-	 */
-	public function getSubUnits(): array
-	{
-		return $this->subUnits;
-	}
-
 
 	/**
 	 * In case that methods provided by this client are not enough.

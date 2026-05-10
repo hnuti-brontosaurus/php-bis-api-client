@@ -46,10 +46,10 @@ Retrieve all information about single event:
 $event = $client->getEvent($id);
 
 // examples of reading data
-$event->getName();
-$event->getOrganizer()->getResponsiblePerson();
-$event->getRegistrationType()->isOfTypeCustomWebpage();
-$event->getLocation()->getCoordinates();
+$event->name;
+$event->organizer->responsiblePerson;
+$event->registrationType->isOfTypeCustomWebpage;
+$event->location->coordinates;
 ```
 
 ### More events
@@ -64,7 +64,7 @@ $events = $client->getEvents($parameters); // $parameters are optional
 
 // example of reading data
 foreach ($events as $event) {
-    $event->getName();
+    $event->name;
 }
 ```
 
@@ -202,10 +202,10 @@ $parameters = new \HnutiBrontosaurus\BisClient\AdministrationUnit\Request\Admini
 $administrationUnits = $client->getAdministrationUnits($parameters); // $parameters is optional
 
 foreach ($administrationUnits as $administrationUnit) {
-    $administrationUnit->getName();
-    $administrationUnit->getCity();
-    $administrationUnit->getChairman();
-    $administrationUnit->getCoordinates();
+    $administrationUnit->name;
+    $administrationUnit->city;
+    $administrationUnit->chairman;
+    $administrationUnit->coordinates;
 }
 ```
 
@@ -218,10 +218,10 @@ $parameters = new \HnutiBrontosaurus\BisClient\Opportunity\Request\OpportunityPa
 $opportunities = $client->getOpportunities($parameters); // $parameters is optional
 
 foreach ($opportunities as $opportunity) {
-    $opportunity->getName();
-    $opportunity->getStartDate();
-    $opportunity->getIntroduction();
-    $opportunity->getLocation()->getCoordinates();
+    $opportunity->name;
+    $opportunity->startDate;
+    $opportunity->introduction;
+    $opportunity->location->coordinates;
 }
 ```
 
@@ -230,10 +230,10 @@ Or only single one:
 ```php
 $opportunity = $client->getOpportunity(1234);
 
-$opportunity->getName();
-$opportunity->getStartDate();
-$opportunity->getIntroduction();
-$opportunity->getLocation()->getCoordinates();
+$opportunity->name;
+$opportunity->startDate;
+$opportunity->introduction;
+$opportunity->location->coordinates;
 ```
 
 

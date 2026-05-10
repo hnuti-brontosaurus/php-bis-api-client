@@ -2,11 +2,13 @@
 
 namespace HnutiBrontosaurus\BisClient\Response;
 
+use Stringable;
+
 
 /**
  * Purpose of this class is to recognize HTML from string easily
  */
-final class Html implements \Stringable
+final readonly class Html implements Stringable
 {
 
 	private function __construct(

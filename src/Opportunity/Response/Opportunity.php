@@ -12,26 +12,26 @@ use HnutiBrontosaurus\BisClient\Response\Image;
 use HnutiBrontosaurus\BisClient\Response\Location;
 
 
-final class Opportunity
+final readonly class Opportunity
 {
 
 	/**
 	 * @param array<mixed> $rawData
 	 */
 	private function __construct(
-		private int $id,
-		private string $name,
-		private Category $category,
-		private DateTimeInterface $startDate,
-		private DateTimeInterface $endDate,
-		private Location $location,
-		private Html $introduction,
-		private Html $description,
-		private ?Html $locationBenefits,
-		private Html $personalBenefits,
-		private Html $requirements,
-		private ContactPerson $contactPerson,
-		private Image $image,
+		public int $id,
+		public string $name,
+		public Category $category,
+		public DateTimeInterface $startDate,
+		public DateTimeInterface $endDate,
+		public Location $location,
+		public Html $introduction,
+		public Html $description,
+		public ?Html $locationBenefits,
+		public Html $personalBenefits,
+		public Html $requirements,
+		public ContactPerson $contactPerson,
+		public Image $image,
 		private array $rawData,
 	) {}
 
@@ -105,84 +105,6 @@ final class Opportunity
 			Image::from((array) $data['image']),
 			$data,
 		);
-	}
-
-
-	public function getId(): int
-	{
-		return $this->id;
-	}
-
-
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-
-	public function getCategory(): Category
-	{
-		return $this->category;
-	}
-
-
-	public function getStartDate(): DateTimeInterface
-	{
-		return $this->startDate;
-	}
-
-
-	public function getEndDate(): DateTimeInterface
-	{
-		return $this->endDate;
-	}
-
-
-	public function getLocation(): Location
-	{
-		return $this->location;
-	}
-
-
-	public function getIntroduction(): Html
-	{
-		return $this->introduction;
-	}
-
-
-	public function getDescription(): Html
-	{
-		return $this->description;
-	}
-
-
-	public function getLocationBenefits(): ?Html
-	{
-		return $this->locationBenefits;
-	}
-
-
-	public function getPersonalBenefits(): Html
-	{
-		return $this->personalBenefits;
-	}
-
-
-	public function getRequirements(): Html
-	{
-		return $this->requirements;
-	}
-
-
-	public function getContactPerson(): ContactPerson
-	{
-		return $this->contactPerson;
-	}
-
-
-	public function getImage(): Image
-	{
-		return $this->image;
 	}
 
 
