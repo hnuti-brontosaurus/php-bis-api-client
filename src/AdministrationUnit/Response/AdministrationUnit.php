@@ -21,7 +21,7 @@ final class AdministrationUnit
 		private ?string $description,
 		private ?Image $image,
 		private bool $isForKids,
-		private string $address,
+		private ?string $address,
 		private Coordinates $coordinates,
 		private ?string $phone,
 		private ?string $email,
@@ -98,7 +98,7 @@ final class AdministrationUnit
 			$data['description'] !== '' ? $data['description'] : null,
 			$data['image'] !== null ? Image::from($data['image']) : null,
 			$data['is_for_kids'],
-			$data['address'],
+			$data['address'] !== '' ? $data['address'] : null,
 			Coordinates::from(
 				$data['gps_location']['coordinates'][1],
 				$data['gps_location']['coordinates'][0],
@@ -154,7 +154,7 @@ final class AdministrationUnit
 	}
 
 
-	public function getAddress(): string
+	public function getAddress(): ?string
 	{
 		return $this->address;
 	}

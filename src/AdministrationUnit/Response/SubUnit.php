@@ -20,7 +20,7 @@ final class SubUnit
 		private ?string $phone,
 		private ?string $email,
 		private ?string $website,
-		private string $address,
+		private ?string $address,
 		private ?Coordinates $coordinates,
 		private ?string $mainLeader,
 		private array $subLeaders,
