@@ -10,6 +10,7 @@ final class SubUnit
 {
 
 	/**
+	 * @param string[]|null $subLeaders
 	 * @param array<mixed> $rawData
 	 */
 	private function __construct(
@@ -21,9 +22,9 @@ final class SubUnit
 		private ?string $email,
 		private ?string $website,
 		private ?string $address,
-		private ?Coordinates $coordinates,
+		private Coordinates $coordinates,
 		private ?string $mainLeader,
-		private array $subLeaders,
+		private ?array $subLeaders,
 		private array $rawData,
 	) {}
 
@@ -45,8 +46,8 @@ final class SubUnit
 	 *         type: string,
 	 *         coordinates: array{0: float, 1: float}
 	 *     },
-	 *     main_leader: array{id: int, name: string, email: string, phone: string},
-	 *     sub_leaders: array<array{id: int, name: string, email: string, phone: string}>,
+	 *     main_leader: array{id: int, name: string, email: string, phone: string}|null,
+	 *     sub_leaders: array<array{id: int, name: string, email: string, phone: string}>|null,
 	 * } $data
 	 */
 	public static function fromResponseData(array $data): self
@@ -60,12 +61,10 @@ final class SubUnit
 			$data['email'] !== '' ? $data['email'] : null,
 			$data['www'] !== '' ? self::fixUrl($data['www']) : null,
 			$data['address'] !== '' ? $data['address'] : null,
-			$data['gps_location'] !== null
-				? Coordinates::from(
-					$data['gps_location']['coordinates'][1],
-					$data['gps_location']['coordinates'][0],
-				)
-				: null,
+			Coordinates::from(
+				$data['gps_location']['coordinates'][1],
+				$data['gps_location']['coordinates'][0],
+			),
 			$data['main_leader'] !== null ? $data['main_leader']['name'] : null,
 			$data['sub_leaders'] !== null ? array_map(fn($leader) => $leader['name'], $data['sub_leaders']) : null,
 			$data,
@@ -122,7 +121,7 @@ final class SubUnit
 		return $this->address;
 	}
 
-	public function getCoordinates(): ?Coordinates
+	public function getCoordinates(): Coordinates
 	{
 		return $this->coordinates;
 	}
@@ -132,7 +131,8 @@ final class SubUnit
 		return $this->mainLeader;
 	}
 
-	public function getSubLeaders(): array
+	/** @return string[]|null */
+	public function getSubLeaders(): ?array
 	{
 		return $this->subLeaders;
 	}
