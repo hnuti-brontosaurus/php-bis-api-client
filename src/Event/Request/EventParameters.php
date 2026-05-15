@@ -276,22 +276,22 @@ final class EventParameters implements QueryParameters
 			$array['administration_unit'] = implode(',', $this->administrationUnits);
 		}
 		if (count($this->regions) > 0) {
-			$array['region'] = implode(',', array_map(static fn($region) => $region->value, $this->regions));
+			$array['region'] = self::joinEnumValues($this->regions);
 		}
 		if (count($this->groups) > 0) {
-			$array['group'] = implode(',', array_map(static fn($group) => $group->value, $this->groups));
+			$array['group'] = self::joinEnumValues($this->groups);
 		}
 		if (count($this->categories) > 0) {
-			$array['category'] = implode(',', array_map(static fn($category) => $category->value, $this->categories));
+			$array['category'] = self::joinEnumValues($this->categories);
 		}
 		if (count($this->tags) > 0) {
-			$array['tags'] = implode(',', array_map(static fn($tag) => $tag->value, $this->tags));
+			$array['tags'] = self::joinEnumValues($this->tags);
 		}
 		if (count($this->programs) > 0) {
-			$array['program'] = implode(',', array_map(static fn($program) => $program->value, $this->programs));
+			$array['program'] = self::joinEnumValues($this->programs);
 		}
 		if (count($this->intendedFor) > 0) {
-			$array['intended_for'] = implode(',', array_map(static fn($intendedFor) => $intendedFor->value, $this->intendedFor));
+			$array['intended_for'] = self::joinEnumValues($this->intendedFor);
 		}
 
 		if ($this->dateStartLessThanOrEqualTo !== null) {
@@ -308,6 +308,11 @@ final class EventParameters implements QueryParameters
 		}
 
 		return $array;
+	}
+
+	private static function joinEnumValues(array $enums): string
+	{
+		return implode(',', array_map(static fn($enum) => $enum->value, $enums));
 	}
 
 }
