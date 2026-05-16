@@ -295,16 +295,16 @@ final class EventParameters implements QueryParameters
 		}
 
 		if ($this->dateStartLessThanOrEqualTo !== null) {
-			$array['start__lte'] = (string) $this->dateStartLessThanOrEqualTo->format('Y-m-d'); // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
+			$array['start__lte'] = $this->dateStartLessThanOrEqualTo->format('Y-m-d');
 		}
 		if ($this->dateStartGreaterThanOrEqualTo !== null) {
-			$array['start__gte'] = (string) $this->dateStartGreaterThanOrEqualTo->format('Y-m-d'); // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
+			$array['start__gte'] = $this->dateStartGreaterThanOrEqualTo->format('Y-m-d');
 		}
 		if ($this->dateEndLessThanOrEqualTo !== null) {
-			$array['end__lte'] = (string) $this->dateEndLessThanOrEqualTo->format('Y-m-d'); // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
+			$array['end__lte'] = $this->dateEndLessThanOrEqualTo->format('Y-m-d');
 		}
 		if ($this->dateEndGreaterThanOrEqualTo !== null) {
-			$array['end__gte'] = (string) $this->dateEndGreaterThanOrEqualTo->format('Y-m-d'); // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
+			$array['end__gte'] = $this->dateEndGreaterThanOrEqualTo->format('Y-m-d');
 		}
 
 		return $array;
