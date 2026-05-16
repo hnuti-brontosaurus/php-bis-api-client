@@ -2,8 +2,8 @@
 
 namespace HnutiBrontosaurus\BisClient\Event\Response;
 
-use Brick\DateTime\LocalDate;
-use Brick\DateTime\LocalTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use HnutiBrontosaurus\BisClient\Event\Category;
 use HnutiBrontosaurus\BisClient\Event\Group;
 use HnutiBrontosaurus\BisClient\Event\IntendedFor;
@@ -16,7 +16,7 @@ use function array_map;
 use function reset;
 
 
-final class Event
+final readonly class Event
 {
 
 	/**
@@ -25,22 +25,22 @@ final class Event
 	 * @param array<mixed> $rawData
 	 */
 	private function __construct(
-		private int $id,
-		private string $name,
-		private ?Image $coverPhotoPath,
-		private LocalDate $startDate,
-		private ?LocalTime $startTime,
-		private LocalDate $endDate,
-		private int $duration,
-		private Location $location,
-		private Group $group,
-		private Category $category,
-		private array $tags,
-		private Program $program,
-		private IntendedFor $intendedFor,
-		private array $administrationUnits,
-		private Propagation $propagation,
-		private Registration $registration,
+		public int $id,
+		public string $name,
+		public ?Image $coverPhotoPath,
+		public DateTimeInterface $startDate,
+		public ?string $startTime,
+		public DateTimeInterface $endDate,
+		public int $duration,
+		public Location $location,
+		public Group $group,
+		public Category $category,
+		public array $tags,
+		public Program $program,
+		public IntendedFor $intendedFor,
+		public array $administrationUnits,
+		public Propagation $propagation,
+		public Registration $registration,
 		private array $rawData,
 	) {}
 
@@ -132,9 +132,9 @@ final class Event
 			$data['id'],
 			$data['name'],
 			$cover ? Image::from($cover['image']) : null,
-			LocalDate::parse($data['start']),
-			$data['start_time'] !== null ? LocalTime::parse($data['start_time']) : null,
-			LocalDate::parse($data['end']),
+			DateTimeImmutable::createFromFormat('Y-m-d', $data['start']),
+			$data['start_time'] !== null ? $data['start_time'] : null,
+			DateTimeImmutable::createFromFormat('Y-m-d', $data['end']),
 			$data['duration'],
 			Location::from(
 				$data['location']['name'],
@@ -182,108 +182,6 @@ final class Event
 			),
 			$data,
 		);
-	}
-
-
-	public function getId(): int
-	{
-		return $this->id;
-	}
-
-
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-
-	public function getCoverPhotoPath(): ?Image
-	{
-		return $this->coverPhotoPath;
-	}
-
-
-	public function getStartDate(): LocalDate
-	{
-		return $this->startDate;
-	}
-
-
-	public function getStartTime(): ?LocalTime
-	{
-		return $this->startTime;
-	}
-
-
-	public function getEndDate(): LocalDate
-	{
-		return $this->endDate;
-	}
-
-
-	public function getDuration(): int
-	{
-		return $this->duration;
-	}
-
-
-	public function getLocation(): Location
-	{
-		return $this->location;
-	}
-
-
-	public function getGroup(): Group
-	{
-		return $this->group;
-	}
-
-
-	public function getCategory(): Category
-	{
-		return $this->category;
-	}
-
-
-	/**
-	 * @return Tag[]
-	 */
-	public function getTags(): array
-	{
-		return $this->tags;
-	}
-
-
-	public function getProgram(): Program
-	{
-		return $this->program;
-	}
-
-
-	public function getIntendedFor(): IntendedFor
-	{
-		return $this->intendedFor;
-	}
-
-
-	/**
-	 * @return string[]
-	 */
-	public function getAdministrationUnits(): array
-	{
-		return $this->administrationUnits;
-	}
-
-
-	public function getPropagation(): Propagation
-	{
-		return $this->propagation;
-	}
-
-
-	public function getRegistration(): Registration
-	{
-		return $this->registration;
 	}
 
 

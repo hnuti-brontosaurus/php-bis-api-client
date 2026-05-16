@@ -3,13 +3,13 @@
 namespace HnutiBrontosaurus\BisClient\Response;
 
 
-final class ContactPerson
+final readonly class ContactPerson
 {
 
 	private function __construct(
-		private ?string $name,
-		private string $emailAddress,
-		private ?string $phoneNumber,
+		public ?string $name,
+		public string $emailAddress,
+		public ?string $phoneNumber,
 	)
 	{}
 
@@ -21,24 +21,6 @@ final class ContactPerson
 	): self
 	{
 		return new self($name, $emailAddress, $phoneNumber);
-	}
-
-
-	public function getName(): ?string
-	{
-		return $this->name;
-	}
-
-
-	public function getEmailAddress(): string
-	{
-		return $this->emailAddress;
-	}
-
-
-	public function getPhoneNumber(): ?string
-	{
-		return $this->phoneNumber;
 	}
 
 }

@@ -2,9 +2,8 @@
 
 namespace HnutiBrontosaurus\BisClient\Event\Request;
 
-use Brick\DateTime\Clock;
-use Brick\DateTime\LocalDate;
-use Brick\DateTime\TimeZone;
+use DateTimeImmutable;
+use DateTimeInterface;
 use HnutiBrontosaurus\BisClient\Event\Category;
 use HnutiBrontosaurus\BisClient\Event\Group;
 use HnutiBrontosaurus\BisClient\Event\IntendedFor;
@@ -21,12 +20,9 @@ final class EventParameters implements QueryParameters
 	use LimitParameter;
 
 	private Ordering $ordering;
-	private TimeZone $timeZone;
 
 	public function __construct()
 	{
-		$this->timeZone = TimeZone::parse('Europe/Prague'); // Hnutí Brontosaurus operates in Czechia
-
 		$this->setPeriod(Period::RUNNING_AND_FUTURE); // no past because there are so many events in history
 		$this->orderByEndDate();
 	}
@@ -182,17 +178,17 @@ final class EventParameters implements QueryParameters
 
 	// period
 
-	private ?LocalDate $dateStartGreaterThanOrEqualTo = null;
-	private ?LocalDate $dateStartLessThanOrEqualTo = null;
-	private ?LocalDate $dateEndGreaterThanOrEqualTo = null;
-	private ?LocalDate $dateEndLessThanOrEqualTo = null;
+	private ?DateTimeInterface $dateStartGreaterThanOrEqualTo = null;
+	private ?DateTimeInterface $dateStartLessThanOrEqualTo = null;
+	private ?DateTimeInterface $dateEndGreaterThanOrEqualTo = null;
+	private ?DateTimeInterface $dateEndLessThanOrEqualTo = null;
 
-	public function setPeriod(Period $period, ?Clock $clock = null): self
+	public function setPeriod(Period $period): self
 	{
 		// reset all
 		$this->resetDates();
 
-		$now = LocalDate::now($this->timeZone, $clock);
+		$now = new DateTimeImmutable();
 
 		if ($period === Period::RUNNING_ONLY) {
 			$this->dateStartLessThanOrEqualTo = $now;
@@ -215,28 +211,28 @@ final class EventParameters implements QueryParameters
 		return $this;
 	}
 
-	public function setDateStartLessThanOrEqualTo(?LocalDate $date, bool $reset = false): self
+	public function setDateStartLessThanOrEqualTo(?DateTimeInterface $date, bool $reset = false): self
 	{
 		if ($reset) $this->resetDates();
 		$this->dateStartLessThanOrEqualTo = $date;
 		return $this;
 	}
 
-	public function setDateStartGreaterThanOrEqualTo(?LocalDate $date, bool $reset = false): self
+	public function setDateStartGreaterThanOrEqualTo(?DateTimeInterface $date, bool $reset = false): self
 	{
 		if ($reset) $this->resetDates();
 		$this->dateStartGreaterThanOrEqualTo = $date;
 		return $this;
 	}
 
-	public function setDateEndLessThanOrEqualTo(?LocalDate $date, bool $reset = false): self
+	public function setDateEndLessThanOrEqualTo(?DateTimeInterface $date, bool $reset = false): self
 	{
 		if ($reset) $this->resetDates();
 		$this->dateEndLessThanOrEqualTo = $date;
 		return $this;
 	}
 
-	public function setDateEndGreaterThanOrEqualTo(?LocalDate $date, bool $reset = false): self
+	public function setDateEndGreaterThanOrEqualTo(?DateTimeInterface $date, bool $reset = false): self
 	{
 		if ($reset) $this->resetDates();
 		$this->dateEndGreaterThanOrEqualTo = $date;
@@ -280,38 +276,43 @@ final class EventParameters implements QueryParameters
 			$array['administration_unit'] = implode(',', $this->administrationUnits);
 		}
 		if (count($this->regions) > 0) {
-			$array['region'] = implode(',', array_map(static fn($region) => $region->value, $this->regions));
+			$array['region'] = self::joinEnumValues($this->regions);
 		}
 		if (count($this->groups) > 0) {
-			$array['group'] = implode(',', array_map(static fn($group) => $group->value, $this->groups));
+			$array['group'] = self::joinEnumValues($this->groups);
 		}
 		if (count($this->categories) > 0) {
-			$array['category'] = implode(',', array_map(static fn($category) => $category->value, $this->categories));
+			$array['category'] = self::joinEnumValues($this->categories);
 		}
 		if (count($this->tags) > 0) {
-			$array['tags'] = implode(',', array_map(static fn($tag) => $tag->value, $this->tags));
+			$array['tags'] = self::joinEnumValues($this->tags);
 		}
 		if (count($this->programs) > 0) {
-			$array['program'] = implode(',', array_map(static fn($program) => $program->value, $this->programs));
+			$array['program'] = self::joinEnumValues($this->programs);
 		}
 		if (count($this->intendedFor) > 0) {
-			$array['intended_for'] = implode(',', array_map(static fn($intendedFor) => $intendedFor->value, $this->intendedFor));
+			$array['intended_for'] = self::joinEnumValues($this->intendedFor);
 		}
 
 		if ($this->dateStartLessThanOrEqualTo !== null) {
-			$array['start__lte'] = (string) $this->dateStartLessThanOrEqualTo; // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
+			$array['start__lte'] = $this->dateStartLessThanOrEqualTo->format('Y-m-d');
 		}
 		if ($this->dateStartGreaterThanOrEqualTo !== null) {
-			$array['start__gte'] = (string) $this->dateStartGreaterThanOrEqualTo; // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
+			$array['start__gte'] = $this->dateStartGreaterThanOrEqualTo->format('Y-m-d');
 		}
 		if ($this->dateEndLessThanOrEqualTo !== null) {
-			$array['end__lte'] = (string) $this->dateEndLessThanOrEqualTo; // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
+			$array['end__lte'] = $this->dateEndLessThanOrEqualTo->format('Y-m-d');
 		}
 		if ($this->dateEndGreaterThanOrEqualTo !== null) {
-			$array['end__gte'] = (string) $this->dateEndGreaterThanOrEqualTo; // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
+			$array['end__gte'] = $this->dateEndGreaterThanOrEqualTo->format('Y-m-d');
 		}
 
 		return $array;
+	}
+
+	private static function joinEnumValues(array $enums): string
+	{
+		return implode(',', array_map(static fn($enum) => $enum->value, $enums));
 	}
 
 }

@@ -11,7 +11,6 @@ enum Category: string
 	case INTERNAL_EDUCATIONAL_FULL = 'internal_educational_full'; // OHB, Cestičky
 	case PRESENTATION = 'presentation'; // prezentační akce
 	case PUBLIC_EDUCATIONAL = 'public_educational'; // vzdělávací pro veřejnost
-	case SECTION_EVENT = 'section_event'; // oddílová akce
 	case SECTION_MEETING = 'section_meeting'; // oddílová schůzka
 	case VOLUNTEERING = 'volunteering'; // dobrovolnická akce
 

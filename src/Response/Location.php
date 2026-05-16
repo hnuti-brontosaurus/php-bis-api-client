@@ -3,12 +3,12 @@
 namespace HnutiBrontosaurus\BisClient\Response;
 
 
-final class Location
+final readonly class Location
 {
 
 	private function __construct(
-		private string $name,
-		private ?Coordinates $coordinates,
+		public string $name,
+		public ?Coordinates $coordinates,
 	) {}
 
 
@@ -18,18 +18,6 @@ final class Location
 	): self
 	{
 		return new self($name, $coordinates);
-	}
-
-
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-
-	public function getCoordinates(): ?Coordinates
-	{
-		return $this->coordinates;
 	}
 
 }

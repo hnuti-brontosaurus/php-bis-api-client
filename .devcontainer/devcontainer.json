@@ -1,6 +1,6 @@
 {
   "name": "PHP BIS API Client",
-  "image": "mcr.microsoft.com/devcontainers/php:1-8.1",
+  "image": "mcr.microsoft.com/devcontainers/php:1-8.2",
   "forwardPorts": [8000],
   "postStartCommand": "php -S 0.0.0.0:8000 -t tests/",
   "remoteUser": "vscode",

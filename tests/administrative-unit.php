@@ -22,7 +22,7 @@ if (empty($_GET['id'])) {
 $id = (int) $_GET['id'];
 $units = $client->getAdministrationUnits();
 foreach ($units as $unit) {
-	if ($unit->getId() === $id) {
+	if ($unit->id === $id) {
 		expanded_dump($unit);
 		exit;
 	}

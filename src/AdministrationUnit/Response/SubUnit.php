@@ -6,24 +6,25 @@ use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use function str_starts_with;
 
 
-final class SubUnit
+final readonly class SubUnit
 {
 
 	/**
+	 * @param string[]|null $subLeaders
 	 * @param array<mixed> $rawData
 	 */
 	private function __construct(
-		private int $id,
-		private string $name,
-		private ?string $description,
-		private bool $isForKids,
-		private ?string $phone,
-		private ?string $email,
-		private ?string $website,
-		private ?string $address,
-		private ?Coordinates $coordinates,
-		private ?string $mainLeader,
-		private array $subLeaders,
+		public int $id,
+		public string $name,
+		public ?string $description,
+		public bool $isForKids,
+		public ?string $phone,
+		public ?string $email,
+		public ?string $website,
+		public ?string $address,
+		public Coordinates $coordinates,
+		public ?string $mainLeader,
+		public ?array $subLeaders,
 		private array $rawData,
 	) {}
 
@@ -45,8 +46,8 @@ final class SubUnit
 	 *         type: string,
 	 *         coordinates: array{0: float, 1: float}
 	 *     },
-	 *     main_leader: array{id: int, name: string, email: string, phone: string},
-	 *     sub_leaders: array<array{id: int, name: string, email: string, phone: string}>,
+	 *     main_leader: array{id: int, name: string, email: string, phone: string}|null,
+	 *     sub_leaders: array<array{id: int, name: string, email: string, phone: string}>|null,
 	 * } $data
 	 */
 	public static function fromResponseData(array $data): self
@@ -60,12 +61,10 @@ final class SubUnit
 			$data['email'] !== '' ? $data['email'] : null,
 			$data['www'] !== '' ? self::fixUrl($data['www']) : null,
 			$data['address'] !== '' ? $data['address'] : null,
-			$data['gps_location'] !== null
-				? Coordinates::from(
-					$data['gps_location']['coordinates'][1],
-					$data['gps_location']['coordinates'][0],
-				)
-				: null,
+			Coordinates::from(
+				$data['gps_location']['coordinates'][1],
+				$data['gps_location']['coordinates'][0],
+			),
 			$data['main_leader'] !== null ? $data['main_leader']['name'] : null,
 			$data['sub_leaders'] !== null ? array_map(fn($leader) => $leader['name'], $data['sub_leaders']) : null,
 			$data,
@@ -79,62 +78,6 @@ final class SubUnit
 		}
 
 		return 'http://' . $url;
-	}
-
-
-	public function getId(): int
-	{
-		return $this->id;
-	}
-
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-	public function getDescription(): ?string
-	{
-		return $this->description;
-	}
-
-	public function isForKids(): bool
-	{
-		return $this->isForKids;
-	}
-
-	public function getPhone(): ?string
-	{
-		return $this->phone;
-	}
-
-	public function getEmail(): ?string
-	{
-		return $this->email;
-	}
-
-	public function getWebsite(): ?string
-	{
-		return $this->website;
-	}
-
-	public function getAddress(): ?string
-	{
-		return $this->address;
-	}
-
-	public function getCoordinates(): ?Coordinates
-	{
-		return $this->coordinates;
-	}
-
-	public function getMainLeader(): ?string
-	{
-		return $this->mainLeader;
-	}
-
-	public function getSubLeaders(): array
-	{
-		return $this->subLeaders;
 	}
 
 	/**
