@@ -7,12 +7,11 @@ enum Category: string
 	case EVP = 'evp'; // výukový program (EVP)
 	case EXPERIENTAL = 'experiential'; // zážitková akce
 	case INTERNAL = 'internal'; // interní akce
-	case INTERNAL_EDUCATIONAL = 'internal_educational'; // vzdělávací pro organizátory HB
+	case INTERNAL_EDUCATIONAL = 'internal_educational'; // vzdělávání - organizátorské
 	case INTERNAL_EDUCATIONAL_FULL = 'internal_educational_full'; // OHB, Cestičky
 	case PRESENTATION = 'presentation'; // prezentační akce
-	case PUBLIC_EDUCATIONAL = 'public_educational'; // vzdělávací pro veřejnost
-	case SECTION_EVENT = 'section_event'; // oddílová akce
-	case SECTION_MEETING = 'section_meeting'; // oddílová schůzka
+	case PUBLIC_EDUCATIONAL = 'public_educational'; // vzdělávání - odborné
+	case SECTION_MEETING = 'section_meeting'; // pravidelné oddílové schůzky
 	case VOLUNTEERING = 'volunteering'; // dobrovolnická akce
 
 	public static function bcCompatibleFrom(string $value): self
