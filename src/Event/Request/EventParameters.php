@@ -253,6 +253,17 @@ final class EventParameters implements QueryParameters
 	}
 
 
+	// duration
+
+	private ?Duration $duration = null;
+
+	public function setDuration(Duration $duration): self
+	{
+		$this->duration = $duration;
+		return $this;
+	}
+
+
 	// ordering
 
 	public function orderByStartDate(bool $desc = false): self
@@ -309,6 +320,9 @@ final class EventParameters implements QueryParameters
 		}
 		if ($this->dateEndGreaterThanOrEqualTo !== null) {
 			$array['end__gte'] = (string) $this->dateEndGreaterThanOrEqualTo; // conversion to string has to be there because of bug in php: https://github.com/php/php-src/issues/10229
+		}
+		if ($this->duration !== null) {
+			$array[$this->duration->getParameter()] = $this->duration->getValue();
 		}
 
 		return $array;

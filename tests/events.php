@@ -27,7 +27,6 @@ $params->setCategories([
 	Category::INTERNAL_EDUCATIONAL,
 	Category::PRESENTATION,
 	Category::PUBLIC_EDUCATIONAL,
-	Category::SECTION_EVENT,
 	Category::SECTION_MEETING,
 	Category::VOLUNTEERING,
 ]);

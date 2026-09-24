@@ -120,6 +120,16 @@ $parameters->setCategories([
 $events = $client->getEvents($parameters);
 ```
 
+#### Duration
+
+Filter events by their duration. The static constructor determines the comparison.
+
+```php
+$parameters->setDuration(\HnutiBrontosaurus\BisClient\Event\Request\Duration::exactly(3));
+$parameters->setDuration(\HnutiBrontosaurus\BisClient\Event\Request\Duration::moreThan(3));
+$parameters->setDuration(\HnutiBrontosaurus\BisClient\Event\Request\Duration::lessThan(7));
+```
+
 #### Period
 
 Restrict retrieved events to be in given period:
