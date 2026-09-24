@@ -43,7 +43,7 @@ Instance of `\HnutiBrontosaurus\BisClient\BisClient` is returned which is your t
 Retrieve all information about single event:
 
 ```php
-$event = $client->getEvent($id);
+$event = $bisClient->getEvent($id);
 
 // examples of reading data
 $event->getName();
@@ -60,7 +60,7 @@ Basic usage:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
-$events = $client->getEvents($parameters); // $parameters are optional
+$events = $bisClient->getEvents($parameters); // $parameters are optional
 
 // example of reading data
 foreach ($events as $event) {
@@ -76,34 +76,34 @@ Events can be filtered by group, category, program, intended for and other optio
 $parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
 
 // only camps
-$parameters->setGroup(\HnutiBrontosaurus\BisClient\Event\Group::CAMP());
+$parameters->setGroup(\HnutiBrontosaurus\BisClient\Event\Group::CAMP);
 
 // only events of "voluntary" category
-$parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::VOLUNTEERING());
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::VOLUNTEERING);
 
 // only events of "region_event" tag
-$parameters->setTag(\HnutiBrontosaurus\BisClient\Event\Tag::REGION_EVENT());
+$parameters->setTag(\HnutiBrontosaurus\BisClient\Event\Tag::REGION_EVENT);
 
 // only events of "PsB" program
-$parameters->setProgram(\HnutiBrontosaurus\BisClient\Event\Program::HOLIDAYS_WITH_BRONTOSAURUS());
+$parameters->setProgram(\HnutiBrontosaurus\BisClient\Event\Program::HOLIDAYS_WITH_BRONTOSAURUS);
 
 // only events intended for first time participants
-$parameters->setIntendedFor(\HnutiBrontosaurus\BisClient\Event\IntendedFor::FIRST_TIME_PARTICIPANT());
+$parameters->setIntendedFor(\HnutiBrontosaurus\BisClient\Event\IntendedFor::FIRST_TIME_PARTICIPANT);
 
 // only for some administration units
 $parameters->setAdministrationUnit(5);
 
 // only in "Vysočina" region
-$parameters->setRegion(\HnutiBrontosaurus\BisClient\Event\Request\Region::VYSOCINA());
+$parameters->setRegion(\HnutiBrontosaurus\BisClient\Event\Request\Region::VYSOCINA);
 
-$events = $client->getEvents($parameters);
+$events = $bisClient->getEvents($parameters);
 ```
 
 Note that each method call rewrites the previous one:
 
 ```php
-$parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::VOLUNTEERING());
-$parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::EXPERIENTAL());
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::VOLUNTEERING);
+$parameters->setCategory(\HnutiBrontosaurus\BisClient\Event\Category::EXPERIENTAL);
 // ⚠ result is only "EXPERIENCE"
 ```
 
@@ -113,11 +113,11 @@ You can set more values at once with method's plural complement:
 $parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
 
 $parameters->setCategories([
-    \HnutiBrontosaurus\BisClient\Event\Category::VOLUNTEERING(),
-    \HnutiBrontosaurus\BisClient\Event\Category::EXPERIENTAL(),
+    \HnutiBrontosaurus\BisClient\Event\Category::VOLUNTEERING,
+    \HnutiBrontosaurus\BisClient\Event\Category::EXPERIENTAL,
 ]);
 
-$events = $client->getEvents($parameters);
+$events = $bisClient->getEvents($parameters);
 ```
 
 #### Duration
@@ -137,11 +137,11 @@ Restrict retrieved events to be in given period:
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
 
-$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Event\Request\Period::RUNNING_AND_FUTURE()); // default
-$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Event\Request\Period::RUNNING_ONLY());
-$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Event\Request\Period::UNLIMITED());
+$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Event\Request\Period::RUNNING_AND_FUTURE); // default
+$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Event\Request\Period::RUNNING_ONLY);
+$parameters->setPeriod(\HnutiBrontosaurus\BisClient\Event\Request\Period::UNLIMITED);
 
-$events = $client->getEvents($parameters);
+$events = $bisClient->getEvents($parameters);
 ```
 
 > ⚠ Note that setting `PAST_ONLY`, `RUNNING_AND_PAST` or `UNLIMITED` retrieves thousands of events. It's good idea to narrow the amount with `->setLimit()` (see below)
@@ -191,13 +191,13 @@ $parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
 $parameters->orderByStartDate();
 $parameters->orderByEndDate(); // default
 
-$events = $client->getEvents($parameters);
+$events = $bisClient->getEvents($parameters);
 ```
 
 Both methods have optional parameter `$desc` which allows to sort events in DESC order:
 
 ```php
-$parameters->orderByDateFrom(desc: true);
+$parameters->orderByStartDate(desc: true);
 ```
 
 #### Limit
@@ -210,7 +210,7 @@ $parameters = new \HnutiBrontosaurus\BisClient\Event\Request\EventParameters();
 $parameters->setLimit(50);
 $parameters->removeLimit();
 
-$events = $client->getEvents($parameters);
+$events = $bisClient->getEvents($parameters);
 ```
 
 
@@ -220,7 +220,7 @@ For retrieving information about all administration units:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\AdministrationUnit\Request\AdministrationUnitParameters();
-$administrationUnits = $client->getAdministrationUnits($parameters); // $parameters is optional
+$administrationUnits = $bisClient->getAdministrationUnits($parameters); // $parameters is optional
 
 foreach ($administrationUnits as $administrationUnit) {
     $administrationUnit->getName();
@@ -236,7 +236,7 @@ Retrieving information about all opportunities:
 
 ```php
 $parameters = new \HnutiBrontosaurus\BisClient\Opportunity\Request\OpportunityParameters();
-$opportunities = $client->getOpportunities($parameters); // $parameters is optional
+$opportunities = $bisClient->getOpportunities($parameters); // $parameters is optional
 
 foreach ($opportunities as $opportunity) {
     $opportunity->getName();
@@ -249,7 +249,7 @@ foreach ($opportunities as $opportunity) {
 Or only single one:
 
 ```php
-$opportunity = $client->getOpportunity(1234);
+$opportunity = $bisClient->getOpportunity(1234);
 
 $opportunity->getName();
 $opportunity->getStartDate();
