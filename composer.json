@@ -14,10 +14,10 @@
 	},
 	"require": {
 		"php": ">=8.5",
-		"guzzlehttp/guzzle": "^7.3"
+		"guzzlehttp/guzzle": "^8.0"
 	},
 	"require-dev": {
-		"phpstan/phpstan": "^1.8",
+		"phpstan/phpstan": "^2.0",
 		"tracy/tracy": "^2.5"
 	},
 	"autoload": {
