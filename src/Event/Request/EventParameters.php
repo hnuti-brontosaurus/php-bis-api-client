@@ -249,6 +249,17 @@ final class EventParameters implements QueryParameters
 	}
 
 
+	// duration
+
+	private ?Duration $duration = null;
+
+	public function setDuration(Duration $duration): self
+	{
+		$this->duration = $duration;
+		return $this;
+	}
+
+
 	// ordering
 
 	public function orderByStartDate(bool $desc = false): self
@@ -305,6 +316,9 @@ final class EventParameters implements QueryParameters
 		}
 		if ($this->dateEndGreaterThanOrEqualTo !== null) {
 			$array['end__gte'] = $this->dateEndGreaterThanOrEqualTo->format('Y-m-d');
+		}
+		if ($this->duration !== null) {
+			$array[$this->duration->getParameter()] = $this->duration->getValue();
 		}
 
 		return $array;
