@@ -318,7 +318,7 @@ final class EventParameters implements QueryParameters
 			$array['end__gte'] = $this->dateEndGreaterThanOrEqualTo->format('Y-m-d');
 		}
 		if ($this->duration !== null) {
-			$array[$this->duration->getParameter()] = $this->duration->getValue();
+			$array[$this->duration->parameter] = $this->duration->value;
 		}
 
 		return $array;
