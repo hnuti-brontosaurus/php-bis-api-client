@@ -56,33 +56,15 @@ final readonly class Event
 	 *     duration: int,
 	 *     location: array{
 	 *         name: string,
-	 *         description: string,
-	 *         patron: null,
-	 *         program: array{id: int, name: string, slug: string}|null,
-	 *         accessibility_from_prague: array{id: int, name: string, slug: string}|null,
-	 *         accessibility_from_brno: array{id: int, name: string, slug: string}|null,
-	 *         volunteering_work: string,
-	 *         volunteering_work_done: string,
-	 *         volunteering_work_goals: string,
-	 *         options_around: string,
-	 *         facilities: string,
-	 *         web: string,
-	 *         address: string,
-	 *         gps_location: array{type: string, coordinates: array{0: float, 1: float}}|null,
-	 *         region: string|null,
-	 *         photos: array<array{small: string, medium: string, large: string, original: string}>,
+	 *         gps_location?: array{type: string, coordinates: array{0: float, 1: float}}|null,
 	 *     },
 	 *     group: array{
-	 *         id: int,
-	 *         name: string,
 	 *         slug: string,
 	 *     },
 	 *     category: array{
-	 *         id: int,
-	 *         name: string,
 	 *         slug: string,
 	 *     },
-	 *     tags: array<array{
+	 *     tags: list<array{
 	 *         id: int,
 	 *         name: string,
 	 *         slug: string,
@@ -90,25 +72,20 @@ final readonly class Event
 	 *         is_active: bool,
 	 *     }>,
 	 *     program: array{
-	 *         id: int,
-	 *         name: string,
 	 *         slug: string,
 	 *     },
 	 *     intended_for: array{
-	 *         id: int,
-	 *         name: string,
 	 *         slug: string,
 	 *     },
 	 *     administration_units: string[],
 	 *     propagation: array{
 	 *         minimum_age: int|null,
-	 *         maximum_age:int|null,
+	 *         maximum_age: int|null,
 	 *         cost: string,
-	 *         intended_for: array{id: int, name: string, slug: string},
 	 *         accommodation: string,
 	 *         working_days: int|null,
 	 *         working_hours: int|null,
-	 *         diets: array<array{id: int, name: string, slug: 'vege'|'meat'|'vegan'}>,
+	 *         diets: list<array{id: int, name: string, slug: 'vege'|'meat'|'vegan'}>,
 	 *         organizers: string,
 	 *         web_url: string,
 	 *         invitation_text_introduction: string,
@@ -118,12 +95,12 @@ final readonly class Event
 	 *         contact_name: string|null,
 	 *         contact_phone: string|null,
 	 *         contact_email: string,
-	 *         images: array<array{image: array{small: string, medium: string, large: string, original: string}}>,
+	 *         images: list<array{image: array{small: string, medium: string, large: string, original: string}}>,
 	 *     },
-	 *     registration: array{
-	 *         is_registration_required: bool,
-	 *         is_event_full: bool,
-	 *     },
+	 *     registration?: array{
+	 *         is_registration_required?: bool,
+	 *         is_event_full?: bool,
+	 *     }|null,
 	 * } $data
 	 */
 	public static function fromResponseData(array $data): self
@@ -135,18 +112,20 @@ final readonly class Event
 		$endDate = DateTimeImmutable::createFromFormat('Y-m-d', $data['end']);
 		assert($endDate !== false);
 
+		$locationGps = $data['location']['gps_location'] ?? null;
+
 		return new self(
 			$data['id'],
 			$data['name'],
 			$cover ? Image::from($cover['image']) : null,
 			$startDate,
-			$data['start_time'] !== null ? $data['start_time'] : null,
+			($data['start_time'] ?? null) !== null ? $data['start_time'] : null,
 			$endDate,
 			$data['duration'],
 			Location::from(
 				$data['location']['name'],
-				$data['location']['gps_location'] !== null
-					? Coordinates::from($data['location']['gps_location']['coordinates'][1], $data['location']['gps_location']['coordinates'][0])
+				$locationGps !== null
+					? Coordinates::from($locationGps['coordinates'][1], $locationGps['coordinates'][0])
 					: null,
 			),
 			Group::from($data['group']['slug']),
