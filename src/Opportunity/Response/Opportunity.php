@@ -10,6 +10,7 @@ use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use HnutiBrontosaurus\BisClient\Response\Html;
 use HnutiBrontosaurus\BisClient\Response\Image;
 use HnutiBrontosaurus\BisClient\Response\Location;
+use function assert;
 
 
 final readonly class Opportunity
@@ -80,12 +81,17 @@ final readonly class Opportunity
 	 */
 	public static function fromResponseData(array $data): self
 	{
+		$startDate = DateTimeImmutable::createFromFormat('Y-m-d', $data['start']);
+		assert($startDate !== false);
+		$endDate = DateTimeImmutable::createFromFormat('Y-m-d', $data['end']);
+		assert($endDate !== false);
+
 		return new self(
 			$data['id'],
 			$data['name'],
 			Category::from($data['category']['slug']),
-			DateTimeImmutable::createFromFormat('Y-m-d', $data['start']),
-			DateTimeImmutable::createFromFormat('Y-m-d', $data['end']),
+			$startDate,
+			$endDate,
 			Location::from($data['location']['name'], $data['location']['gps_location'] !== null
 				? Coordinates::from(
 					$data['location']['gps_location']['coordinates'][1],

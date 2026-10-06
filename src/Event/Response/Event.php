@@ -14,6 +14,7 @@ use HnutiBrontosaurus\BisClient\Response\Image;
 use HnutiBrontosaurus\BisClient\Response\Location;
 use function array_map;
 use function array_first;
+use function assert;
 
 
 final readonly class Event
@@ -128,13 +129,19 @@ final readonly class Event
 	public static function fromResponseData(array $data): self
 	{
 		$cover = array_first($data['propagation']['images']);
+
+		$startDate = DateTimeImmutable::createFromFormat('Y-m-d', $data['start']);
+		assert($startDate !== false);
+		$endDate = DateTimeImmutable::createFromFormat('Y-m-d', $data['end']);
+		assert($endDate !== false);
+
 		return new self(
 			$data['id'],
 			$data['name'],
 			$cover ? Image::from($cover['image']) : null,
-			DateTimeImmutable::createFromFormat('Y-m-d', $data['start']),
+			$startDate,
 			$data['start_time'] !== null ? $data['start_time'] : null,
-			DateTimeImmutable::createFromFormat('Y-m-d', $data['end']),
+			$endDate,
 			$data['duration'],
 			Location::from(
 				$data['location']['name'],
@@ -164,7 +171,7 @@ final readonly class Event
 				$data['propagation']['invitation_text_about_us'] !== '' ? $data['propagation']['invitation_text_about_us'] : null,
 				ContactPerson::from(
 					$data['propagation']['contact_name'] !== null ? $data['propagation']['contact_name'] : null,
-					$data['propagation']['contact_email'] !== null ? $data['propagation']['contact_email'] : '', // todo temp unless BIS returns nulls for some old events
+					$data['propagation']['contact_email'],
 					$data['propagation']['contact_phone'] !== null && $data['propagation']['contact_phone'] !== '' ? $data['propagation']['contact_phone'] : null,
 				),
 				array_map(

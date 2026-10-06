@@ -324,6 +324,9 @@ final class EventParameters implements QueryParameters
 		return $array;
 	}
 
+	/**
+	 * @param array<\BackedEnum> $enums
+	 */
 	private static function joinEnumValues(array $enums): string
 	{
 		return implode(',', array_map(static fn($enum) => $enum->value, $enums));
