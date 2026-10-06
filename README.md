@@ -300,7 +300,6 @@ composer install
 
 ## Structure
 
-- `docs` – instruction on how connection between brontoweb and BIS works (todo: move to brontoweb repo)
 - `src` – source code
     - `AdministrationUnit` – value objects related to administration units
     - `Event` – value objects related to events
