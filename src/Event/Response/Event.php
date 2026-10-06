@@ -13,7 +13,7 @@ use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use HnutiBrontosaurus\BisClient\Response\Image;
 use HnutiBrontosaurus\BisClient\Response\Location;
 use function array_map;
-use function reset;
+use function array_first;
 
 
 final readonly class Event
@@ -127,7 +127,7 @@ final readonly class Event
 	 */
 	public static function fromResponseData(array $data): self
 	{
-		$cover = reset($data['propagation']['images']);
+		$cover = array_first($data['propagation']['images']);
 		return new self(
 			$data['id'],
 			$data['name'],
