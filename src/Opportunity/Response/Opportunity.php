@@ -2,35 +2,37 @@
 
 namespace HnutiBrontosaurus\BisClient\Opportunity\Response;
 
-use Brick\DateTime\LocalDate;
+use DateTimeImmutable;
+use DateTimeInterface;
 use HnutiBrontosaurus\BisClient\Opportunity\Category;
 use HnutiBrontosaurus\BisClient\Response\ContactPerson;
 use HnutiBrontosaurus\BisClient\Response\Coordinates;
 use HnutiBrontosaurus\BisClient\Response\Html;
 use HnutiBrontosaurus\BisClient\Response\Image;
 use HnutiBrontosaurus\BisClient\Response\Location;
+use function assert;
 
 
-final class Opportunity
+final readonly class Opportunity
 {
 
 	/**
 	 * @param array<mixed> $rawData
 	 */
 	private function __construct(
-		private int $id,
-		private string $name,
-		private Category $category,
-		private LocalDate $startDate,
-		private LocalDate $endDate,
-		private Location $location,
-		private Html $introduction,
-		private Html $description,
-		private ?Html $locationBenefits,
-		private Html $personalBenefits,
-		private Html $requirements,
-		private ContactPerson $contactPerson,
-		private Image $image,
+		public int $id,
+		public string $name,
+		public Category $category,
+		public DateTimeInterface $startDate,
+		public DateTimeInterface $endDate,
+		public Location $location,
+		public Html $introduction,
+		public Html $description,
+		public ?Html $locationBenefits,
+		public Html $personalBenefits,
+		public Html $requirements,
+		public ContactPerson $contactPerson,
+		public Image $image,
 		private array $rawData,
 	) {}
 
@@ -79,12 +81,17 @@ final class Opportunity
 	 */
 	public static function fromResponseData(array $data): self
 	{
+		$startDate = DateTimeImmutable::createFromFormat('Y-m-d', $data['start']);
+		assert($startDate !== false);
+		$endDate = DateTimeImmutable::createFromFormat('Y-m-d', $data['end']);
+		assert($endDate !== false);
+
 		return new self(
 			$data['id'],
 			$data['name'],
 			Category::from($data['category']['slug']),
-			LocalDate::parse($data['start']),
-			LocalDate::parse($data['end']),
+			$startDate,
+			$endDate,
 			Location::from($data['location']['name'], $data['location']['gps_location'] !== null
 				? Coordinates::from(
 					$data['location']['gps_location']['coordinates'][1],
@@ -104,84 +111,6 @@ final class Opportunity
 			Image::from((array) $data['image']),
 			$data,
 		);
-	}
-
-
-	public function getId(): int
-	{
-		return $this->id;
-	}
-
-
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-
-	public function getCategory(): Category
-	{
-		return $this->category;
-	}
-
-
-	public function getStartDate(): LocalDate
-	{
-		return $this->startDate;
-	}
-
-
-	public function getEndDate(): LocalDate
-	{
-		return $this->endDate;
-	}
-
-
-	public function getLocation(): Location
-	{
-		return $this->location;
-	}
-
-
-	public function getIntroduction(): Html
-	{
-		return $this->introduction;
-	}
-
-
-	public function getDescription(): Html
-	{
-		return $this->description;
-	}
-
-
-	public function getLocationBenefits(): ?Html
-	{
-		return $this->locationBenefits;
-	}
-
-
-	public function getPersonalBenefits(): Html
-	{
-		return $this->personalBenefits;
-	}
-
-
-	public function getRequirements(): Html
-	{
-		return $this->requirements;
-	}
-
-
-	public function getContactPerson(): ContactPerson
-	{
-		return $this->contactPerson;
-	}
-
-
-	public function getImage(): Image
-	{
-		return $this->image;
 	}
 
 

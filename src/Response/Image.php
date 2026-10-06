@@ -3,14 +3,14 @@
 namespace HnutiBrontosaurus\BisClient\Response;
 
 
-final class Image
+final readonly class Image
 {
 
 	private function __construct(
-		private string $smallSizePath,
-		private string $mediumSizePath,
-		private string $largeSizePath,
-		private string $originalSizePath,
+		public string $smallSizePath,
+		public string $mediumSizePath,
+		public string $largeSizePath,
+		public string $originalSizePath,
 	) {}
 
 
@@ -23,30 +23,6 @@ final class Image
 			$variants['large'],
 			$variants['original'],
 		);
-	}
-
-
-	public function getSmallSizePath(): string
-	{
-		return $this->smallSizePath;
-	}
-
-
-	public function getMediumSizePath(): string
-	{
-		return $this->mediumSizePath;
-	}
-
-
-	public function getLargeSizePath(): string
-	{
-		return $this->largeSizePath;
-	}
-
-
-	public function getOriginalSizePath(): string
-	{
-		return $this->originalSizePath;
 	}
 
 }

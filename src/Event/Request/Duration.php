@@ -3,11 +3,11 @@
 namespace HnutiBrontosaurus\BisClient\Event\Request;
 
 
-final class Duration
+final readonly class Duration
 {
 	private function __construct(
-		private readonly int $value,
-		private readonly string $parameter,
+		public int $value,
+		public string $parameter,
 	)
 	{}
 
@@ -26,13 +26,4 @@ final class Duration
 		return new self($value - 1, 'duration__lte');
 	}
 
-	public function getValue(): int
-	{
-		return $this->value;
-	}
-
-	public function getParameter(): string
-	{
-		return $this->parameter;
-	}
 }

@@ -6,7 +6,7 @@ use HnutiBrontosaurus\BisClient\Response\ContactPerson;
 use HnutiBrontosaurus\BisClient\Response\Image;
 
 
-final class Propagation
+final readonly class Propagation
 {
 
 	/**
@@ -14,21 +14,21 @@ final class Propagation
 	 * @param Image[] $images
 	 */
 	private function __construct(
-		private ?int $minimumAge,
-		private ?int $maximumAge,
-		private string $cost,
-		private ?string $accommodation,
-		private ?int $workingDays,
-		private ?int $workingHours,
-		private array $diets,
-		private ?string $organizers,
-		private ?string $webUrl,
-		private string $invitationTextIntroduction,
-		private string $invitationTextPracticalInformation,
-		private ?string $invitationTextWorkDescription,
-		private ?string $invitationTextAboutUs,
-		private ContactPerson $contactPerson,
-		private array $images,
+		public ?int $minimumAge,
+		public ?int $maximumAge,
+		public string $cost,
+		public ?string $accommodation,
+		public ?int $workingDays,
+		public ?int $workingHours,
+		public array $diets,
+		public ?string $organizers,
+		public ?string $webUrl,
+		public string $invitationTextIntroduction,
+		public string $invitationTextPracticalInformation,
+		public ?string $invitationTextWorkDescription,
+		public ?string $invitationTextAboutUs,
+		public ContactPerson $contactPerson,
+		public array $images,
 	) {}
 
 
@@ -71,102 +71,6 @@ final class Propagation
 			$contactPerson,
 			$images,
 		);
-	}
-
-
-	public function getMinimumAge(): ?int
-	{
-		return $this->minimumAge;
-	}
-
-
-	public function getMaximumAge(): ?int
-	{
-		return $this->maximumAge;
-	}
-
-
-	public function getCost(): string
-	{
-		return $this->cost;
-	}
-
-
-	public function getAccommodation(): ?string
-	{
-		return $this->accommodation;
-	}
-
-
-	public function getWorkingDays(): ?int
-	{
-		return $this->workingDays;
-	}
-
-
-	public function getWorkingHours(): ?int
-	{
-		return $this->workingHours;
-	}
-
-
-	/**
-	 * @return Diet[]
-	 */
-	public function getDiets(): array
-	{
-		return $this->diets;
-	}
-
-
-	public function getOrganizers(): ?string
-	{
-		return $this->organizers;
-	}
-
-
-	public function getWebUrl(): ?string
-	{
-		return $this->webUrl;
-	}
-
-
-	public function getInvitationTextIntroduction(): string
-	{
-		return $this->invitationTextIntroduction;
-	}
-
-
-	public function getInvitationTextPracticalInformation(): string
-	{
-		return $this->invitationTextPracticalInformation;
-	}
-
-
-	public function getInvitationTextWorkDescription(): ?string
-	{
-		return $this->invitationTextWorkDescription;
-	}
-
-
-	public function getInvitationTextAboutUs(): ?string
-	{
-		return $this->invitationTextAboutUs;
-	}
-
-
-	public function getContactPerson(): ContactPerson
-	{
-		return $this->contactPerson;
-	}
-
-
-	/**
-	 * @return Image[]
-	 */
-	public function getImages(): array
-	{
-		return $this->images;
 	}
 
 }

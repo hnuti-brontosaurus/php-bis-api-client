@@ -3,12 +3,12 @@
 namespace HnutiBrontosaurus\BisClient\Event\Response;
 
 
-final class Registration
+final readonly class Registration
 {
 
 	private function __construct(
-		private bool $isRegistrationRequired,
-		private bool $isEventFull,
+		public bool $isRegistrationRequired,
+		public bool $isEventFull,
 	) {}
 
 
@@ -18,18 +18,6 @@ final class Registration
 	): self
 	{
 		return new self($isRegistrationRequired, $isEventFull);
-	}
-
-
-	public function getIsRegistrationRequired(): bool
-	{
-		return $this->isRegistrationRequired;
-	}
-
-
-	public function getIsEventFull(): bool
-	{
-		return $this->isEventFull;
 	}
 
 }

@@ -5,24 +5,26 @@ use HnutiBrontosaurus\BisClient\BisClient;
 
 /** @var BisClient $client */
 $client = require_once __DIR__ . '/bootstrap.php';
+$idInput = $_GET['id'] ?? '';
+$idValue = is_string($idInput) ? $idInput : '';
 ?>
 
 <h2>Administration unit</h2>
 <form method="get">
-	ID: <input type="text" name="id" value="<?php echo $_GET['id'] ?>">
+	ID: <input type="text" name="id" value="<?php echo htmlspecialchars($idValue, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>">
 	<input type="submit" value="Go">
 </form>
 
 <?php
 
-if (empty($_GET['id'])) {
+$id = filter_var($idValue, FILTER_VALIDATE_INT);
+if ($idValue === '' || $id === false) {
 	exit;
 }
 
-$id = (int) $_GET['id'];
 $units = $client->getAdministrationUnits();
 foreach ($units as $unit) {
-	if ($unit->getId() === $id) {
+	if ($unit->id === $id) {
 		expanded_dump($unit);
 		exit;
 	}

@@ -5,7 +5,7 @@ namespace HnutiBrontosaurus\BisClient;
 use function sprintf;
 
 
-final class Endpoint
+final readonly class Endpoint
 {
 
 	public static function EVENT(int $id): string

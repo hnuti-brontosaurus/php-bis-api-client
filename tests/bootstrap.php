@@ -21,6 +21,7 @@ function expanded_dump(mixed $variable): void
 // client factory
 // wrapped in IIFE not to pollute script with variables from configuration
 return (function () {
+	/** @var array{apiUrl: string} $configuration */
 	$configuration = require_once __DIR__ . '/config.php';
 	['apiUrl' => $apiUrl] = $configuration;
 
